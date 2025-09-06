@@ -1,0 +1,311 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    text-align: center;
+    padding: 20px;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto 20px auto;
+}
+h1 { color: #005a9c; flex-grow: 1; text-align: center; margin: 0; }
+h2, h3 { color: #005a9c; margin-top: 0; }
+button {
+    background-color: #005a9c;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+button:hover { background-color: #003f6e; }
+button:disabled { background-color: #cccccc; cursor: not-allowed; }
+button i { margin-right: 8px; }
+
+.secondary-knop { background-color: #6c757d; }
+.secondary-knop:hover { background-color: #5a6268; }
+
+.instructie { font-size: 1.1em; margin-bottom: 20px; }
+.verborgen { display: none !important; }
+.instructie-knop { margin-top: 20px; margin-bottom: 5px; font-weight: bold; }
+.keuze-opties { margin-bottom: 20px; display: flex; justify-content: center; gap: 15px; }
+.keuze-opties button { padding: 12px 25px; font-size: 1.1em; }
+
+/* Setup Schermen */
+#drop-zone {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1400px;
+    background-color: #fafafa;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+#drop-zone.dragover {
+    border-color: #005a9c;
+    background-color: #e9f5ff;
+}
+#upload-grid, #thema-upload-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+.upload-zone { display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #eee; border-radius: 5px; }
+.upload-zone .letter { font-size: 1.5em; font-weight: bold; color: #333; }
+.upload-zone input[type="file"] { margin: 10px 0; width: 90px; }
+.image-preview { width: 60px; height: 60px; border: 1px solid #ccc; object-fit: contain; background-color: #f9f9f9; display: block; margin: auto; }
+.upload-actie-knoppen, .thema-actie-knoppen { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+#naar-generator-knop-upload, #naar-generator-knop-thema { font-size: 1.2em; padding: 15px 25px; }
+
+/* Thema Specifiek */
+#thema-knoppen { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; }
+.thema-knop { background-color: #FFD700; color: #333; border: 1px solid #CCAA00; }
+.thema-knop:hover { background-color: #E6C200; }
+
+/* Generator Scherm */
+#generator-scherm { display: flex; flex-wrap: wrap; gap: 30px; max-width: 1200px; margin: 20px auto; justify-content: center; }
+.generator-kolom { background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd; flex: 1; min-width: 300px; }
+#sleutel-overzicht { display: grid; grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); gap: 10px; max-height: 250px; overflow-y: auto; margin-bottom: 15px; }
+#sleutel-overzicht .sleutel-item { text-align: center; }
+#sleutel-overzicht .sleutel-item img { width: 40px; height: 40px; object-fit: contain; display: block; }
+#sleutel-overzicht .sleutel-item b { display: block; }
+#boodschap-input { width: calc(100% - 22px); padding: 10px; font-size: 1em; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 15px; }
+.actie-knoppen { display: flex; gap: 10px; justify-content: center; }
+#generator-type-keuze { margin-bottom: 15px; display: flex; justify-content: center; gap: 20px; font-size: 1.1em; }
+#woorden-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+.woord-input { width: 100%; padding: 8px; font-size: 1em; border: 1px solid #ccc; border-radius: 5px; }
+.optie-container { display: flex; gap: 8px; justify-content: center; align-items: center; margin-bottom: 15px; }
+.optie-container label { cursor: pointer; }
+
+/* Puzzel Output Styling */
+.zin-output, .woorden-output-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px 10px; padding: 10px; }
+.woord-wrapper { display: flex; gap: 5px; align-items: flex-end; }
+.letter-wrapper { display: flex; flex-direction: column; }
+.leesteken { font-size: 40px; font-weight: bold; align-self: flex-end; margin-bottom: 5px;}
+.hokje { width: 60px; height: 60px; border: 1px solid #333; display: flex; justify-content: center; align-items: center; box-sizing: border-box; }
+.afbeelding-hokje img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.leeg-hokje { background-color: #f9f9f9; border-top: none; }
+.woorden-output-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+.woord-input-groep-preview { display: flex; flex-direction: column; align-items: flex-start; }
+.woord-input-groep-preview .woord-wrapper { justify-content: flex-start; }
+.woorden-output-grid .hokje { width: 32px; height: 32px; }
+.woorden-output-grid .leesteken { font-size: 24px; }
+.schrijflijn-container { display: flex; align-items: center; margin-top: 25px; gap: 8px; width: 100%; }
+.schrijflijn-container i { color: #555; font-size: 20px; }
+.schrijflijn { flex-grow: 1; height: 1px; border-bottom: 2px dotted #888; }
+
+/* Preview & Print Scherm */
+#puzzel-preview-scherm {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0;
+}
+#print-container {
+    padding: 10px 20px 20px 20px;
+    background: #fff;
+    border: 1px solid #005a9c;
+    border-radius: 8px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+.preview-acties {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+.print-titel {
+    color: #005a9c;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    margin-top: 20px;
+}
+#print-container > .print-titel:first-child {
+    margin-top: 0;
+}
+.print-hr { margin: 25px 0; }
+#puzzel-content-container.schrijflijnen-verborgen .schrijflijn-container { display: none; }
+
+/* LAY-OUT VOOR GEHEIME SLEUTEL */
+#puzzel-sleutel-container {
+    display: grid;
+    padding: 5px 20px 20px 20px;
+    grid-template-columns: repeat(8, auto);
+    justify-content: center;
+    column-gap: 5px;
+    row-gap: 20px;
+    border: 1px solid #999;
+    max-width: 700px;
+    border-radius: 8px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+#puzzel-sleutel-container .sleutel-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 75px;
+    gap: 4px;
+}
+#puzzel-sleutel-container .sleutel-item b {
+    font-size: 1.2em;
+}
+#puzzel-sleutel-container .sleutel-item img {
+    max-width: 65px;
+    max-height: 45px;
+    object-fit: contain;
+}
+
+/* --- PRINT SPECIFIEKE STIJLEN (Aangepast en agressiever) --- */
+@media print {
+    /* Algemene reset voor de gehele pagina */
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        min-height: 100vh !important;
+        overflow: hidden !important;
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    /* Verberg niet-relevante elementen volledig */
+    header, #setup-scherm, #generator-scherm, .preview-acties {
+        display: none !important;
+    }
+
+    /* De hoofd container voor het afdrukken */
+    #puzzel-preview-scherm {
+        display: block !important;
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        page-break-after: always;
+    }
+
+    /* De container die de daadwerkelijke content vasthoudt */
+    #print-container {
+        border: none !important;
+        background-color: #ffffff !important;
+        margin: 0 auto !important;
+        padding: 10mm !important;
+        width: 100% !important;
+        max-width: 190mm !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 15px !important;
+    }
+
+    /* Titels in de print-container */
+    .print-titel {
+        color: #005a9c !important;
+        font-size: 1.5em !important;
+        margin-top: 0 !important;
+        margin-bottom: 10px !important;
+        padding-bottom: 5px !important;
+        border-bottom: 1px solid #eee !important;
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    /* De geheime sleutel container */
+    #puzzel-sleutel-container {
+        display: grid !important;
+        grid-template-columns: repeat(8, 1fr) !important;
+        gap: 5px !important;
+        margin: 10px auto 20px auto !important;
+        padding: 5px !important;
+        border: 1px solid #ddd !important;
+        max-width: 600px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    #puzzel-sleutel-container .sleutel-item {
+        width: auto !important;
+        font-size: 0.8em !important;
+    }
+    #puzzel-sleutel-container .sleutel-item img {
+        max-width: 40px !important;
+        max-height: 30px !important;
+        object-fit: contain !important;
+    }
+
+    .print-hr {
+        margin: 20px auto !important;
+        border-color: #bbb !important;
+    }
+
+    /* Boodschap sectie */
+    .zin-output, .woorden-output-grid {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 10px 5px !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    .woord-wrapper {
+        display: flex !important;
+        gap: 2px !important;
+    }
+
+    .hokje {
+        width: 25px !important;
+        height: 25px !important;
+        border: 1px solid #555 !important;
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+    }
+    .afbeelding-hokje img {
+        max-width: 90% !important;
+        max-height: 90% !important;
+    }
+    .leeg-hokje {
+        border-top: none !important;
+        background-color: #f0f0f0 !important;
+    }
+    .leesteken {
+        font-size: 18px !important;
+        margin-bottom: 2px !important;
+    }
+
+    .schrijflijn-container {
+        margin-top: 10px !important;
+        gap: 3px !important;
+    }
+    .schrijflijn-container i {
+        font-size: 14px !important;
+    }
+    .schrijflijn {
+        height: 1px !important;
+        border-bottom: 1px dotted #888 !important;
+    }
+}

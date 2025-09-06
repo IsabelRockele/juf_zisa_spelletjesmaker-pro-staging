@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="utf-8"/>
+    <title>Doolhof Generator</title>
+    <link href="doolhof.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <header>
+        <button id="menuBtn" onclick="window.location.href='index.html'">Keuzemenu</button>
+        <h1>Doolhof Generator</h1>
+    </header>
+
+    <div id="main-content">
+        <div id="left-panel">
+            <div id="controls">
+                <fieldset class="control-group">
+                    <legend>1. Kies een Vorm</legend>
+                    <div id="vorm-kiezer">
+                        </div>
+                </fieldset>
+
+                <fieldset class="control-group">
+                    <legend>2. Kies Moeilijkheid</legend>
+                    <div id="moeilijkheid-kiezer">
+                        <label><input type="radio" name="difficulty" value="easy" checked> Makkelijk</label>
+                        <label><input type="radio" name="difficulty" value="medium"> Middelmatig</label>
+                        <label><input type="radio" name="difficulty" value="hard"> Moeilijk</label>
+                    </div>
+                </fieldset>
+                
+                <fieldset class="control-group">
+                    <legend>3. Kies Lijndikte</legend>
+                    <div id="dikte-kiezer">
+                        <input type="range" id="thicknessSlider" min="1" max="10" value="2" step="1">
+                        <output id="thicknessValue">2</output> px
+                    </div>
+                </fieldset>
+
+                <button id="generateButton">Genereer Nieuwe Doolhof</button>
+                
+                <div class="solution-buttons">
+                    <button id="solveMazeBtn">Toon Oplossing</button>
+                    <button id="hideSolutionBtn" class="hidden">Verberg Oplossing</button>
+                </div>
+                
+                <div id="instructieText" style="color: #004080; margin-top: 15px; font-weight: bold; min-height: 60px;">
+                    Kies een vorm en moeilijkheid.
+                </div>
+            </div>
+        </div>
+
+        <div id="center-panel">
+            <div id="drawingCanvasContainer">
+                <canvas id="mazeCanvas" width="500" height="500"></canvas>
+            </div>
+        </div>
+
+        <div id="right-panel-buttons">
+            <div class="control-group">
+                <h3>Download</h3>
+                <button id="downloadPngBtn">Download als PNG</button>
+                <button id="downloadPdfBtn">Download als PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="doolhof.js"></script>
+</body>
+</html>

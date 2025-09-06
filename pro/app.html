@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zisa PRO – start</title>
+
+  <link rel="icon" href="../start_afbeeldingen/Zisa_spelgenerator-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../start_afbeeldingen/Zisa_spelgenerator-192.png">
+  <meta name="theme-color" content="#ffcf56">
+
+  <style>
+    .download-knop {
+      position: fixed; top: 20px; right: 20px; z-index: 1000;
+      background-color: #e74c3c; color: white; padding: 12px 20px; border-radius: 8px;
+      text-decoration: none; font-size: 1.2rem; font-weight: bold; white-space: nowrap;
+      display: inline-block; transition: background-color .2s ease, transform .2s ease;
+    }
+    .download-knop:hover { background-color: #c0392b; transform: scale(1.05); }
+    .download-knop::after {
+      content: attr(data-tooltip); position: absolute; top: 110%; left: 50%; transform: translateX(-50%);
+      background-color: #e74c3c; color: white; padding: 8px 10px; font-size: 1rem; border-radius: 14px;
+      opacity: 0; white-space: normal; width: 220px; text-align: center; pointer-events: none;
+      transition: opacity .2s ease;
+    }
+    .download-knop:hover::after { opacity: 1; }
+
+    html, body { margin:0; background:#fff4df; font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    .topbar { display:flex; justify-content:flex-end; align-items:center; gap:12px; padding-top:16px; }
+    .pill { font-size:.95rem; background:#fff; padding:6px 10px; border-radius:999px; border:1px solid #eee; }
+    .btn-logout { background:#ffd159; border:0; border-radius:10px; padding:10px 14px; font-weight:700; cursor:pointer; }
+    .btn-logout:hover { filter: brightness(.97); }
+
+    .header-container {
+      display:flex; justify-content:center; align-items:center;
+      margin-bottom:30px; margin-top:60px; width:100%; gap:20px;
+    }
+    .logo { width:100px; height:auto; }
+    .header-container h1 { font-size:3.5rem; margin:0 0 30px 0; text-align:center; }
+
+    .status { margin:0 0 24px 0; padding:12px 14px; border-radius:12px; background:#fff; border:1px solid #eee; }
+    .status.good { border-color:#bfe3bf; background:#f5fff5; }
+    .status.warn { border-color:#ffd6a8; background:#fff7ec; }
+    .status.err  { border-color:#f1c0c0; background:#fff5f5; }
+
+    .accordion { margin-bottom: 20px; }
+    .accordion-header {
+      background-color: #4db6ac; color: white; cursor: pointer; padding: 15px;
+      font-size: 1.4rem; border: none; text-align: left; width: 100%; border-radius: 8px;
+    }
+    .accordion-content { display: none; padding: 15px 0; }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 30px;
+      justify-items: center;
+    }
+    .drukknop-afbeelding {
+      width: 120px; height: auto; transition: transform .2s ease;
+    }
+
+    a { position: relative; display: inline-block; }
+    a:hover .drukknop-afbeelding { transform: scale(1.05); }
+    a:not(.download-knop)::after {
+      content: attr(data-tooltip); position: absolute; top: -45px; left: 50%; transform: translateX(-50%);
+      background-color: #f9b600; color: white; padding: 8px 14px; font-size: 1.4rem; border-radius: 14px;
+      opacity: 0; white-space: nowrap; pointer-events: none; transition: opacity .2s ease; z-index: 10;
+    }
+    a:not(.download-knop):hover::after { opacity: 1; }
+
+    @media (max-width: 600px) {
+      .header-container h1 { font-size: 2.6rem; }
+      .logo { width: 80px; }
+      .download-knop { top: 12px; right: 12px; font-size: 1rem; padding: 10px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="../Handleiding spelletjesmaker.pdf"
+     class="download-knop"
+     data-tooltip="Hulp nodig? Geen probleem, hier kan je de handleiding downloaden van deze spelgenerator."
+     download>
+     Handleiding
+  </a>
+
+  <div class="container">
+
+    <div class="topbar">
+      <span id="user-pill" class="pill">-</span>
+      <button id="logout" class="btn-logout">Uitloggen</button>
+    </div>
+
+    <div class="header-container">
+      <img src="../start_afbeeldingen/zisa.png" alt="Zisa Spelgenerator Logo" class="logo">
+      <h1>Zisa PRO</h1>
+    </div>
+
+    <div id="status" class="status">Status laden…</div>
+
+    <main id="content" style="display:none;">
+
+      <div class="accordion">
+        <button class="accordion-header">📐 Reken-oefeningen</button>
+        <div class="accordion-content button-grid">
+          <a data-tooltip="Rekenvierkant" href="./rekenvierkant.html"><img alt="Rekenvierkant" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/rekenvierkant.png"></a>
+          <a data-tooltip="Rekenweg" href="./rekenweg.html"><img alt="Rekenweg" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/rekenweg.png"></a>
+          <a data-tooltip="Rekenpiramide" href="./rekenpiramide_keuze.html"><img alt="Rekenpiramide" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/rekenpiramide.png"></a>
+          <a data-tooltip="Reken en kleur" href="./reken_en_kleur.html"><img alt="Reken en kleur" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/reken_en_kleur.png"></a>
+          <a data-tooltip="Rekenrooster" href="./rekenrooster.html"><img alt="Rekenrooster" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/rekenrooster.png"></a>
+          <a data-tooltip="Rekendriehoek" href="./rekendriehoek.html"><img alt="Rekendriehoek" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/rekendriehoek.png"></a>
+          <a data-tooltip="Rekencirkel" href="./rekencirkel.html"><img alt="Rekencirkel" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/rekencirkel.png"></a>
+          <a data-tooltip="Bewerkingen" href="./bewerkingen_keuze.html"><img alt="Bewerkingen" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/werkblad_bewerkingen.png"></a>
+          <a data-tooltip="Verliefde harten" href="./harten.html"><img alt="Verliefde harten" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/harten.png"></a>
+          <a data-tooltip="Loopspel" href="./loopspel.html"><img alt="Loopspel" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/loop.png"></a>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="accordion-header">🅰️ Taal en letters</button>
+        <div class="accordion-content button-grid">
+          <a data-tooltip="Woordzoeker" href="./woordzoeker.html"><img alt="Woordzoeker" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/woordzoeker.png"></a>
+          <a data-tooltip="Kruiswoordpuzzel" href="./kruiswoordpuzzel.html"><img alt="Kruiswoordpuzzel" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/kruiswoordpuzzel.png"></a>
+          <a data-tooltip="Lettercode" href="./lettercode.html"><img alt="Lettercode" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/lettercode.png"></a>
+          <a data-tooltip="Geheime boodschap" href="./geheimeboodschap.html"><img alt="Geheime boodschap" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/geheime_boodschap.png"></a>
+          <a data-tooltip="Lettertetris" href="./lettertetris.html"><img alt="Lettertetris" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/lettertetris.png"></a>
+          <a data-tooltip="Galgje" href="./galgje.html"><img alt="Galgje" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/galgje.png"></a>
+          <a data-tooltip="Lezen" href="./lees.html"><img alt="Lezen" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/lees.png"></a>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="accordion-header">🧩 Puzzels &amp; logica</button>
+        <div class="accordion-content button-grid">
+          <a data-tooltip="Sudoku" href="./sudoku.html"><img alt="Sudoku" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/sudoku.png"></a>
+          <a data-tooltip="Zoek de verschillen" href="./zoekverschillen.html"><img alt="Zoek de verschillen" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/zoek_de_verschillen.png"></a>
+          <a data-tooltip="Doolhof" href="./doolhof.html"><img alt="Doolhof" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/doolhof.png"></a>
+          <a data-tooltip="Slangendoolhof" href="./slangendoolhof.html"><img alt="Slangendoolhof" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/slangendoolhof.png"></a>
+          <a data-tooltip="Hexagonaal raster" href="./hexagon.html"><img alt="Hexagonaal raster" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/hexagon.png"></a>
+          <a data-tooltip="Schaduw" href="./schaduw.html"><img alt="Schaduw" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/schaduw.png"></a>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="accordion-header">🎨 Creatief en bouwen</button>
+        <div class="accordion-content button-grid">
+          <a data-tooltip="Punttekening" href="./punttekening.html"><img alt="Punttekening" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/punttekening.png"></a>
+          <a data-tooltip="Pixelart" href="./pixelart.html"><img alt="Pixelart" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/pixelart.png"></a>
+          <a data-tooltip="Bouwplaten" href="./bouwplaat.html"><img alt="Bouwplaten" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/bouwplaat.png"></a>
+          <a data-tooltip="Coderen" href="./coderen.html"><img alt="Coderen" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/coderen.png"></a>
+          <a data-tooltip="Plattegrond" href="./plattegrond.html"><img alt="Plattegrond" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/plattegrond.png"></a>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="accordion-header">🎲 Spelvormen</button>
+        <div class="accordion-content button-grid">
+          <a data-tooltip="Bingo" href="./bingo.html"><img alt="Bingo" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/bingo.png"></a>
+          <a data-tooltip="Vier op een rij" href="./vieropeenrij.html"><img alt="Vier op een rij" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/vieropeenrij.png"></a>
+          <a data-tooltip="Rad" href="./rad.html"><img alt="Rad" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/rad.png"></a>
+          <a data-tooltip="QR-generator" href="./QR.html"><img alt="QR-generator" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/QR.png"></a>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="accordion-header">⏰ Tijd en klok</button>
+        <div class="accordion-content button-grid">
+          <a data-tooltip="Kloklezen" href="./kloklezen.html"><img alt="Kloklezen" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/werkblad_kloklezen.png"></a>
+          <a data-tooltip="Timer" href="./timer.html"><img alt="Timer" class="drukknop-afbeelding" src="../drukknop_afbeeldingen/timer.png"></a>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.accordion-content').forEach(content => { content.style.display = 'none'; });
+      document.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', () => {
+          const content = header.nextElementSibling;
+          const isVisible = content.style.display === 'block';
+          document.querySelectorAll('.accordion-content').forEach(c => c.style.display = 'none');
+          if (!isVisible) content.style.display = 'block';
+        });
+      });
+    });
+  </script>
+
+  <!-- Device-ID helper moet vóór de guard -->
+  <script src="./device-id.js"></script>
+
+  <!-- ★ Laad guard.js rechtstreeks vanaf Pages (voorkomt 404 door querystrings/paden) -->
+  <script type="module" src="https://isabelrockele.github.io/juf_zisa_spelletjesmaker/pro/guard.js"></script>
+
+  <!-- Dun app-script: toont UI wanneer PRO klaar is -->
+  <script type="module">
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const $ = (s)=>document.querySelector(s);
+    const statusEl  = $("#status");
+    const contentEl = $("#content");
+    const userPill  = $("#user-pill");
+
+    const auth = getAuth();
+    $("#logout").onclick = ()=> signOut(auth);
+
+    // Guard roept dit zodra PRO oké is
+    window.onProReady = ({ user, expiresAt, limit }) => {
+      try { userPill.textContent = user.email ?? user.uid; } catch {}
+      statusEl.className = "status good";
+      try {
+        const datum = new Date(expiresAt).toLocaleDateString("nl-BE",{year:'numeric',month:'2-digit',day:'2-digit'});
+        statusEl.textContent = `PRO actief. Geldig tot: ${datum}. (maxDevices: ${limit ?? 2})`;
+      } catch {
+        statusEl.textContent = `PRO actief. (maxDevices: ${limit ?? 2})`;
+      }
+      contentEl.style.display = "block";
+    };
+
+    // Fallback: niet ingelogd → terug naar login
+    onAuthStateChanged(auth, (u) => {
+      if (!u) { location.href = "../pro/"; }
+      else { userPill.textContent = u.email ?? u.uid; }
+    });
+  </script>
+</body>
+</html>
+

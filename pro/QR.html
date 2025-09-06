@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="google" content="notranslate">
+  <title>QR-code generator – PNG & SVG</title>
+  <!-- Alle relatieve paden resolven t.o.v. /juf_zisa_spelletjesmaker/pro/ -->
+  <base href="/juf_zisa_spelletjesmaker/pro/">
+  <style>
+    :root { --gap: 12px; --radius: 14px; --topbar-h: 60px; }
+    body { font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: #f6f7f9; color: #111; }
+    /* vaste PRO-header-ruimte */
+    body { margin-top: 60px; }
+
+    /* PRO-header */
+    .pro-header {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      background-color: #3f7fbf;
+      padding: 8px 12px; color: #fff;
+      z-index: 1000; height: 48px;
+    }
+    .pro-header .back-link{
+      background: #5a9fd4; color: #fff; border: none; padding: 6px 10px;
+      border-radius: 6px; font-size: 14px; font-weight: 600; text-decoration: none;
+      cursor: pointer; display: inline-block; white-space: nowrap;
+      /* float:left; verwijderd om console-waarschuwing te vermijden */
+    }
+
+    /* Pagina-inhoud */
+    .wrap { max-width: 860px; margin: 32px auto; padding: 24px; background: #fff; border-radius: var(--radius); box-shadow: 0 10px 30px rgba(0,0,0,.06); }
+    h1 { margin: 0 0 12px; font-size: 1.35rem; }
+    form { display: grid; grid-template-columns: 1fr; gap: var(--gap); }
+    .row { display: grid; grid-template-columns: 1fr 160px 160px; gap: var(--gap); }
+    label { font-size: .9rem; font-weight: 600; color: #333; }
+    input[type="url"], select { width: 100%; padding: 10px 12px; border: 1px solid #d4d7dd; border-radius: 10px; outline: none; }
+    input[type="url"]:focus, select:focus { border-color: #7aa7ff; box-shadow: 0 0 0 3px rgba(122,167,255,.2); }
+    .qr-card { margin-top: 8px; display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+    .qr-box { display: grid; place-items: center; background: #fafbfe; border: 1px dashed #d8dbe3; border-radius: 16px; padding: 18px; min-height: 320px; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: end; }
+    button { padding: 10px 14px; border: 0; border-radius: 10px; background: #111; color: #fff; cursor: pointer; }
+    button[disabled] { opacity: .5; cursor: not-allowed; }
+    .hint { font-size: .85rem; color: #555; }
+    .err { color: #b00020; font-size: .9rem; }
+    @media (max-width: 980px){ .qr-card{ grid-template-columns: 1fr; } .row { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px){ .row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<header class="pro-header">
+  <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+</header>
+
+<div class="wrap">
+  <h1>QR-code generator (link → QR, PNG &amp; SVG)</h1>
+  <form id="qr-form">
+    <div>
+      <label for="url">Link (bij voorkeur beginnend met https://)</label>
+      <input id="url" name="url" type="url" placeholder="https://voorbeeld.be/pagina" autocomplete="off" required />
+      <div id="error" class="err" aria-live="polite"></div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="size">Grootte (PNG)</label>
+        <select id="size" name="size">
+          <option value="256">256 px</option>
+          <option value="320" selected>320 px</option>
+          <option value="384">384 px</option>
+          <option value="512">512 px</option>
+          <option value="640">640 px</option>
+        </select>
+      </div>
+      <div>
+        <label for="ecc">Foutcorrectie</label>
+        <select id="ecc" name="ecc">
+          <option value="L">L (±7%)</option>
+          <option value="M" selected>M (±15%)</option>
+          <option value="Q">Q (±25%)</option>
+          <option value="H">H (±30%)</option>
+        </select>
+      </div>
+      <div class="actions">
+        <button type="button" id="make">Genereer</button>
+        <button type="button" id="download-png" disabled>Download PNG</button>
+        <button type="button" id="download-svg" disabled>Download SVG</button>
+      </div>
+    </div>
+    <div class="qr-card">
+      <div>
+        <p class="hint">De preview rechts is SVG (oneindig schaalbaar). Gebruik <strong>PNG</strong> voor scherm/kleine prints. Gebruik <strong>SVG</strong> voor groot drukwerk of verdere bewerking (kleur/logo).</p>
+      </div>
+      <div class="qr-box" id="qr-box"></div>
+    </div>
+  </form>
+</div>
+
+<!-- Uniforme device- en guard-laag: ALTIJD in deze volgorde -->
+<script src="./device-id.js"></script>
+<script type="module" src="./guard.js"></script>
+
+<!-- Externe QR-bibliotheek -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+
+<!-- Paginascript: draait pas na guard -->
+<script>
+  (function() {
+    const urlEl = document.getElementById('url');
+    const sizeEl = document.getElementById('size');
+    const eccEl  = document.getElementById('ecc');
+    const makeBtn = document.getElementById('make');
+    const dlPNGBtn = document.getElementById('download-png');
+    const dlSVGBtn = document.getElementById('download-svg');
+    const qrBox = document.getElementById('qr-box');
+    const errEl = document.getElementById('error');
+
+    const QUIET_ZONE = 4;
+    function validURL(value){
+      try {
+        const v = value.trim(); if (!v) return false;
+        const hasScheme = /^https?:\/\//i.test(v);
+        const toTest = new URL(hasScheme ? v : `https://${v}`);
+        return !!toTest.hostname;
+      } catch { return false; }
+    }
+    function eccMap(level){ return { L:'L', M:'M', Q:'Q', H:'H' }[level] || 'M'; }
+    function buildQR(text, ecc){ const qr = qrcode(0, eccMap(ecc)); qr.addData(text); qr.make(); return qr; }
+    function makeSVG(qr, pixelSize){
+      const count = qr.getModuleCount();
+      const totalModules = count + 2*QUIET_ZONE;
+      const cell = Math.floor(pixelSize / totalModules) || 1;
+      const size = totalModules * cell;
+      const inner = qr.createSvgTag({ cellSize: cell, margin: 0, scalable: false })
+                       .replace('<svg', `<svg width="${size}" height="${size}"`)
+                       .replace('</svg>', '');
+      const bg = `<rect width="${size}" height="${size}" fill="#ffffff" />`;
+      const translate = QUIET_ZONE * cell;
+      const wrapped = inner.replace('>', `><g transform="translate(${translate},${translate})">`) + '</g></svg>';
+      const finalSVG = wrapped.replace(/<svg[^>]*>/, m => m + bg);
+      const parser = new DOMParser();
+      return parser.parseFromString(finalSVG, "image/svg+xml").documentElement;
+    }
+    function makeCanvasFromQR(qr, pixelSize){
+      const count = qr.getModuleCount();
+      const totalModules = count + 2*QUIET_ZONE;
+      const cell = Math.floor(pixelSize / totalModules) || 1;
+      const size = totalModules * cell;
+      const cvs = document.createElement('canvas'); cvs.width = size; cvs.height = size;
+      const ctx = cvs.getContext('2d');
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, size, size);
+      ctx.fillStyle = '#000000';
+      for (let r = 0; r < count; r++){
+        for (let c = 0; c < count; c++){
+          if (qr.isDark(r, c)){
+            const x = (c + QUIET_ZONE) * cell;
+            const y = (r + QUIET_ZONE) * cell;
+            ctx.fillRect(x, y, cell, cell);
+          }
+        }
+      }
+      return cvs;
+    }
+
+    let currentSVG = null; let currentCanvas = null;
+
+    function makeQR(){
+      const raw = urlEl.value.trim();
+      if (!validURL(raw)){
+        errEl.textContent = 'Geef een geldige link op (bijv. https://voorbeeld.be).';
+        dlPNGBtn.disabled = true; dlSVGBtn.disabled = true;
+        qrBox.innerHTML = ''; currentSVG = null; currentCanvas = null;
+        return;
+      }
+      errEl.textContent = '';
+      const value = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+      const size = parseInt(sizeEl.value, 10);
+      const ecc  = eccEl.value;
+
+      const qr = buildQR(value, ecc);
+      qrBox.innerHTML = '';
+      currentSVG = makeSVG(qr, Math.max(size, 320));
+      qrBox.appendChild(currentSVG);
+      currentCanvas = makeCanvasFromQR(qr, size);
+      dlPNGBtn.disabled = false; dlSVGBtn.disabled = false;
+    }
+
+    function downloadPNG(){
+      if (!currentCanvas) return;
+      const a = document.createElement('a');
+      a.href = currentCanvas.toDataURL('image/png');
+      a.download = 'qr-code.png';
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+
+    function downloadSVG(){
+      if (!currentSVG) return;
+      const svgStr = new XMLSerializer().serializeToString(currentSVG);
+      const blob = new Blob([svgStr], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'qr-code.svg';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+
+    document.getElementById('make').addEventListener('click', makeQR);
+    document.getElementById('download-png').addEventListener('click', downloadPNG);
+    document.getElementById('download-svg').addEventListener('click', downloadSVG);
+    urlEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); makeQR(); } });
+  })();
+</script>
+
+</body>
+</html>
+

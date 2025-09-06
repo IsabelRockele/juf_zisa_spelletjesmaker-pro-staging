@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="utf-8"/>
+    <title>Rekenweg Template Maker</title>
+    <meta name="google" content="notranslate">
+
+    <link href="../rekenweg.css" rel="stylesheet"/>
+
+    <base href="/juf_zisa_spelletjesmaker/pro/">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        /* Vaste PRO-header met alleen 'Terug naar menu' */
+        .pro-header{
+            position: fixed; top: 0; left: 0; width: 100%;
+            background:#3f7fbf; color:#fff; padding:8px 12px; z-index:1000; height:48px;
+        }
+        .pro-header .back-link{
+            background:#5a9fd4; color:#fff; border:none; padding:6px 10px; border-radius:6px;
+            font-size:14px; font-weight:600; text-decoration:none; cursor:pointer;
+            display:inline-block; white-space:nowrap;
+            /* float:left; verwijderd i.v.m. console-waarschuwing */
+        }
+        
+        /* --- AANGEPAST --- */
+        /* voorkom overlappen met de vaste header door padding te gebruiken i.p.v. margin */
+        body { 
+            padding-top: 60px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<header class="pro-header">
+    <a href="app.html" class="back-link" aria-label="Terug naar menu">&larr; Terug naar menu</a>
+</header>
+
+<header>
+    <div class="header-buttons">
+        <button id="menuBtn" onclick="window.location.href='app.html'">Keuzemenu</button>
+        <button id="newPathBtn" style="display: none;">Nieuwe Rekenweg</button>
+    </div>
+    <h1>Rekenweg Template Maker</h1>
+</header>
+
+<div id="main-content">
+    <div id="left-panel">
+        <div id="controls">
+            <div class="control-group">
+                <label for="branchLetter">Actieve tak (letter):</label>
+                <select id="branchLetter">
+                    <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                    <option value="D">D</option><option value="E">E</option><option value="F">F</option>
+                    <option value="G">G</option><option value="H">H</option><option value="I">I</option>
+                    <option value="J">J</option><option value="K">K</option><option value="L">L</option>
+                    <option value="M">M</option><option value="N">N</option><option value="O">O</option>
+                    <option value="P">P</option><option value="Q">Q</option><option value="R">R</option>
+                    <option value="S">S</option><option value="T">T</option><option value="U">U</option>
+                    <option value="V">V</option><option value="W">W</option><option value="X">X</option>
+                    <option value="Y">Y</option><option value="Z">Z</option>
+                </select>
+            </div>
+
+            <div id="meldingContainer" style="color:#004080; margin-top:15px; font-weight:bold; min-height:80px;"></div>
+
+            <button id="clearPathBtn">Wissen</button>
+            <button id="undoLastCellBtn">Laatste vakje wissen</button>
+            <button id="showMyPathBtn">Toon mijn pad</button>
+        </div>
+    </div>
+
+    <div id="center-panel">
+        <div id="drawingCanvasContainer">
+            <canvas id="mainCanvas" width="800" height="600"></canvas>
+        </div>
+    </div>
+
+    <div id="right-panel-buttons">
+        <div id="example-image-container">
+            <img id="drawing-example-img" src="start_afbeeldingen/voorbeeld_pad.png" alt="Voorbeeld van een te tekenen pad">
+            <img id="template-example-img" src="start_afbeeldingen/voorbeeld_rekenweg.png" alt="Voorbeeld van een ingevulde rekenweg" style="display: none;">
+        </div>
+
+        <div class="control-group">
+            <button id="downloadPngBtn" style="display: none;">Download als PNG</button>
+            <button id="downloadPdfBtn" style="display: none;">Download als PDF</button>
+        </div>
+        <p id="edit-instructions" style="display: none; color: #004080; margin-top: 15px; font-style: italic;">
+            Je pad is nu klaar om bewerkingen in toe te voegen. Klik op een vakje en typ een getal of bewerkingsteken. Klaar? Dan kan je je rekenweg downloaden.
+        </p>
+    </div>
+</div>
+
+<script src="./device-id.js"></script>
+<script type="module" src="./guard.js"></script>
+
+<script src="../rekenweg.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "gridWidth": 20,
+  "gridHeight": 20,
+  "drawingMatrix": [
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Groen","Achtergrond","Groen","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Oranje","Oranje","Zwart","Zwart","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Zwart","Zwart","Oranje","Oranje","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Oranje","Oranje","Zwart","Zwart","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Zwart","Zwart","Oranje","Oranje","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Oranje","Oranje","Achtergrond","Achtergrond","Zwart","Zwart","Zwart","Zwart","Achtergrond","Achtergrond","Oranje","Oranje","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Oranje","Oranje","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Oranje","Oranje","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Oranje","Oranje","Oranje","Zwart","Zwart","Zwart","Zwart","Oranje","Oranje","Oranje","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Oranje","Oranje","Oranje","Oranje","Oranje","Oranje","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Oranje","Oranje","Oranje","Oranje","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"],
+    ["Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond","Achtergrond"]
+  ]
+}

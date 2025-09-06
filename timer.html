@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kindvriendelijke Aftelklokken</title>
+    <link rel="stylesheet" href="timer.css">
+</head>
+<body>
+
+    <a href="index.html" class="keuzemenu-knop">Keuzemenu</a>
+
+    <div id="themeSelectionScreen" class="screen active">
+        <h1>Kies een thema & tijd:</h1>
+        <div class="theme-buttons">
+            <button data-theme="rainbow">Regenboog Timer</button>
+            <button data-theme="star">Groeiende Ster</button>
+            <button data-theme="aquarium">Aquarium Timer</button>
+        </div>
+
+        <div class="time-buttons" style="display: none;">
+            <h2 id="timeChoiceHeader">Kies aantal minuten:</h2>
+            <button data-minutes="1">1</button>
+            <button data-minutes="2">2</button>
+            <button data-minutes="3">3</button>
+            <button data-minutes="4">4</button>
+            <button data-minutes="5">5</button>
+            <button data-minutes="6">6</button>
+            <button data-minutes="7">7</button>
+            <button data-minutes="8">8</button>
+            <button data-minutes="9">9</button>
+            <button data-minutes="10">10</button>
+            <button data-minutes="11">11</button>
+            <button data-minutes="12">12</button>
+            <button data-minutes="13">13</button>
+            <button data-minutes="14">14</button>
+            <button data-minutes="15">15</button>
+            <button data-minutes="16">16</button>
+            <button data-minutes="17">17</button>
+            <button data-minutes="18">18</button>
+            <button data-minutes="19">19</button>
+            <button data-minutes="20">20</button>
+            <button data-minutes="21">21</button>
+            <button data-minutes="22">22</button>
+            <button data-minutes="23">23</button>
+            <button data-minutes="24">24</button>
+            <button data-minutes="25">25</button>
+            <button data-minutes="26">26</button>
+            <button data-minutes="27">27</button>
+            <button data-minutes="28">28</button>
+            <button data-minutes="29">29</button>
+            <button data-minutes="30">30</button>
+            <button data-minutes="31">31</button>
+            <button data-minutes="32">32</button>
+            <button data-minutes="33">33</button>
+            <button data-minutes="34">34</button>
+            <button data-minutes="35">35</button>
+            <button data-minutes="36">36</button>
+            <button data-minutes="37">37</button>
+            <button data-minutes="38">38</button>
+            <button data-minutes="39">39</button>
+            <button data-minutes="40">40</button>
+            <button data-minutes="41">41</button>
+            <button data-minutes="42">42</button>
+            <button data-minutes="43">43</button>
+            <button data-minutes="44">44</button>
+            <button data-minutes="45">45</button>
+            <button data-minutes="46">46</button>
+            <button data-minutes="47">47</button>
+            <button data-minutes="48">48</button>
+            <button data-minutes="49">49</button>
+            <button data-minutes="50">50</button>
+            <button data-minutes="51">51</button>
+            <button data-minutes="52">52</button>
+            <button data-minutes="53">53</button>
+            <button data-minutes="54">54</button>
+            <button data-minutes="55">55</button>
+            <button data-minutes="56">56</button>
+            <button data-minutes="57">57</button>
+            <button data-minutes="58">58</button>
+            <button data-minutes="59">59</button>
+            <button data-minutes="60">60</button>
+        </div>
+    </div>
+
+    <div id="timerScreen" class="screen">
+        <div class="timer-container" id="timerContainer">
+            <div id="currentThemeDisplay" class="current-theme-display"></div>
+
+            <div class="side-controls">
+                <button id="startButton" class="control-button">Start</button>
+                <button id="pauseButton" class="control-button" style="display: none;">Pauze</button>
+                <button id="newTimerButton" class="control-button secondary">Nieuwe Timer</button>
+            </div>
+
+            <div class="main-visual-area">
+                <div id="rainbowContainer" class="visual-container">
+                    <div class="rainbow-svg-container">
+                        <img src="afbeeldingen klok/wolk.png" alt="Cloud" class="cloud cloud-left">
+                        <svg class="rainbow-svg" viewBox="0 0 1000 400">
+                             <path id="rainbowViolet" class="rainbow-path violet" d="M 320 350 A 180 150 0 0 1 680 350"></path>
+                            <path id="rainbowIndigo" class="rainbow-path indigo" d="M 290 350 A 210 180 0 0 1 710 350"></path>
+                            <path id="rainbowBlue"   class="rainbow-path blue"   d="M 260 350 A 240 210 0 0 1 740 350"></path>
+                            <path id="rainbowGreen"  class="rainbow-path green"  d="M 230 350 A 270 240 0 0 1 770 350"></path>
+                            <path id="rainbowYellow" class="rainbow-path yellow" d="M 200 350 A 300 270 0 0 1 800 350"></path>
+                            <path id="rainbowOrange" class="rainbow-path orange" d="M 170 350 A 330 300 0 0 1 830 350"></path>
+                            <path id="rainbowRed"    class="rainbow-path red"    d="M 140 350 A 360 330 0 0 1 860 350"></path>
+                        </svg>
+                        <img src="afbeeldingen klok/pot.png" alt="Pot of Gold" class="pot-image">
+                        <img src="afbeeldingen klok/goud.png" alt="Gold" class="gold-image" id="goldImage">
+                    </div>
+                </div>
+
+                <div id="starContainer" class="visual-container">
+                    </div>
+
+                <div id="aquariumContainer" class="visual-container">
+                    <img src="klok_afbeeldingen/schatkist.png" alt="Schatkist" id="treasureChestClosed">
+                    <img src="klok_afbeeldingen/schatkist_open.png" alt="Open Schatkist" id="treasureChestOpen">
+                </div>
+
+                <img src="afbeeldingen klok/ster.png" alt="Eind Ster" id="finalStar">
+                
+                <img src="klok_afbeeldingen/gouden_muntstuk.png" alt="Gouden Munt" id="bigGoldCoin" class="big-gold-coin">
+            </div>
+
+            <div id="countdown" class="countdown">00:00</div>
+            <div class="timer-message" id="timerMessage"></div>
+        </div>
+    </div>
+
+    <script src="timer.js"></script>
+</body>
+</html>

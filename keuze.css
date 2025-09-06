@@ -1,0 +1,91 @@
+body {
+  margin: 0;
+  font-family: 'Comic Sans MS', sans-serif;
+  background-color: #fefae0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+  padding: 20px;
+  margin-top: 25px;
+  /* Ruimte aan de onderkant zodat de footer de knoppen niet overlapt */
+  padding-bottom: 80px; 
+}
+
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.title-image {
+  height: 120px;
+}
+
+h1 {
+  color: orange;
+  font-size: 5rem;
+  margin: 0;
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  max-width: 1500px;
+}
+
+.keuze-knop {
+  background-color: #ffcf56;
+  border: none;
+  padding: 20px;
+  border-radius: 12px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%; /* Vult nu de kolom */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.keuze-knop span {
+  font-size: 1.6rem; 
+  line-height: 1;
+}
+
+.keuze-knop:hover {
+  transform: scale(1.05);
+  background-color: #ffd97d;
+}
+
+/* --- AANGEPASTE FOOTER STIJL --- */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fefae0;
+  text-align: center;
+  padding: 15px 0;
+  color: #a9a9a9;
+  font-size: 0.9rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+/*
+  DE REGELS VOOR .drukknop-afbeelding ZIJN HIER VERWIJDERD
+  OMDAT ZE ALLEEN IN index.html THUISHOREN.
+*/

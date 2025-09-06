@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mijn toestellen — Zisa PRO</title>
+  <meta http-equiv="Cache-Control" content="no-store" />
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 0; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 20px; border-bottom: 1px solid #e5e7eb; }
+    h1 { font-size: 1.25rem; margin: 0; }
+    .pill { font-size:.9rem; padding:6px 10px; border-radius:999px; background:#eef2ff; color:#1e3a8a; }
+    main { max-width: 900px; padding: 20px; margin: 0 auto; }
+    .card { border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:16px; }
+    .muted { color:#6b7280; }
+    .row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0; border-bottom:1px dashed #e5e7eb; }
+    .row:last-child { border-bottom:none; }
+    .id { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+    .tag { margin-left:8px; padding:2px 6px; border-radius:999px; background:#ecfeff; color:#075985; font-size:.8rem; }
+    .btn { padding:8px 12px; border-radius:8px; border:1px solid #d1d5db; background:#fff; cursor:pointer; }
+    .btn:hover { background:#f9fafb; }
+    .btn[disabled] { opacity:.6; cursor:not-allowed; }
+    .btn.primary { background:#1d4ed8; border-color:#1d4ed8; color:#fff; }
+    .btn.primary:hover { background:#1e40af; color:#fff; }
+    .danger { border-color:#ef4444; color:#991b1b; }
+    .note { font-size:.9rem; margin-top:8px; color:#6b7280; }
+    .hint { margin-top:12px; padding:12px; border-radius:10px; background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+    #msg { margin-top:8px; color:#b91c1c; }
+    footer { padding: 24px; text-align:center; color:#9ca3af; font-size:.85rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mijn toestellen</h1>
+    <div class="pill" id="user-pill">—</div>
+  </header>
+
+  <main>
+    <div class="card">
+      <div><strong>Huidig toestel-ID:</strong> <span class="id" id="currentId">—</span></div>
+      <div class="note">U kunt maximaal <strong id="limit">—</strong> toestellen koppelen aan uw PRO-licentie.</div>
+      <div id="hint" class="hint" style="display:none"></div>
+      <div id="msg"></div>
+    </div>
+
+    <div class="card">
+      <div class="actions" style="justify-content:space-between;">
+        <div><strong>Geregistreerde toestellen</strong></div>
+        <div>
+          <button class="btn" id="refreshBtn">Vernieuwen</button>
+        </div>
+      </div>
+      <ul id="list" style="list-style:none; padding:0; margin:12px 0 0 0;">
+        <li class="muted">(Laden…)</li>
+      </ul>
+      <div class="note">Tip: staat de limiet vol? Verwijder een oud toestel om ruimte te maken.</div>
+    </div>
+  </main>
+
+  <footer>
+    Zisa PRO — toestellenbeheer
+  </footer>
+
+  <!-- 1) Stabiel lokaal toestel-ID -->
+  <script src="./device-id.js"></script>
+
+  <!-- 2) Guard via absolute URL (voorkomt pad/cache-issues) -->
+  <script type="module" src="https://isabelrockele.github.io/juf_zisa_spelletjesmaker/pro/guard.js"></script>
+
+  <!-- 3) Paginascript -->
+  <script type="module">
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const API_BASE = "https://europe-west1-zisa-spelletjesmaker-pro.cloudfunctions.net";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1svbzlhdjiiDMyRIgqQq1jSu_F8li3Bw",
+      authDomain: "zisa-spelletjesmaker-pro.firebaseapp.com",
+      projectId: "zisa-spelletjesmaker-pro",
+      storageBucket: "zisa-spelletjesmaker-pro.appspot.com",
+      messagingSenderId: "828063957776",
+      appId: "1:828063957776:web:8d8686b478846fe980db95",
+      measurementId: "G-9LHNLFHSXX"
+    };
+
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const userPill   = document.getElementById("user-pill");
+    const listEl     = document.getElementById("list");
+    const currentEl  = document.getElementById("currentId");
+    const msgEl      = document.getElementById("msg");
+    const limitEl    = document.getElementById("limit");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const hintEl     = document.getElementById("hint");
+
+    let currentId = "—";
+    try { currentId = window.ZisaDevice.getOrCreateDeviceId(); } catch {}
+    currentEl.textContent = currentId;
+
+    // Voor de HTTP-wrappers is alleen een vers ID-token nodig
+    async function ensureTokensReady() {
+      const u = auth.currentUser;
+      if (u) { await u.getIdToken(true); }
+    }
+
+    async function apiFetch(path, body) {
+      await ensureTokensReady();
+      const u = auth.currentUser;
+      if (!u) throw new Error("not signed in");
+      const idToken = await u.getIdToken(false);
+      const r = await fetch(`${API_BASE}/${path}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${idToken}`
+        },
+        body: JSON.stringify(body || {})
+      });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      return await r.json();
+    }
+
+    function showHint(message) {
+      hintEl.innerHTML = `
+        <span>${message}</span>
+        <a class="btn primary" href="./app.html">Open Zisa PRO</a>
+      `;
+      hintEl.style.display = "";
+    }
+    function hideHint() {
+      hintEl.style.display = "none";
+      hintEl.innerHTML = "";
+    }
+
+    function row(item){
+      const li = document.createElement("li");
+      li.className = "row";
+      const isCurrent = item.id === currentId;
+      li.innerHTML = `
+        <div><span class="id">${item.id}</span> ${isCurrent ? '<span class="tag">dit toestel</span>' : ''}</div>
+        <button class="btn danger">Verwijder</button>
+      `;
+      li.querySelector("button").onclick = async () => {
+        if (!confirm("Dit toestel verwijderen?")) return;
+        li.querySelector("button").disabled = true;
+        try {
+          await apiFetch("unregisterDeviceHttp", { deviceDocId: item.id });
+          await load(/*fromRemoval=*/true);
+          msgEl.textContent = "";
+        } catch (e) {
+          console.error(e);
+          msgEl.textContent = "Verwijderen mislukt. Probeer opnieuw.";
+        } finally {
+          li.querySelector("button").disabled = false;
+        }
+      };
+      return li;
+    }
+
+    async function load(fromRemoval = false){
+      listEl.innerHTML = '<li class="muted">(Laden…)</li>';
+      hideHint();
+      try {
+        const data = await apiFetch("listDevicesHttp", {});
+        const devices = Array.isArray(data?.devices) ? data.devices : [];
+        const limit = typeof data?.limit === "number" ? data.limit : 2;
+        limitEl.textContent = String(limit);
+
+        listEl.innerHTML = "";
+        if (devices.length === 0) {
+          listEl.innerHTML = "<li class='muted'>(Geen geregistreerde toestellen)</li>";
+        } else {
+          devices.forEach((it) => listEl.appendChild(row(it)));
+        }
+
+        const isCurrentRegistered = devices.some(d => d.id === currentId);
+        const roomAvailable = devices.length < limit;
+
+        // Toon duidelijke hint wanneer er opnieuw plaats is of na verwijderen
+        if ((fromRemoval && roomAvailable) || (!isCurrentRegistered && roomAvailable)) {
+          showHint("Er is terug plaats vrij voor dit toestel. Open de PRO-app om verder te gaan.");
+        }
+      } catch (e) {
+        console.error(e);
+        msgEl.textContent = "Laden mislukt. Vernieuw de pagina of probeer later opnieuw.";
+        listEl.innerHTML = "";
+      }
+    }
+
+    // Fallback-vlag + fallback-loader
+    let PRO_READY = false;
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) { window.location.href = "./index.html"; return; }
+      userPill.textContent = user.email || user.uid;
+      setTimeout(() => { if (!PRO_READY) load(); }, 2000);
+    });
+
+    window.onProReady = ({ user, expiresAt, limit }) => {
+      PRO_READY = true;
+      try {
+        userPill.textContent = user.email || user.uid;
+        if (window.ZisaDevice) {
+          currentId = window.ZisaDevice.getOrCreateDeviceId();
+          currentEl.textContent = currentId;
+        }
+      } catch {}
+      if (typeof limit === "number") limitEl.textContent = String(limit);
+      load();
+    };
+
+    refreshBtn.addEventListener("click", () => load(false));
+  </script>
+</body>
+</html>
+
+
+

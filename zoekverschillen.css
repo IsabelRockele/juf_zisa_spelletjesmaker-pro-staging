@@ -1,0 +1,272 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f2f7;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+header {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+}
+
+h1, h3, h4 {
+    color: #004080;
+    margin-right: 0; 
+    margin-left: 0;
+}
+
+h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #b3e0ff;
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+h4 {
+    margin-bottom: 5px;
+    font-size: 1em;
+}
+
+button {
+    font-family: Arial, sans-serif;
+    background-color: #004080;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 5px 0;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.control-group button {
+    width: 100%;
+}
+
+button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+#main-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1200px;
+    gap: 20px;
+}
+
+#left-panel, #right-panel-buttons {
+    flex-shrink: 0;
+    padding: 15px;
+    border: 1px solid #b3e0ff;
+    border-radius: 8px;
+    background-color: #f0faff;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+#left-panel {
+    flex-basis: 250px;
+}
+
+#right-panel-buttons {
+    flex-basis: 200px;
+}
+
+#center-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+}
+
+#puzzel-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+.image-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#canvasOrigineel, #canvasVerschillen {
+    border: 2px solid #004080;
+    background-color: #cccccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#status-text {
+    margin-top: 20px;
+    color: #555;
+    font-style: italic;
+    min-height: 20px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.tool-setting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+}
+
+.tool-setting label,
+select {
+    white-space: nowrap;
+}
+
+input[type="number"],
+select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #aaddff;
+    font-size: 1em;
+    width: 60px;
+}
+
+select {
+    width: 100%;
+}
+
+#tools-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+#tools-container .tool-btn {
+    padding: 8px;
+    height: 48px;
+    width: 100%;
+}
+
+#tools-container .tool-btn.active {
+    background-color: #007acc;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+#color-display {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #004080;
+    border-radius: 5px;
+    background-color: #000000;
+}
+
+#edit-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#edit-modal-overlay.hidden {
+    display: none;
+}
+
+#edit-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+#editCanvas {
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  background-image:
+    linear-gradient(45deg, #eee 25%, transparent 25%),
+    linear-gradient(-45deg, #eee 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #eee 75%),
+    linear-gradient(-45deg, transparent 75%, #eee 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+#edit-modal .edit-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+#clipboard-preview-container {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #b3e0ff;
+}
+
+#clipboard-preview-container.hidden {
+    display: none;
+}
+
+#clipboardCanvas {
+    border: 1px dashed #004080;
+    max-width: 100%;
+    height: auto;
+    background-color: #fff;
+}
+
+@media (max-width: 900px) {
+    #main-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #left-panel, #center-panel, #right-panel-buttons {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    #puzzel-container {
+        flex-direction: column;
+    }
+}

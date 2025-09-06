@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator voor Bewerkingen - Keuzemenu (PRO)</title>
+
+    <!-- PRO manifest & iconen (relatief maken voor GitHub Pages) -->
+    <link rel="manifest" href="manifest-pro.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <meta name="theme-color" content="#fffbe6">
+    <!-- voorkom Google-Translate overlay (CSP-consolemelding) -->
+    <meta name="google" content="notranslate">
+
+    <!-- Styles: CSS ligt buiten /pro/, dus één map omhoog -->
+    <link rel="stylesheet" href="../bewerkingen.css">
+
+    <!-- Base zodat interne links relatief tot /pro/ zijn -->
+    <base href="/juf_zisa_spelletjesmaker/pro/">
+
+    <style>
+  /* Consistente PRO-header */
+  .pro-header {
+    position: fixed; top: 0; left: 0; width: 100%;
+    background-color: #3f7fbf; color: #fff; padding: 8px 12px;
+    z-index: 1000; height: 48px;
+  }
+  .pro-header .back-link {
+    background: #5a9fd4; color:#fff; border:none; padding:6px 10px;
+    border-radius:6px; font-size:14px; font-weight:600; text-decoration:none;
+    cursor:pointer; display:inline-block; white-space:nowrap; float:left;
+  }
+  body { margin-top: 60px; }
+
+  /* (optioneel) vaste handleiding-knop */
+  .download-knop {
+    position: fixed; top: 20px; right: 20px; z-index: 1000;
+    background-color: #e74c3c; color: #fff; padding: 12px 20px;
+    border-radius: 8px; text-decoration: none; font-size: 1.2rem; font-weight: bold;
+    white-space: nowrap; display: inline-block; transition: background-color .2s, transform .2s;
+  }
+  .download-knop:hover { background-color: #c0392b; transform: scale(1.05); }
+  .download-knop::after {
+    content: attr(data-tooltip); position: absolute; top:110%; left:50%; transform:translateX(-50%);
+    background-color: #e74c3c; color:#fff; padding: 8px 10px; font-size:1rem; border-radius:14px;
+    opacity: 0; white-space: normal; width: 220px; text-align: center; pointer-events:none; transition: opacity .2s;
+  }
+  .download-knop:hover::after { opacity: 1; }
+
+  /* Pagina-opmaak */
+  .container { max-width:1200px; margin:0 auto; padding:0 20px; }
+
+  /* (… overige bestaande stijlen uit uw bestand blijven ongewijzigd …) */
+    </style>
+</head>
+<body>
+
+<header class="pro-header">
+  <!-- Terug naar het PRO-keuzemenu -->
+  <a href="./app.html" class="back-link">Keuzemenu</a>
+</header>
+
+<header>
+  <h1>Generator voor Bewerkingen</h1>
+</header>
+
+<div id="main-content">
+  <!-- S P L I T S E N -->
+  <div class="keuzevak">
+    <h2>Splitsen</h2>
+    <div id="splitsMelding" class="melding"></div>
+
+    <div class="control-group" id="numOefeningenSplitsDiv">
+      <label class="group-title" for="numOefeningen_splits">Aantal oefeningen:</label>
+      <select id="numOefeningen_splits">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="30">30</option>
+      </select>
+    </div>
+
+    <div class="control-group" id="splitsStijlDiv">
+      <label class="group-title">Stijl:</label>
+      <label><input type="radio" name="splitsStijl" value="huisje" checked> Huisje</label>
+      <label><input type="radio" name="splitsStijl" value="benen"> Splitsbenen</label>
+    </div>
+
+    <div class="control-group">
+      <label><input type="checkbox" id="groteSplitshuizenCheckbox"> Maak grote splitshuizen</label>
+    </div>
+
+    <div class="control-group">
+      <label class="group-title">Kies de getallen (meerdere mogelijk):</label>
+      <div id="splitsGetalKeuze">
+        <label><input type="checkbox" name="splitsGetal" value="5"> tot 5</label>
+        <label><input type="checkbox" name="splitsGetal" value="6"> tot 6</label>
+        <label><input type="checkbox" name="splitsGetal" value="7"> tot 7</label>
+        <label><input type="checkbox" name="splitsGetal" value="8"> tot 8</label>
+        <label><input type="checkbox" name="splitsGetal" value="9"> tot 9</label>
+        <label><input type="checkbox" name="splitsGetal" value="10" checked> tot 10</label>
+        <label><input type="checkbox" name="splitsGetal" value="20"> tot 20</label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="group-title">Extra opties:</label>
+      <label><input type="checkbox" id="splitsWisselCheckbox"> Wissel links/rechts af</label>
+      <label><input type="checkbox" id="splitsSomCheckbox"> Vraag soms de som (niet voor grote huizen)</label>
+    </div>
+
+    <button id="maakSplitsBtn" class="maak-werkblad-btn">Maak Splits-Werkblad</button>
+  </div>
+
+  <!-- B E W E R K I N G E N (+, -) -->
+  <div class="keuzevak">
+    <h2>Bewerkingen (+, -)</h2>
+    <div id="rekenMelding" class="melding"></div>
+
+    <div class="control-group">
+      <label class="group-title" for="numOefeningen_reken">Aantal oefeningen:</label>
+      <select id="numOefeningen_reken">
+        <option value="20" selected>20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label class="group-title" for="rekenMaxGetal">Oefenen tot:</label>
+      <select id="rekenMaxGetal">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="100" selected>100</option>
+        <option value="1000">1000</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label class="group-title">Type bewerking:</label>
+      <label><input type="radio" name="rekenType" value="optellen" checked> Optellen</label>
+      <label><input type="radio" name="rekenType" value="aftrekken"> Aftrekken</label>
+      <label><input type="radio" name="rekenType" value="beide"> Beide</label>
+    </div>
+
+    <div class="control-group">
+      <label class="group-title">Type sommen (kies minstens één):</label>
+      <label><input type="checkbox" name="somType" value="E+E" checked> E + E</label>
+      <label><input type="checkbox" name="somType" value="T+E"> T + E</label>
+      <label><input type="checkbox" name="somType" value="T+T"> T + T</label>
+      <label><input type="checkbox" name="somType" value="TE+E"> TE + E</label>
+      <label><input type="checkbox" name="somType" value="TE+TE"> TE + TE</label>
+      <label><input type="checkbox" name="somType" value="H+H"> H + H</label>
+      <label><input type="checkbox" name="somType" value="HT+HT"> HT + HT</label>
+      <label><input type="checkbox" name="somType" value="HTE+HTE"> HTE + HTE</label>
+    </div>
+
+    <div class="control-group">
+      <label class="group-title" for="rekenBrug">Brug:</label>
+      <select id="rekenBrug">
+        <option value="zonder">Zonder brug</option>
+        <option value="met">Met brug</option>
+        <option value="beide" selected>Beide</option>
+      </select>
+    </div>
+
+    <button id="maakRekenBtn" class="maak-werkblad-btn">Maak Reken-Werkblad</button>
+  </div>
+
+  <!-- T A F E L S -->
+  <div class="keuzevak">
+    <h2>Maal- en Deeltafels</h2>
+    <div id="tafelMelding" class="melding"></div>
+
+    <div class="control-group">
+      <label class="group-title" for="numOefeningen_tafel">Aantal oefeningen:</label>
+      <select id="numOefeningen_tafel">
+        <option value="20" selected>20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label class="group-title">Type bewerking:</label>
+      <label><input type="radio" name="tafelType" value="maal" checked> Maal</label>
+      <label><input type="radio" name="tafelType" value="deel"> Deel</label>
+      <label><input type="radio" name="tafelType" value="beide"> Beide</label>
+    </div>
+
+    <div class="control-group">
+      <label class="group-title">Kies tafels:</label>
+      <label><input type="checkbox" id="selectAllTafels"> Alles selecteren</label>
+      <div id="tafelKeuze"></div>
+    </div>
+
+    <button id="maakTafelBtn" class="maak-werkblad-btn">Maak Tafel-Werkblad</button>
+  </div>
+</div>
+
+<!-- ===== SCRIPT-ORDE: device-id.js → guard.js → paginacode ===== -->
+
+<!-- 1) Stabiele device-id (localStorage + cookie) -->
+<script src="./device-id.js"></script>
+
+<!-- 2) Centrale PRO-guard (registreert device en verleent/weigert toegang) -->
+<script type="module" src="./guard.js"></script>
+
+<!-- 3) Uw eigen paginacode (pas na de guard laden) -->
+<script src="../bewerkingen_keuze.js"></script>
+
+</body>
+</html>

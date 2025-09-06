@@ -1,0 +1,61 @@
+/* --- NIEUW: Zorgt voor een consistente layout in alle browsers --- */
+* {
+  box-sizing: border-box;
+}
+
+/* Eerdere CSS blijft hetzelfde */
+#textualOutput{width:100%;max-width:800px;min-height:600px;border:2px solid #004080;background-color:white;padding:20px;box-sizing:border-box;overflow-y:auto;text-align:left;font-family:monospace;font-size:20px;line-height:1.8}
+.exercise-line{margin-bottom:10px;white-space:nowrap}
+.exercise-line span{display:inline-block;min-width:40px;text-align:center}
+.hidden-number{text-decoration:underline}
+.control-group #branchLetter{width:auto;padding:8px;border-radius:5px;border:1px solid #aaddff;font-size:1em}
+body{font-family:Arial,sans-serif;background-color:#e0f2f7;text-align:center;padding:20px;margin:0;display:flex;flex-direction:column;align-items:flex-start;min-height:100vh}
+header{width:100%;max-width:1200px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:0 10px;box-sizing:border-box;position:relative}
+h1{color:#004080;font-size:2em;text-align:center;margin:0;flex-grow:1}
+button{font-family:Arial,sans-serif;background-color:#004080;color:white;border:none;padding:12px 18px;font-size:18px;border-radius:8px;cursor:pointer;margin:5px;transition:background-color .2s ease;white-space:nowrap}
+button:hover{background-color:#0056b3}
+#main-content{display:flex;flex-direction:row;align-items:flex-start;width:100%;max-width:1200px;gap:20px;margin-bottom:20px}
+#left-panel{flex-basis:325px;flex-shrink:0;padding:15px;border:1px solid #b3e0ff;border-radius:8px;background-color:#f0faff;display:flex;flex-direction:column;gap:15px;box-sizing:border-box;margin-right:auto;margin-left:0;text-align:left}
+#center-panel{display:flex;flex-direction:column;align-items:center;flex-grow:1;padding:0;box-sizing:border-box;gap:20px}
+#drawingCanvasContainer{display:flex;justify-content:center;align-items:center;padding:0;box-sizing:border-box;background-color:#f8f8f8;border:2px solid #004080}
+#mainCanvas{background-color:white;display:block;margin:0;box-shadow:0 4px 8px rgba(0,0,0,.1)}
+#right-panel-buttons{flex-basis:300px;flex-shrink:0;padding:15px;border:1px solid #b3e0ff;border-radius:8px;background-color:#f0faff;display:flex;flex-direction:column;gap:10px;box-sizing:border-box;margin-left:auto;margin-right:0;align-items:center}
+#right-panel-buttons button{width:100%;margin:0}
+.control-group{display:flex;flex-direction:column;gap:10px;width:100%}
+.tool-setting{display:flex;align-items:center;gap:10px;width:100%}
+.tool-setting label{flex-shrink:0;white-space:nowrap}
+#controls{width:100%;padding:0;border:none;background-color:transparent;display:flex;flex-direction:column;align-items:flex-start;gap:15px}
+#controls label{font-weight:bold;color:#333}
+#controls input[type=number],#controls select{padding:8px;border-radius:5px;border:1px solid #aaddff;font-size:1em}
+#mainCanvas{border:2px solid #004080;background-color:white;display:block;margin:0;box-shadow:0 4px 8px rgba(0,0,0,.1)}
+#outputJson{width:100%;height:150px;font-family:monospace;font-size:14px;margin:0;border:1px solid #aaddff;border-radius:5px;padding:10px;resize:vertical;box-sizing:border-box}
+.control-group h3{color:#004080;font-size:1.3em;margin-top:0;margin-bottom:10px;text-align:center;width:100%}
+@media (max-width:768px){#main-content{flex-direction:column;align-items:center;gap:15px}#left-panel,#center-panel,#right-panel-buttons{flex-basis:auto;width:100%;margin-left:auto;margin-right:auto}#controls,#center-panel{align-items:center;gap:10px}#right-panel-buttons button{width:auto;min-width:150px}}
+#example-image-container{width:100%;border:1px dashed #004080;padding:5px;box-sizing:border-box;margin-bottom:5px}
+#example-image-container img{max-width:100%;height:auto;display:block}
+
+/* STIJLEN VOOR GECENTREERDE WEERGAVE ("TOON PAD") */
+body.template-view-active {
+    align-items: center; /* Centreer de hoofdblokken */
+}
+
+/* Zorgt dat de header het 'anker' wordt voor de absoluut gepositioneerde knop 
+   en centreert de titel automatisch. */
+body.template-view-active header {
+    position: relative; /* VERBETERD: Dit is een stabieler ankerpunt. */
+    justify-content: center; /* VERBETERD: Centreert de h1 perfect. */
+}
+
+/* Maakt de knop los van de layout en plaatst hem linksboven in de header. */
+body.template-view-active header #menuBtn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 100; /* TOEGEVOEGD: Essentieel om de knop klikbaar te maken. */
+}
+
+/* De oude, onstabiele centrering is niet meer nodig en kan verwijderd worden. */
+body.template-view-active h1 {
+    position: static;
+    text-align: center;
+}

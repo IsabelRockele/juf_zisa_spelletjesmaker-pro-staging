@@ -1,0 +1,244 @@
+/* Algemene styling */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+}
+
+.verborgen {
+    display: none !important;
+}
+
+/* --- Hoofdmenu links (Keuzescherm) --- */
+.hoofd-menu {
+    position: fixed;
+    top: 48px; /* Ruimte voor PRO header */
+    left: 0;
+    width: 260px;
+    height: calc(100% - 48px);
+    background: #2c3e50; /* Donkerblauw */
+    color: #ecf0f1;
+    padding: 20px;
+    box-shadow: 3px 0 15px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    text-align: center;
+}
+
+.hoofd-menu h3,
+.hoofd-menu p {
+    color: white;
+    margin-top: 15px;
+}
+
+.hoofd-menu hr {
+    border: none;
+    border-top: 1px solid #4a6572;
+    margin: 20px 0;
+}
+
+.menu-knop {
+    display: block;
+    width: 100%;
+    color: white;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.menu-knop:hover {
+    background-color: #4a6572;
+}
+
+#kies-avi-knop, #kies-getal-knop { background-color: #3498db; }
+#kies-tafel-knop { background-color: #16a085; }
+#kies-reken-knop { background-color: #8e44ad; }
+#import-spel-knop { background-color: #e67e22; }
+
+/* Submenu's en hun knoppen */
+#avi-selectie, #getal-selectie, #avi-start-subkeuze, #avi-start-klankkeuze, #tafel-selectie, #reken-selectie {
+    background-color: #34495e;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.avi-knoppen { display: flex; flex-direction: column; gap: 10px; }
+
+.avi-knop, .getal-knop, .sub-knop {
+    background-color: #5d737e;
+    color: white;
+    text-align: left;
+    padding: 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.avi-knop:hover, .getal-knop:hover, .sub-knop:hover { background-color: #4a6572; }
+.avi-knop.active { background-color: #2ecc71; font-weight: bold; }
+
+/* Klankkiezer, Tafelkiezer etc. (ongewijzigd) */
+#klank-kiezer, #tafel-kiezer { display: grid; grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); gap: 8px; margin: 10px 0; }
+.klank-knop, .tafel-knop-select { background-color: #ecf0f1; color: #333; font-weight: bold; padding: 8px 0; border: 2px solid transparent; border-radius: 5px; cursor: pointer; }
+.klank-knop.selected { background-color: #f1c40f; border-color: #f39c12; }
+.tafel-knop-select.selected { background-color: #1abc9c; border-color: #16a085; color: white; }
+#start-met-klanken-knop, #start-tafel-spel-knop, #start-reken-spel-knop { width: 100%; margin-top: 10px; color: white; font-weight: bold; padding: 10px; border: none; border-radius: 5px; cursor: pointer; }
+#start-met-klanken-knop { background-color: #f39c12; }
+#start-tafel-spel-knop { background-color: #1abc9c; }
+#start-reken-spel-knop { background-color: #9b59b6; }
+#tafel-type-kiezer, .reken-optie-groep { display: flex; justify-content: space-around; padding: 10px 0; flex-wrap: wrap; gap: 10px; }
+#tafel-type-kiezer label, .reken-optie-groep label { color: white; display: flex; align-items: center; gap: 5px; }
+
+/* --- Hoofd Content (Keuzescherm) --- */
+.hoofd-content {
+    margin-left: 300px;
+    padding: 20px;
+}
+#instructie-paneel {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+#actie-paneel {
+    background: #eaf5ff;
+    border: 2px solid #a3cffc;
+    padding: 20px 30px;
+    border-radius: 10px;
+}
+#actie-paneel h3 { margin-top: 0; color: #2980b9; }
+.actie-knop {
+    display: inline-block;
+    padding: 12px 25px;
+    margin: 10px 10px 0 0;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+#start-spel-link { background-color: #27ae60; }
+#maak-kaarten-knop { background-color: #c0392b; }
+#export-spel-knop { background-color: #e67e22; }
+
+/* Tooltip voor Export knop */
+.export-container { display: inline-block; position: relative; }
+.tooltip-trigger {
+    display: inline-block;
+    background: #7f8c8d;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    line-height: 24px;
+    cursor: help;
+    margin-left: 5px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+.tooltip-trigger:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #34495e;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    width: 280px;
+    text-align: left;
+    font-size: 14px;
+    white-space: pre-line;
+    z-index: 10;
+}
+
+/* --- Spel Pagina & Spel Container --- */
+.spel-pagina-body { padding: 20px; }
+.spel-container { max-width: 900px; width: 100%; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); }
+#huidig-niveau-titel { color: #2c3e50; }
+#items-overzicht { padding: 15px; margin-bottom: 30px; border: 2px solid #e0e0e0; border-radius: 10px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+#items-overzicht span { display: inline-block; padding: 6px 12px; background-color: #ecf0f1; border-radius: 5px; font-size: 16px; transition: all 0.4s ease; }
+#items-overzicht span.is-geweest { background-color: #bdc3c7; color: #7f8c8d; text-decoration: line-through; transform: scale(0.95); }
+#schuif-machine { position: relative; width: 100%; height: 120px; margin: 20px auto; border: 4px solid #34495e; border-radius: 10px; background: linear-gradient(180deg, #abb7b7, #f0f2f2); box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2); overflow: hidden; }
+#pijl-indicator { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 40px; color: #e74c3c; z-index: 10; text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2); }
+#ballen-band { position: absolute; top: 0; left: 0; height: 100%; display: flex; align-items: center; transition: transform 4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.bal { flex-shrink: 0; width: 100px; height: 100px; border-radius: 50%; margin: 0 10px; display: flex; text-align: center; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 16px; box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.25), 0 2px 5px rgba(0, 0, 0, 0.2); text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); }
+
+/* --- AANGEPASTE KNOPPEN CONTAINER --- */
+.knoppen-container {
+    margin-top: 30px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+#start-schuiven-knop { background-color: #2ecc71; color: white; padding: 12px 25px; font-size: 18px; border: none; border-radius: 8px; cursor: pointer; }
+#start-schuiven-knop:hover { background-color: #27ae60; }
+#start-schuiven-knop:disabled { background-color: #95a5a6; cursor: not-allowed; }
+
+/* --- NIEUWE SLUITEN KNOP --- */
+.sluiten-knop {
+    background-color: #7f8c8d; /* Grijze kleur */
+    color: white;
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none; /* Voor de <a> tag */
+    display: inline-block;
+}
+.sluiten-knop:hover {
+    background-color: #95a5a6;
+}
+
+/* --- MODAL --- */
+#modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+#custom-modal { background: white; padding: 25px; border-radius: 10px; width: 90%; max-width: 500px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-align: left; }
+#custom-modal h3 { margin-top: 0; color: #2980b9; }
+#modal-body { display: flex; flex-direction: column; gap: 15px; margin: 20px 0; }
+.modal-optie label { font-weight: bold; display: block; margin-bottom: 5px; }
+#grid-opties-wrapper { display: flex; flex-direction: column; gap: 10px; }
+#grid-opties-wrapper label { font-weight: normal; }
+#grid-opties-wrapper small { display: block; font-size: 12px; opacity: 0.8; margin-left: 20px; }
+#modal-footer { margin-top: 20px; }
+.modal-actie-knop { background-color: #27ae60; color: white; padding: 10px 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+#modal-annuleren-knop { background-color: #bdc3c7; color: #333; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; float: right; }
+
+/* Herstel Melding */
+.herstel-melding {
+    position: sticky;
+    top: 48px; /* Onder PRO header */
+    left: 0;
+    width: 100%;
+    background-color: #f1c40f;
+    color: #333;
+    padding: 15px 0;
+    text-align: center;
+    z-index: 999; /* Net onder header */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    font-weight: bold;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.herstel-melding button { padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: white; }
+#herstel-ja { background-color: #27ae60; }
+#herstel-nee { background-color: #c0392b; }

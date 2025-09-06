@@ -1,0 +1,209 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f2f7;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+header {
+    width: 100%;
+    max-width: 1600px; /* Verhoogd voor meer ruimte */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+h1 {
+    color: #004080;
+    font-size: 2em;
+    text-align: center;
+    margin: 0 auto;
+}
+
+button {
+    font-family: Arial, sans-serif;
+    background-color: #004080;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#main-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1600px; /* Verhoogd voor meer ruimte */
+    gap: 0; /* Verwijderd, we gebruiken marges */
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#left-panel {
+    flex-basis: 300px;
+    flex-shrink: 0;
+    padding: 10px;
+    border: 1px solid #b3e0ff;
+    border-radius: 8px;
+    background-color: #f0faff;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+#center-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    max-width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    gap: 20px;
+}
+
+#right-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#right-panel-buttons {
+    flex-basis: 200px;
+    flex-shrink: 0;
+    padding: 10px;
+    border: 1px solid #b3e0ff;
+    border-radius: 8px;
+    background-color: #f0faff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: 0;
+    align-items: center;
+}
+
+#right-panel-buttons button {
+    width: 100%;
+    margin: 0;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+#controls {
+    width: 100%;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+#controls label {
+    font-weight: bold;
+    color: #333;
+}
+
+#controls select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #aaddff;
+    font-size: 1em;
+    width: 100%;
+}
+
+#moeilijkheidKeuze, #extrasKeuze {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#mainCanvas {
+    border: 2px solid #004080;
+    background-color: white;
+    display: block;
+    margin: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    width: 80%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    #main-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    #left-panel,
+    #center-panel,
+    #right-panel-buttons {
+        flex-basis: auto;
+        width: 95%;
+        margin: 0;
+    }
+    header h1 {
+        margin: 0;
+        text-align: center;
+    }
+}
+
+#canvas-wrapper {
+    width: 100%;
+    max-width: 800px;
+    overflow-x: auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#mainCanvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: unset;
+    border: 2px solid #004080;
+    background-color: white;
+    margin: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Toegevoegde regels voor marges */
+#left-panel {
+    margin-right: 20px;
+}
+
+#center-panel {
+    margin-right: 10px; /* Kleinere marge om knoppen dichterbij te brengen */
+}

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Zisa PRO – Wachtlijst (35 €)</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    body { background:#f7faf9; margin:0; display:grid; place-items:center; min-height:100dvh; }
+    .card { width:min(680px,92vw); background:#fff; border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 10px 24px rgba(0,0,0,.06); padding:24px 20px; }
+    h1 { margin:0 0 8px; font-size:1.4rem; }
+    p.lead { margin:0 0 14px; color:#334155; }
+    label { display:block; margin:.6rem 0 .3rem; }
+    input[type=email]{ width:100%; padding:.7rem .8rem; border:1px solid #cbd5e1; border-radius:12px; font-size:1rem; }
+    button{ margin-top:12px; padding:.75rem 1rem; border:0; border-radius:12px; background:#111827; color:#fff; font-weight:600; cursor:pointer; }
+    button[disabled]{ opacity:.6; cursor:not-allowed; }
+    .note{ background:#f1f5f9; border:1px solid #e2e8f0; border-radius:12px; padding:10px 12px; font-size:.95rem; color:#334155; }
+    #err{ color:#b91c1c; margin-top:8px; white-space:pre-wrap; }
+    #ok{ color:#065f46; margin-top:8px; }
+    .foot{ margin-top:12px; font-size:.9rem; color:#475569; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Zisa PRO – Wachtlijst</h1>
+    <p class="lead">Als uw e-mailadres op de wachtlijst staat, betaalt u <strong>€35</strong>. Anders is de prijs <strong>€40</strong>.</p>
+    <div class="note">
+      <strong>Let op:</strong> de wachtlijstkorting is <strong>7 dagen geldig</strong> vanaf uw uitnodiging. Niet (meer) op de wachtlijst? Dan rekent de kassa automatisch €40 aan.
+    </div>
+
+    <label for="email">E-mailadres</label>
+    <input id="email" type="email" placeholder="naam@school.be" autocomplete="email" required />
+
+    <button id="buy">Ga naar veilige betaling</button>
+    <div id="err" role="alert" aria-live="polite"></div>
+    <div id="ok"></div>
+
+    <p class="foot">Na betaling krijgt u een e-mail met een wachtwoordlink en uw factuur in bijlage (PDF).</p>
+  </main>
+
+  <script>
+    const ENDPOINT = "https://europe-west1-zisa-spelletjesmaker-pro.cloudfunctions.net/createPaymentWaitlist";
+    const $ = (id) => document.getElementById(id);
+    const emailEl = $("email");
+    const buyBtn = $("buy");
+    const errEl = $("err");
+    const okEl = $("ok");
+
+    function validEmail(s) { return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s); }
+
+    buyBtn.addEventListener("click", async () => {
+      errEl.textContent = ""; okEl.textContent = "";
+      const email = (emailEl.value || "").trim().toLowerCase();
+      if (!validEmail(email)) { errEl.textContent = "Geef een geldig e-mailadres in."; emailEl.focus(); return; }
+
+      buyBtn.disabled = true; buyBtn.textContent = "Bezig…";
+      try {
+        const r = await fetch(ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email })
+        });
+        if (!r.ok) {
+          const t = await r.text();
+          throw new Error(t || ("HTTP " + r.status));
+        }
+        const data = await r.json();
+        if (!data.checkoutUrl) throw new Error("Kon geen betaal-URL ontvangen.");
+        okEl.textContent = "Doorschakelen naar veilige betaalpagina…";
+        location.href = data.checkoutUrl;
+      } catch (e) {
+        console.error(e);
+        errEl.textContent = "Er ging iets mis. Probeer later opnieuw of mail naar zebrapost@jufzisa.be.";
+      } finally {
+        buyBtn.disabled = false; buyBtn.textContent = "Ga naar veilige betaling";
+      }
+    });
+  </script>
+</body>
+</html>
+
+

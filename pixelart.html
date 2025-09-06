@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Pixel Art Generator</title>
+    <link rel="stylesheet" href="pixelart.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <header>
+        <button id="menuBtn" onclick="window.location.href='index.html'">Keuzemenu</button>
+        <h1>Pixel Art Generator</h1>
+    </header>
+
+    <div id="main-content">
+        <div id="left-panel">
+            <div id="controls">
+
+                <div class="control-group">
+                    <h3>Type</h3>
+                    <label><input type="radio" name="mode" value="bouwkaart" checked> Bouwkaart (Magneetbord)</label>
+                    <label><input type="radio" name="mode" value="werkblad"> Werkblad (Kleuren)</label>
+                </div>
+
+                <div id="werkbladTools">
+                    <div class="control-group">
+                        <h3>Tekengereedschap</h3>
+                        <div id="colorPalette">
+                        </div>
+                        <div class="tool-setting" style="margin-top: 10px;">
+                            <button id="eyeToolBtn" title="Oogje plaatsen/verwijderen">👁️ Oogje</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>Raster Grootte</h3>
+                    <div class="tool-setting">
+                        <label for="gridWidth" style="flex-basis: 80px;">Kolommen:</label>
+                        <input type="number" id="gridWidth" value="20" min="5" max="50">
+                    </div>
+                    <div class="tool-setting" style="margin-top: 5px;">
+                        <label for="gridHeight" style="flex-basis: 80px;">Rijen:</label>
+                        <input type="number" id="gridHeight" value="20" min="5" max="50">
+                    </div>
+                    <button id="updateGridSizeBtn" style="width: 100%; margin-top: 10px;">Update Raster</button>
+                </div>
+
+                <div class="control-group">
+                     <h3>Acties</h3>
+                    <div class="tool-setting">
+                        <button id="undoBtn">Ongedaan maken</button>
+                        <button id="redoBtn">Opnieuw</button>
+                    </div>
+                     <div class="tool-setting" style="margin-top: 10px;">
+                        <button id="clearDrawingBtn">Wis Tekening</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>Werkblad</h3>
+                     <div id="worksheetTypeControls">
+                        <label><input type="radio" name="worksheetType" value="gekleurd"> Gekleurd Werkblad</label>
+                        <label><input type="radio" name="worksheetType" value="natekenen" checked> Natekenen Werkblad</label>
+                    </div>
+                    <button id="showPreviewBtn" style="margin-top:10px;">Toon Werkblad Voorbeeld</button>
+                    <div id="meldingContainer" style="color: #d9534f; margin-top: 15px; font-weight: bold; min-height: 20px;"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="center-panel">
+            <div id="drawingCanvasContainer">
+                <canvas id="drawingCanvas"></canvas>
+            </div>
+        </div>
+
+        <div id="right-panel-buttons">
+            <div class="control-group">
+                <h3>Download</h3>
+                <button id="downloadPngBtn">Download Tekening als PNG</button>
+                <button id="downloadPdfBtn">Download Tekening als PDF</button>
+            </div>
+            <div class="control-group">
+                <h3>Tekening Beheren</h3>
+                <button id="saveDrawingBtn">Tekening Opslaan</button>
+                <button id="loadDrawingBtn">Tekening Laden</button>
+                <input type="file" id="loadDrawingInput" accept=".json" style="display: none;">
+            </div>
+        </div>
+    </div>
+    
+    <div id="werkblad-modal">
+        <div id="werkblad-content">
+            <header id="werkblad-header">
+                <h2 id="werkblad-title">Werkblad Voorbeeld</h2>
+                <button id="sluit-werkblad-btn">&times;</button>
+            </header>
+            <canvas id="werkblad-canvas"></canvas>
+            <div id="werkblad-knoppen">
+                <button id="werkblad-download-pdf">Download als PDF</button>
+                <button id="werkblad-download-png">Download als PNG</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="pixelart.js"></script>
+</body>
+</html>

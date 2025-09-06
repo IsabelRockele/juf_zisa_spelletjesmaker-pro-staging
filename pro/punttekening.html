@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Punttekening Bewerken & Bekijken</title>
+  <meta name="google" content="notranslate">
+  <link rel="stylesheet" href="../punttekening.css">
+  <!-- Alle relatieve paden resolven t.o.v. /juf_zisa_spelletjesmaker/pro/ -->
+  <base href="/juf_zisa_spelletjesmaker/pro/">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    .pro-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #3f7fbf;
+        padding: 8px 12px;
+        color: #fff;
+        z-index: 1000;
+        height: 48px;
+    }
+    .pro-header .back-link{
+        background: #5a9fd4;
+        color: #fff;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        display: inline-block;
+        white-space: nowrap;
+        /* float:left; verwijderd i.v.m. console-waarschuwing */
+    }
+    body { margin-top: 60px; }
+  </style>
+</head>
+<body>
+<header class="pro-header">
+    <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+</header>
+
+<header>
+    <h1>Punttekening Bewerken & Bekijken</h1>
+</header>
+
+<div id="main-content">
+    <div id="left-panel">
+        <div id="controls">
+            <div class="control-group">
+                <label for="fileInput">Afbeelding uploaden:</label>
+                <input type="file" id="fileInput" accept="image/*">
+                <button id="uploadImageBtn">Upload</button>
+            </div>
+
+            <div class="control-group">
+                <label for="maxAantal">Max punten:</label>
+                <input type="number" id="maxAantal" value="20" min="1" max="200">
+                <button id="undoBtn">1 punt/actie terug</button>
+                <button id="clearAllBtn">Alles wissen</button>
+                <button id="opnieuwBtn">Opnieuw</button>
+            </div>
+
+            <div class="control-group">
+                <h3>Teken Tools</h3>
+                <div id="tools-icons">
+                    <label>
+                        <input type="radio" name="tool" value="bekijken" id="toolBekijken" checked>
+                        <img src="icons/icon_plaats_punten.png" alt="Plaats punten" title="Klik om punten te plaatsen." class="tool-icon">
+                    </label>
+                    <label>
+                        <input type="radio" name="tool" value="vrijeLijn" id="toolVrijeLijn">
+                        <img src="icons/icon_vrije_lijn.png" alt="Vrije lijn" title="Teken een vrije lijn." class="tool-icon">
+                    </label>
+                    <label>
+                        <input type="radio" name="tool" value="rechteLijn" id="toolRechteLijn">
+                        <img src="icons/icon_rechte_lijn.png" alt="Rechte lijn" title="Teken een rechte lijn." class="tool-icon">
+                    </label>
+                    <label>
+                        <input type="radio" name="tool" value="cirkel" id="toolCirkel">
+                        <img src="icons/icon_cirkel.png" alt="Cirkel" title="Teken een cirkel." class="tool-icon">
+                    </label>
+                    <label>
+                        <input type="radio" name="tool" value="gummen" id="toolGummen">
+                        <img src="icons/icon_gum.png" alt="Gummen" title="Gum getekende lijnen." class="tool-icon">
+                    </label>
+                </div>
+                
+                <div class="tool-setting">
+                    <label for="dikte">Dikte (potlood/gum):</label>
+                    <input type="number" id="dikte" value="5" min="1" max="50">
+                </div>
+                <div class="tool-setting">
+                    <label for="gumvorm">Gumvorm:</label>
+                    <select id="gumvorm">
+                        <option value="circle">Rond</option>
+                        <option value="square">Vierkant</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="center-panel">
+        <div id="right-panel">
+            <canvas id="mainCanvas" width="512" height="768"></canvas>
+        </div>
+        <textarea id="outputJson" readonly placeholder="Coördinaten van de punten"></textarea>
+    </div>
+
+    <div id="right-panel-buttons">
+        <div class="control-group">
+            <button id="downloadEditedImageBtn">Download Afbeelding (PNG)</button>
+            <button id="showWorksheetBtn">Download Werkblad (PDF)</button>
+        </div>
+    </div>
+</div>
+
+<!-- Uniforme device- en guard-laag: ALTIJD in deze volgorde -->
+<script src="./device-id.js"></script>
+<script type="module" src="./guard.js"></script>
+
+<!-- Projectscript (buiten /pro/) - pas NA de guard laden -->
+<script src="../punttekening.js"></script>
+</body>
+</html>
+
+

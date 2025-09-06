@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Koop Zisa PRO</title>
+  <meta http-equiv="Cache-Control" content="no-store" />
+  <style>
+    :root { --bg:#f7faf9; --card:#fff; --txt:#0f172a; --muted:#475569; --btn:#111827; }
+    body{font-family:system-ui,Segoe UI,Arial,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100dvh;margin:0;background:var(--bg)}
+    .card{max-width:720px;width:100%;background:var(--card);border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 10px 24px rgba(0,0,0,.06);padding:24px}
+    h1{margin:.2rem 0 1rem 0;color:var(--txt);font-size:2rem}
+    p{color:var(--muted);margin:.4rem 0 1rem}
+    label{font-weight:600;display:block;margin:.6rem 0 .25rem;color:var(--txt)}
+    input[type=email]{width:100%;padding:.8rem;border:1px solid #d1d5db;border-radius:.6rem;font-size:1rem}
+    .row{display:flex;gap:.8rem;align-items:center;margin-top:1rem;flex-wrap:wrap}
+    button{padding:.8rem 1.1rem;border-radius:.6rem;border:1px solid #0f1729;background:var(--btn);color:#fff;cursor:pointer;font-weight:700}
+    button[disabled]{opacity:.65;cursor:not-allowed}
+    .muted{color:var(--muted);text-decoration:none}
+    .price{display:inline-block;background:#e0f2fe;color:#075985;border-radius:.6rem;padding:.25rem .6rem;font-weight:700}
+    .err{color:#b91c1c;margin-top:.6rem;min-height:1.2em}
+    /* melding bij verlopen/ontbrekende licentie */
+    .alert{
+      background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;
+      padding:12px;border-radius:10px;margin-bottom:12px;font-size:.95rem
+    }
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <h1>Zisa PRO</h1>
+    <p><span class="price">Jaarabonnement</span></p>
+    <p>Vul uw e-mailadres in. Na de betaling wordt uw PRO-licentie automatisch geactiveerd en ontvangt u de mail “Wachtwoord instellen”. (Het kan enkele minuten duren. Kijk ook uw spammap na.)</p>
+
+    <!-- NIEUW: melding bij verlopen/ontbrekende licentie -->
+    <div id="renewAlert" class="alert" hidden></div>
+
+    <label for="email">E-mail voor uw licentie</label>
+    <input id="email" type="email" placeholder="naam@school.be" autocomplete="email" required />
+
+    <div class="row">
+      <button id="buyBtn">Verder naar betaling</button>
+      <a class="muted" href="./">Annuleren</a>
+    </div>
+    <div id="msg" class="err" role="alert" aria-live="polite"></div>
+  </main>
+
+  <script>
+    // Toon nette melding op basis van ?reason=…
+    (function(){
+      var p = new URLSearchParams(location.search);
+      var r = (p.get("reason") || "").toLowerCase();
+      var box = document.getElementById("renewAlert");
+      if (!box) return;
+      var msgs = {
+        expired: "<strong>Uw PRO-licentie is verlopen.</strong> Verleng hieronder om verder te gebruiken.",
+        no_license: "<strong>Geen geldige PRO-licentie gevonden.</strong> Koop hieronder uw jaarlicentie om toegang te krijgen.",
+        no_access: "<strong>Er is geen toegang.</strong> Koop of verleng uw licentie om verder te gaan."
+      };
+      if (msgs[r]) { box.innerHTML = msgs[r]; box.hidden = false; }
+    })();
+
+    const ENDPOINTS = [
+      "https://europe-west1-zisa-spelletjesmaker-pro.cloudfunctions.net/createPaymentKoop",
+      // fallback alias
+      "https://europe-west1-zisa-spelletjesmaker-pro.cloudfunctions.net/createPayment"
+    ];
+
+    const $ = (id)=>document.getElementById(id);
+    const btn = $("buyBtn"), msg = $("msg"), emailEl = $("email");
+
+    function validEmail(s){ return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s); }
+
+    emailEl.addEventListener("keydown", (e) => { if (e.key === "Enter") btn.click(); });
+
+    btn.addEventListener("click", async () => {
+      msg.textContent = "";
+      const email = (emailEl.value || "").trim().toLowerCase();
+      if (!validEmail(email)) { msg.textContent = "Geef een geldig e-mailadres in."; emailEl.focus(); return; }
+
+      btn.disabled = true;
+      try {
+        let data = null, lastErr = null;
+        for (const url of ENDPOINTS) {
+          try {
+            const r = await fetch(url, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email })
+            });
+            if (!r.ok) { lastErr = await r.text(); continue; }
+            data = await r.json();
+            break;
+          } catch (e) { lastErr = e?.message || String(e); }
+        }
+        if (data && data.checkoutUrl) {
+          location.assign(data.checkoutUrl);
+        } else {
+          msg.textContent = "Kon geen betaal-URL ontvangen. Probeer later opnieuw.";
+          if (lastErr) console.error(lastErr);
+        }
+      } catch (e) {
+        console.error(e);
+        msg.textContent = "Er ging iets mis. Probeer later opnieuw.";
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
+

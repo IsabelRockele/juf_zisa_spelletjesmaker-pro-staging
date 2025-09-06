@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <title>Juf Zisa's spelletjesmaker (PRO)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-store" />
+  <script>
+    const API_BASE = "https://api-xc54winygq-ew.a.run.app";
+
+    async function guard() {
+      try {
+        const t = localStorage.getItem("zisa_token");
+        if (!t) { window.location.replace("../login.html"); return; }
+        const r = await fetch(`${API_BASE}/auth/me`, {
+          method: "GET",
+          credentials: "include",
+          headers: { "Authorization": `Bearer ${t}` }
+        });
+        const d = await r.json();
+        if (!d.ok) { window.location.replace("../login.html"); return; }
+        document.documentElement.style.visibility = "visible";
+      } catch {
+        window.location.replace("../login.html");
+      }
+    }
+    document.documentElement.style.visibility = "hidden";
+    guard();
+  </script>
+  <link rel="stylesheet" href="../keuze.css"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../start_afbeeldingen/Zisa_spelgenerator-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="../start_afbeeldingen/Zisa_spelgenerator-192.png">
+  <link rel="apple-touch-icon" href="../start_afbeeldingen/Zisa_spelgenerator-192.png">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#ffcf56">
+  <style>
+    .logout {position:fixed; right:12px; top:12px; background:#f9b600; color:#000; border:none; padding:.45rem .7rem; border-radius:.5rem; cursor:pointer; font-weight:600;}
+    .otp-panel {background:#f5f5f5; padding:1rem; margin:1rem 0; border-radius:.5rem;}
+    .otp-panel input {margin:.2rem 0; padding:.3rem;}
+    .otp-panel button {margin:.2rem .2rem .2rem 0; padding:.4rem .6rem;}
+    pre {background:#fff; padding:.5rem; border-radius:.3rem; overflow:auto;}
+  </style>
+</head>
+<body>
+<button class="logout" onclick="doLogout()">Uitloggen</button>
+<div class="container">
+  <div class="header-container">
+    <img src="../start_afbeeldingen/zisa.png" alt="Zisa Spelgenerator Logo" class="logo">
+    <h1>Juf Zisa's spelletjesmaker</h1>
+  </div>
+
+  <!-- Extra paneel voor OTP-login testen -->
+  <div class="otp-panel">
+    <h2>OTP testpaneel</h2>
+    <label>UID: <input id="uid" value="isabel-admin"></label>
+    <button onclick="otpRequest()">Code aanvragen</button><br>
+    <input id="code" placeholder="6-cijferige code">
+    <button onclick="otpVerify()">Verifiëren</button>
+    <button onclick="otpMe()">/auth/me</button>
+    <button onclick="doLogout()">Uitloggen</button>
+    <pre id="otpOut">Resultaat komt hier...</pre>
+  </div>
+
+  <!-- Hier blijft uw bestaande accordion en knoppen -->
+  <!-- ... rest van uw inhoud blijft ongewijzigd ... -->
+</div>
+<script>
+async function otpRequest(){
+  const uid=document.getElementById('uid').value.trim();
+  const r=await fetch(`${API_BASE}/otp/request`,{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({uid})});
+  document.getElementById('otpOut').textContent=JSON.stringify(await r.json(),null,2);
+}
+async function otpVerify(){
+  const uid=document.getElementById('uid').value.trim();
+  const code=document.getElementById('code').value.trim();
+  const r=await fetch(`${API_BASE}/otp/verify`,{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({uid,code})});
+  const d=await r.json();
+  if(d.ok&&d.token)localStorage.setItem('zisa_token',d.token);
+  document.getElementById('otpOut').textContent=JSON.stringify(d,null,2);
+}
+async function otpMe(){
+  const r=await fetch(`${API_BASE}/auth/me`,{credentials:'include',headers:{'Authorization':`Bearer ${localStorage.getItem('zisa_token')||''}`}});
+  document.getElementById('otpOut').textContent=JSON.stringify(await r.json(),null,2);
+}
+function doLogout(){
+  const t=localStorage.getItem("zisa_token");
+  localStorage.removeItem("zisa_token");
+  fetch(`${API_BASE}/auth/logout`,{method:'POST',credentials:'include',headers:t?{"Authorization":`Bearer ${t}`}:{}}).finally(()=>window.location.replace("../login.html"));
+}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Klaslokaal Plattegrond Generator</title>
+    <link rel="stylesheet" href="plattegrond.css"/>
+</head>
+<body>
+    <a href="index.html" class="keuzemenu-knop">Keuzemenu</a>
+    <h1>Klaslokaal Plattegrond Generator</h1>
+
+    <div id="hoofd-werkbalk" class="werkbalk">
+        <button id="nieuwKnop" class="btn btn-groen">Nieuwe Tekening</button>
+        <button id="importeerJsonKnop" class="btn btn-groen">Importeer</button>
+        <button id="exporteerJsonKnop" class="btn btn-groen">Exporteer</button>
+        <div class="separator"></div>
+        <button id="formaatWisselKnop" title="Wissel tussen staand en liggend formaat">Wissel Formaat</button>
+        <div class="separator"></div>
+        <button id="bouwModusKnop" class="btn btn-blauw">Muren Tekenen</button>
+        <button id="meubelModusKnop" class="btn btn-blauw actief">Meubels Plaatsen</button>
+        <button id="namenModusKnop" class="btn btn-blauw">Namen Toevoegen</button>
+        <button id="legendeModusKnop" class="btn btn-blauw">Legende Kleuren</button>
+        <button id="wisselModusKnop" class="btn btn-blauw">Plaatsen Wisselen</button>
+        <div class="separator"></div>
+        <button id="undoKnop" title="Ctrl+Z">Ongedaan Maken</button>
+        <button id="redoKnop" title="Ctrl+Y">Opnieuw</button>
+        <button id="dupliceerKnop" class="btn btn-oranje" title="Ctrl+D">Dupliceren</button>
+        <button id="verwijderKnop" class="btn btn-rood-outline" title="Del">Verwijder</button>
+
+        <label><input type="checkbox" id="namenTonenToggle" checked/> Namen Tonen</label>
+
+        <div class="flex-break"></div>
+
+        <button id="downloadPdfPlattegrondKnop" class="btn btn-rood">PDF enkel Plattegrond</button>
+        <button id="downloadPdfNamenKnop" class="btn btn-rood">PDF met Namen</button>
+        <button id="downloadPdfLegendeKnop" class="btn btn-rood">PDF met Legende</button>
+    </div>
+
+    <div id="bouw-werkbalk" class="werkbalk werkbalk-context verborgen">
+        <strong>Bouwmodus:</strong>
+        <button id="plaatsKlasKnop">Rechthoekige Klas</button>
+        <button id="tekenMuurKnop">Muur per Muur</button>
+        <div class="separator"></div>
+        <button id="plaatsDeurKnop">Deur</button>
+        <button id="plaatsRaamKnop">Raam</button>
+        <button id="plaatsGomKnop">Gom</button>
+        <button id="plaatsPaalKnop">Steunpaal</button>
+        <label><input type="checkbox" id="rasterToggle"/> Raster Tonen</label>
+    </div>
+
+    <div id="meubel-werkbalk" class="werkbalk werkbalk-context">
+        <strong>Meubels:</strong>
+        <button data-type="schoolbank">Schoolbank (PNG)</button>
+        <button data-type="bureau">Bureau (PNG)</button>
+        <button data-type="kast">Kast (PNG)</button>
+        <button data-type="wastafel">Wastafel (PNG)</button>
+        <div class="separator"></div>
+        <button data-type="leerlingBureau">Leerlingbureau</button>
+        <button data-type="tafel">Tafel</button>
+        <button data-type="kring">Kring</button>
+        <button data-type="schoolbord">Schoolbord</button>
+        <button data-type="schoolbordFlappen">Bord (met flappen)</button>
+    </div>
+
+    <div id="namen-werkbalk" class="werkbalk verborgen">
+        <strong>Namenmodus:</strong>
+        <input type="text" id="naamInput" placeholder="Typ naam..."/>
+        <button id="naamToevoegenKnop">Naam Toevoegen aan Selectie</button>
+    </div>
+
+    <div class="pagina-container">
+        <div id="namen-wachtlijst-container" class="verborgen">
+            <h3>Wachtlijst</h3>
+            <div id="namen-lijst"></div>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas" width="595" height="842"></canvas>
+        </div>
+
+        <div id="legende-weergave-wrapper" class="verborgen">
+            <h3>Legende</h3>
+            <div id="legende-weergave-container"></div>
+        </div>
+    </div>
+
+    <div id="legende-container" class="verborgen">
+        <h2>Legende Kleuren</h2>
+        <div class="legende-stap">
+            <span class="stap-nummer">1</span><strong>Kies een categorie:</strong>
+            <div id="legende-categorieen">
+                <button data-type="schoolbank">Schoolbank</button>
+                <button data-type="bureau">Bureau</button>
+                <button data-type="kast">Kast</button>
+                <button data-type="wastafel">Wastafel</button>
+                <button data-type="leerlingBureau">Leerlingbureau</button>
+                <button data-type="tafel">Tafel</button>
+                <button data-type="kring">Kring</button>
+                <button data-type="schoolbord">Schoolbord</button>
+                <button data-type="muur">Muur</button>
+                <button data-type="deur">Deur</button>
+                </div>
+        </div>
+        <div class="legende-stap">
+            <span class="stap-nummer">2</span><strong>Kies een kleur:</strong>
+            <div id="kleurenpalet">
+                <div class="kleur-staal actief" title="Geel" style="background-color:#FFEB3B" data-kleur="#FFEB3B"></div>
+                <div class="kleur-staal" title="Rood" style="background-color:#F44336" data-kleur="#F44336"></div>
+                <div class="kleur-staal" title="Lichtgroen" style="background-color:#8BC34A" data-kleur="#8BC34A"></div>
+                <div class="kleur-staal" title="Donkergroen" style="background-color:#4CAF50" data-kleur="#4CAF50"></div>
+                <div class="kleur-staal" title="Lichtblauw" style="background-color:#03A9F4" data-kleur="#03A9F4"></div>
+                <div class="kleur-staal" title="Donkerblauw" style="background-color:#3F51B5" data-kleur="#3F51B5"></div>
+                <div class="kleur-staal" title="Bruin" style="background-color:#795548" data-kleur="#795548"></div>
+                <div class="kleur-staal" title="Oranje" style="background-color:#FF9800" data-kleur="#FF9800"></div>
+                <div class="kleur-staal" title="Paars" style="background-color:#9C27B0" data-kleur="#9C27B0"></div>
+            </div>
+        </div>
+        <div class="legende-stap">
+            <span class="stap-nummer">3</span><strong>Klik op objecten in de plattegrond om ze te kleuren.</strong>
+        </div>
+    </div>
+
+    <input type="file" id="json-file-input" accept=".json" style="display:none"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="plattegrond.js"></script>
+</body>
+</html>
+

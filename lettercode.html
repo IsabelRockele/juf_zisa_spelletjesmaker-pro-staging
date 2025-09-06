@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8"/>
+<title>Lettercode Puzzel Generator</title>
+<link href="lettercode.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header>
+<button id="menuBtn" onclick="window.location.href='index.html'">Keuzemenu</button>
+<h1>Lettercode Puzzel Generator</h1>
+</header>
+<div id="main-content">
+<div id="left-panel">
+<div id="controls">
+<div class="control-group">
+<label for="gecodeerdeZinInput">Zin voor de geheime boodschap:</label>
+<textarea id="gecodeerdeZinInput" rows="3" placeholder="Typ hier de zin waarvan letters genummerd worden"></textarea>
+<div id="zinMelding" style="font-size: 0.9em; color: #555; margin-top: 5px;"></div>
+</div>
+
+<div class="words-and-feedback-group">
+    <div class="control-group words-input-area">
+        <label for="bronWoordenInput">Woorden om te husselen (één per regel):</label>
+        <textarea id="bronWoordenInput" rows="10" placeholder="Typ hier de woorden die je wilt husselen (min. 5, max. 20)"></textarea>
+        <div id="woordAantalMelding" style="font-size: 0.9em; color: #555; margin-top: 5px;"></div>
+    </div>
+    <div id="meldingContainer" class="feedback-messages" style="color: #004080; font-weight: bold; min-height: 80px;">
+        </div>
+</div>
+
+<div id="woordFeedbackContainer" style="margin-top: 15px; border-top: 1px dashed #b3e0ff; padding-top: 15px;">
+    <h3>Gebruikte letters per woord:</h3>
+    <ul id="woordFeedbackList">
+        </ul>
+</div>
+
+<div class="control-group button-group" style="margin-top: 20px;">
+    <button id="regenereerBtn">Opnieuw Genereren</button>
+    <button id="downloadPngBtn">Download als PNG</button>
+    <button id="downloadPdfBtn">Download als PDF</button>
+</div>
+
+</div>
+</div>
+<div id="center-panel">
+<div id="puzzelOutput">
+    </div>
+</div>
+<div id="right-panel-buttons" style="display: none;">
+</div>
+</div>
+<script src="lettercode.js"></script>
+</body>
+</html>

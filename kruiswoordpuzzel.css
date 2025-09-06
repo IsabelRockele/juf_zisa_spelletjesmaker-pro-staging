@@ -1,0 +1,410 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f2f7;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+header {
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    position: relative;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    color: #004080;
+    font-size: 2em;
+    margin: 0;
+}
+
+.header-knoppen {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+button {
+    font-family: Arial, sans-serif;
+    background-color: #004080;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#main-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1200px;
+    gap: 20px;
+    margin: 0 auto 20px auto;
+}
+
+#left-panel {
+    flex-basis: 380px;
+    flex-shrink: 0;
+    padding: 15px;
+    border: 1px solid #b3e0ff;
+    border-radius: 8px;
+    background-color: #f0faff;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+#center-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    gap: 20px;
+    min-width: 400px;
+    max-width: 600px;
+}
+
+#right-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#mainCanvas {
+    border: 2px solid #004080;
+    background-color: white;
+    display: block;
+    margin: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#clues-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.clue-box {
+    background-color: #f0faff;
+    border: 1px solid #b3e0ff;
+    border-radius: 8px;
+    padding: 15px;
+    box-sizing: border-box;
+    text-align: left;
+    flex-basis: 48%;
+}
+
+.clue-box h2 {
+    color: #004080;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+}
+
+.clue-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.clue-box li {
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+#right-panel-buttons {
+    flex-basis: 200px;
+    flex-shrink: 0;
+    padding: 15px;
+    border: 1px solid #b3e0ff;
+    border-radius: 8px;
+    background-color: #f0faff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+#right-panel-buttons button {
+    width: 100%;
+    margin: 0;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+#controls label {
+    font-weight: bold;
+    color: #333;
+}
+
+#controls textarea, #klassiek-omschrijving-invoer input {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #aaddff;
+    font-size: 1em;
+    width: calc(100% - 16px);
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+textarea::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 15px 0;
+}
+
+/* Responsive aanpassingen */
+@media (max-width: 992px) {
+    #main-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    #left-panel, #center-panel, #right-panel-buttons {
+        width: 100%;
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 768px) {
+    #clues-container {
+        flex-direction: column;
+    }
+    .clue-box {
+        flex-basis: 100%;
+    }
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+/* ===================================== */
+/* STIJLEN VOOR KEUZESCHERMEN & VW       */
+/* ===================================== */
+
+/* Hoofd Keuzescherm */
+#keuzescherm {
+    text-align: center;
+    margin: 40px auto;
+}
+.puzzel-opties {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+    margin-top: 20px;
+}
+.puzzel-keuze {
+    width: 320px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    border-radius: 10px;
+    transition: transform 0.2s, border-color 0.2s;
+    text-align: center;
+}
+.puzzel-keuze:hover {
+    transform: scale(1.05);
+    border-color: #0056b3;
+}
+.puzzel-keuze img {
+    width: 400px;
+    height: 400px; 
+    object-fit: contain; /* --- AANGEPAST: Zorgt dat de volledige afbeelding past --- */
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.puzzel-keuze p {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+}
+
+/* Sub-keuzescherm voor Klassieke puzzel */
+#klassiek-keuzescherm {
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f0faff;
+    border-radius: 8px;
+}
+.sub-keuze-opties {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+.sub-keuze-knop {
+    font-size: 1em;
+    padding: 10px 15px;
+}
+
+/* Dynamische invoer voor klassieke puzzel */
+.klassiek-woord-rij {
+    display: grid;
+    grid-template-columns: 25px 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.klassiek-woord-rij label {
+    font-weight: bold;
+}
+
+/* Hulpklasse om elementen te verbergen */
+.verborgen {
+    display: none !important;
+}
+
+/* Stijlen voor Verborgen Woord (VW) generator */
+.vw-container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.vw-setup-paneel {
+    flex: 1;
+    max-width: 500px;
+    background: #f0faff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #b3e0ff;
+}
+.vw-output-paneel {
+    flex: 2;
+    text-align: center;
+}
+.vw-antwoord-rij {
+    display: grid;
+    grid-template-columns: 30px 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.vw-antwoord-rij .vw-letter-indicator {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    color: #004080;
+}
+.vw-error {
+    border: 2px solid red !important;
+}
+#vwWerkbladContainer {
+    background: white;
+    padding: 40px;
+    border: 1px solid #b3e0ff;
+    min-height: 500px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+}
+#vwWerkbladContainer p {
+    font-size: 16px;
+    margin-bottom: 2em;
+}
+.vw-placeholder {
+    color: #999;
+}
+#vw-export-knoppen {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.vw-puzzel-rooster {
+    border-collapse: collapse;
+    margin: 40px auto;
+}
+.vw-puzzel-rooster td {
+    width: 35px;
+    height: 35px;
+    border: 1px solid #333;
+    text-align: center;
+    font-size: 18px;
+    vertical-align: middle;
+}
+.vw-puzzel-rooster td.verborgen-letter-cel {
+    background-color: #ffeca7;
+}
+.vw-puzzel-rooster td.leeg {
+    border: none;
+}
+.vw-puzzel-rooster .nummer-cel {
+    vertical-align: middle;
+    text-align: right;
+    padding-right: 0.5em;
+    border: none;
+}
+.vw-nummer {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+.vw-omschrijvingen-lijst {
+    text-align: left;
+    max-width: 600px;
+    margin: 20px auto;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+@media print {
+    #keuzescherm, .generator-container:not(.vw-print-area), header, #vw-export-knoppen {
+        display: none !important;
+    }
+    .vw-setup-paneel {
+        display: none;
+    }
+    .vw-container {
+        display: block;
+    }
+    #vwWerkbladContainer {
+        box-shadow: none;
+        border: none;
+    }
+}

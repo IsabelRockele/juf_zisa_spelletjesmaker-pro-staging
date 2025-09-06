@@ -1,0 +1,14 @@
+﻿# Node & build
+node_modules/
+lib/
+.tmp/
+dist/
+# OS
+.DS_Store
+Thumbs.db
+# Firebase & tooling
+.firebase/
+.firebaserc.backup
+# Backups/oud
+pro_backend/functions_oud/
+*package-lock-*.json

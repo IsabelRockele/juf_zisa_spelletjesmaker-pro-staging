@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Rekencirkel Generator</title>
+    <link href="rekencirkel.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <header>
+        <button onclick="window.location.href='index.html'">Keuzemenu</button>
+        <h1>Generator voor Rekencirkels</h1>
+    </header>
+    <div id="main-content">
+        <div id="left-panel">
+            <div id="controls">
+                <div class="control-group">
+                    <label>Type oefening:</label>
+                    <label><input type="radio" name="typeOefening" value="zoekSom" checked/> Zoek de som (midden)</label>
+                    <label><input type="radio" name="typeOefening" value="zoekTerm"/> Zoek een term (ring)</label>
+                </div>
+
+                <div class="control-group">
+                    <label for="niveau">Niveau (maximale som in het midden):</label>
+                    <select id="niveau">
+                        <option value="10">Tot 10</option>
+                        <option value="20">Tot 20</option>
+                        <option value="100" selected>Tot 100</option>
+                        <option value="1000">Tot 1000</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>Bewerking:</label>
+                    <label><input type="radio" name="brug" value="zonder"/> Zonder brug</label>
+                    <label><input type="radio" name="brug" value="met"/> Met brug</label>
+                    <label><input type="radio" name="brug" value="beide" checked/> Beide</label>
+                </div>
+
+                <div class="control-group">
+                    <label>Aantal cirkels op werkblad:</label>
+                    <div id="gridCount">
+                        <label><input type="radio" name="numGrids" value="1" checked/> 1</label>
+                        <label><input type="radio" name="numGrids" value="2"/> 2</label>
+                        <label><input type="radio" name="numGrids" value="4"/> 4</label>
+                        <label><input type="radio" name="numGrids" value="6"/> 6</label>
+                    </div>
+                </div>
+                 <div id="meldingContainer" style="color: #d32f2f; margin-top: 15px; font-weight: bold; min-height: 50px;"></div>
+                <button id="genereerBtn">Genereer Nieuw Werkblad</button>
+            </div>
+        </div>
+
+        <div id="center-panel">
+            <div id="right-panel">
+                 <canvas id="mainCanvas" width="512" height="512"></canvas>
+            </div>
+        </div>
+
+        <div id="right-panel-buttons">
+            <div class="control-group">
+                 <h3>Downloaden</h3>
+                <button id="downloadPngBtn">Download als PNG</button>
+                <button id="downloadPdfBtn">Download als PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="rekencirkel.js"></script>
+</body>
+</html>

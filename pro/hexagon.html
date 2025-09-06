@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Hexagon & Kleur Generator</title>
+
+    <!-- Styles liggen buiten /pro/ -->
+    <link rel="stylesheet" href="../hexagon.css">
+
+    <!-- Alle relatieve paden resolven t.o.v. /pro/ op GitHub Pages -->
+    <base href="/juf_zisa_spelletjesmaker/pro/">
+
+    <!-- voorkom Google-Translate overlay / CSP-consolemelding -->
+    <meta name="google" content="notranslate">
+
+    <!-- Externe lib -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        .pro-header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background-color: #3f7fbf;
+            padding: 8px 12px; color: #fff;
+            z-index: 1000; height: 48px;
+        }
+        .pro-header .back-link{
+            background: #5a9fd4; color: #fff; border: none; padding: 6px 10px;
+            border-radius: 6px; font-size: 14px; font-weight: 600; text-decoration: none;
+            cursor: pointer; display: inline-block; white-space: nowrap;
+            /* float:left;  ← overbodig; verwijderd om CSS-waarschuwing te vermijden */
+        }
+        body { margin-top: 60px; }
+    </style>
+</head>
+<body>
+    <!-- PRO-header: enkel ‘Keuzemenu’ -->
+    <header class="pro-header">
+        <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+    </header>
+
+    <div id="main-content">
+        <div id="left-panel">
+            <div id="controls">
+                <div class="control-group">
+                    <h3>Tekengereedschap</h3>
+                    <div id="colorPalette"></div>
+                    <div class="tool-setting" style="margin-top: 10px;">
+                        <button id="eyeToolBtn" title="Oogje plaatsen/verwijderen">👁️ Oogje</button>
+                    </div>
+                    <div class="tool-setting">
+                        <button id="undoBtn">Ongedaan maken</button>
+                        <button id="redoBtn">Opnieuw</button>
+                        <button id="clearDrawingBtn" class="small-btn">Wis Tekening</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>Soort Werkblad</h3>
+                    <label><input type="radio" name="worksheetType" value="oefeningen" checked> Met oefeningen</label>
+                    <label><input type="radio" name="worksheetType" value="natekenen"> Natekenen</label>
+                    <label><input type="radio" name="worksheetType" value="pixeltekening"> Hexagon-per-rij Code</label>
+                </div>
+
+                <div id="exerciseControlsContainer">
+                    <div class="control-group">
+                        <h3>Soort Opgaven</h3>
+                        <div style="display: flex; gap: 15px;">
+                            <div class="operation-type-group">
+                                <h4 style="margin-top: 5px; margin-bottom: 5px;">Optellen/Aftrekken</h4>
+                                <label><input type="radio" name="operationType" value="optellen" checked> Optellen</label>
+                                <label><input type="radio" name="operationType" value="aftrekken"> Aftrekken</label>
+                                <label><input type="radio" name="operationType" value="beide_opt_aft"> Beide</label>
+                            </div>
+                            <div class="operation-type-group">
+                                <h4 style="margin-top: 5px; margin-bottom: 5px;">Vermenigvuldigen/Delen</h4>
+                                <label><input type="radio" name="operationType" value="vermenigvuldigen"> Vermenigvuldigen</label>
+                                <label><input type="radio" name="operationType" value="delen"> Delen</label>
+                                <label><input type="radio" name="operationType" value="beide_verm_del"> Beide</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group" id="rangeControls">
+                        <h3>Bereik</h3>
+                        <select id="numberRange">
+                            <option value="10">Tot 10</option>
+                            <option value="20">Tot 20</option>
+                            <option value="100">Tot 100</option>
+                            <option value="1000">Tot 1000</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group" id="tablesControls">
+                        <h3>Tafels</h3>
+                        <label><input type="checkbox" name="tafel" value="1"> 1</label>
+                        <label><input type="checkbox" name="tafel" value="2"> 2</label>
+                        <label><input type="checkbox" name="tafel" value="3"> 3</label>
+                        <label><input type="checkbox" name="tafel" value="4"> 4</label>
+                        <label><input type="checkbox" name="tafel" value="5"> 5</label>
+                        <label><input type="checkbox" name="tafel" value="6"> 6</label>
+                        <label><input type="checkbox" name="tafel" value="7"> 7</label>
+                        <label><input type="checkbox" name="tafel" value="8"> 8</label>
+                        <label><input type="checkbox" name="tafel" value="9"> 9</label>
+                        <label><input type="checkbox" name="tafel" value="10"> 10</label>
+                        <label><input type="checkbox" name="tafel" value="all" checked> Alle</label>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>Raster Grootte</h3>
+                    <div style="display: flex; gap: 10px; justify-content: space-between;">
+                        <div class="tool-setting" style="flex-grow: 1;">
+                            <label for="gridWidth">Kolommen:</label>
+                            <input type="number" id="gridWidth" value="20" min="10" max="60">
+                        </div>
+                        <div class="tool-setting" style="flex-grow: 1;">
+                            <label for="gridHeight">Rijen:</label>
+                            <input type="number" id="gridHeight" value="25" min="10" max="60">
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button id="updateGridSizeBtn" style="flex-grow: 1;">Update Raster</button>
+                        <button id="showPreviewBtn" style="flex-grow: 1;">Toon Werkblad Voorbeeld</button>
+                    </div>
+                </div>
+
+                <div id="meldingContainer" style="color: #d9534f; margin-top: 15px; font-weight: bold; min-height: 40px;"></div>
+            </div>
+        </div>
+
+        <div id="center-panel">
+            <div id="drawingCanvasContainer">
+                <canvas id="drawingCanvas" width="900" height="720"></canvas>
+            </div>
+        </div>
+
+        <div id="right-panel-buttons">
+            <div class="control-group">
+                <h3>Download</h3>
+                <button id="downloadPngBtn">Download Tekening als PNG</button>
+                <button id="downloadPdfBtn">Download Tekening als PDF</button>
+            </div>
+            <div class="control-group">
+                <h3>Tekening Beheren</h3>
+                <button id="saveDrawingBtn">Tekening Opslaan</button>
+                <button id="loadDrawingBtn">Tekening Laden</button>
+                <input type="file" id="loadDrawingInput" accept=".json" style="display: none;">
+                <button id="catalogBtn">Catalogus</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="werkblad-modal">
+        <div id="werkblad-content">
+            <header id="werkblad-header">
+                <h2 id="werkblad-title">Werkblad Voorbeeld</h2>
+                <button id="sluit-werkblad-btn">&times;</button>
+            </header>
+
+            <canvas id="werkblad-canvas"></canvas>
+
+            <div id="werkblad-knoppen">
+                <button id="werkblad-download-pdf">Download als PDF</button>
+                <button id="werkblad-download-png">Download als PNG</button>
+            </div>
+
+            <div id="werkblad-legend-container">
+                <h3 id="werkblad-legend-title">Kleurcode:</h3>
+                <div id="werkblad-legend-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="catalogModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div id="modal-header">
+                <button id="backToThemesBtn" style="display: none;">&leftarrow; Terug naar thema's</button>
+                <h2 id="modal-title">Catalogus</h2>
+            </div>
+            <div id="catalog-themes" class="catalog-view"></div>
+            <div id="catalog-choices" class="catalog-view" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- ===== SCRIPT-ORDE: device-id.js → guard.js → paginacode ===== -->
+
+    <!-- 1) Stabiele device-id (localStorage + cookie) -->
+    <script src="./device-id.js"></script>
+
+    <!-- 2) Centrale PRO-guard (registreert device en verleent/weigert toegang) -->
+    <script type="module" src="./guard.js"></script>
+
+    <!-- 3) Uw eigen paginacode (pas na de guard laden) -->
+    <script src="../hexagon.js"></script>
+</body>
+</html>
+

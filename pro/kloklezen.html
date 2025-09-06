@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8"/>
+<title>Kloklezen Werkblad Generator</title>
+
+<!-- Alle relatieve paden laten resolven t.o.v. /pro/ op GitHub Pages -->
+<base href="/juf_zisa_spelletjesmaker/pro/">
+
+<!-- voorkom Google-Translate overlay / CSP-consolemelding -->
+<meta name="google" content="notranslate">
+
+<link href="../kloklezen.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+  .pro-header {
+    position: fixed; top: 0; left: 0; width: 100%;
+    background-color: #3f7fbf; padding: 8px 12px; color: #fff;
+    z-index: 1000; height: 48px;
+  }
+  .pro-header .back-link{
+    background:#5a9fd4; color:#fff; border:none; padding:6px 10px;
+    border-radius:6px; font-size:14px; font-weight:600; text-decoration:none;
+    cursor:pointer; display:inline-block; white-space:nowrap;
+    /* float:left;  ← verwijderd (was overbodig en gaf waarschuwing) */
+  }
+  body { margin-top:60px; }
+</style>
+</head>
+<body>
+<header class="pro-header">
+  <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+</header>
+
+<div id="main-content">
+  <div id="left-panel">
+    <div id="controls">
+      <div class="control-group">
+        <label for="numClocks">Aantal klokken op werkblad:</label>
+        <select id="numClocks">
+          <option value="3">3</option>
+          <option value="9" selected>9</option>
+          <option value="18">18</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label>Wat wil je oefenen?</label>
+        <div id="moeilijkheidKeuze">
+          <label><input id="selecteerAlles" type="checkbox"/> Alles selecteren</label>
+          <label><input type="checkbox" name="moeilijkheid" value="uur" checked/> Hele uren</label>
+          <label><input type="checkbox" name="moeilijkheid" value="halfuur"/> Halve uren</label>
+          <label><input type="checkbox" name="moeilijkheid" value="kwartier"/> Kwartieren</label>
+          <label><input type="checkbox" name="moeilijkheid" value="5minuten"/> Per 5 minuten</label>
+          <label><input type="checkbox" name="moeilijkheid" value="minuut"/> Per minuut</label>
+        </div>
+      </div>
+      
+      <div class="control-group">
+        <label>Tijdnotatie:</label>
+        <div id="tijdnotatieKeuze">
+          <label><input type="radio" name="tijdnotatie" value="standaard" checked/> Standaard (1 wekker)</label>
+          <label><input type="radio" name="tijdnotatie" value="24uur"/> 24-uurs oefening (2 wekkers)</label>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>Invulmethode:</label>
+        <div id="invulmethodeKeuze">
+          <label><input type="radio" name="invulmethode" value="digitaal" checked/> Digitaal (wekker)</label>
+          <label><input type="radio" name="invulmethode" value="analoog"/> Analoog (zin schrijven)</label>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="voorOverHulp">Type 'voor/over' hulp:</label>
+        <select id="voorOverHulp">
+          <option value="geen" selected>Geen</option>
+          <option value="hulp1">Hulp 1 (2 helften)</option>
+          <option value="hulp2">Hulp 2 (4 kwarten)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label>Extra's:</label>
+        <label><input id="hulpminuten" type="checkbox" checked/> Toon hulpminuten (05, 10...)</label>
+        <label><input id="hulp24uur" type="checkbox"/> Toon hulp 24-uren (13, 14...)</label>
+        <label><input id="hulpAnaloog" type="checkbox"/> Toon hulp analoog (zinsdeel)</label>
+      </div>
+
+      <div id="meldingContainer" style="color:#c00; margin-top:15px; font-weight:bold; min-height:40px;"></div>
+      <button id="genereerBtn">Genereer Werkblad</button>
+    </div>
+  </div>
+
+  <div id="center-panel">
+    <div id="right-panel">
+      <div id="canvas-wrapper">
+        <canvas id="mainCanvas" width="552" height="552"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div id="right-panel-buttons">
+    <div class="control-group">
+      <button id="downloadPngBtn">Download als PNG</button>
+      <button id="downloadPdfBtn">Download als PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCRIPT-ORDE: device-id.js → guard.js → paginacode ===== -->
+
+<!-- 1) Stabiele device-id (localStorage + cookie) -->
+<script src="./device-id.js"></script>
+
+<!-- 2) Centrale PRO-guard (registreert device en verleent/weigert toegang) -->
+<script type="module" src="./guard.js"></script>
+
+<!-- 3) Uw eigen paginacode (pas na de guard laden) -->
+<script src="../kloklezen.js"></script>
+</body>
+</html>

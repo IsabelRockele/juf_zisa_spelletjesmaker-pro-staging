@@ -1,0 +1,305 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f9;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+.keuzemenu-knop {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #003366;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 100;
+}
+
+.werkbalk {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px auto;
+    max-width: 1200px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.werkbalk .separator {
+    border-left: 1px solid #ccc;
+    height: 25px;
+    margin: 0 5px;
+}
+
+.werkbalk button, .werkbalk input, .werkbalk label, .werkbalk select {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    color: #333;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.werkbalk button:hover {
+    background-color: #e9e9e9;
+    border-color: #ccc;
+}
+
+.werkbalk button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #f8f8f8;
+    color: #aaa;
+}
+
+.pagina-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+#namen-wachtlijst-container, #legende-weergave-wrapper {
+    width: 200px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 10px;
+    border: 1px solid #ddd;
+    flex-shrink: 0;
+}
+
+#namen-wachtlijst-container h3, #legende-weergave-wrapper h3 {
+    text-align: center;
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+#namen-lijst .naam-item {
+    background-color: #f0f8ff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    cursor: grab;
+    border: 1px solid #b0c4de;
+    user-select: none;
+}
+
+.canvas-container {
+    position: relative;
+    display: inline-block;
+    background-color: white;
+}
+
+#canvas {
+    border: 2px solid #ccc;
+}
+.verborgen {
+    display: none !important;
+}
+
+#legende-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: left;
+}
+.legende-stap {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.legende-stap .stap-nummer {
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+#legende-categorieen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+#legende-categorieen button.actief {
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+#kleurenpalet {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.kleur-staal {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid #ddd;
+    transition: transform 0.1s ease;
+}
+.kleur-staal:hover { transform: scale(1.1); }
+.kleur-staal.actief {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
+}
+
+/* === Legende: item + icoon === */
+.legende-weergave-item {
+    display: grid;
+    grid-template-columns: 22px 22px 1fr;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    padding: 4px;
+}
+.legende-weergave-kleur {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+.legende-icoon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    display: inline-block;
+}
+.legende-weergave-tekst {
+    font-size: 14px;
+    text-transform: capitalize;
+}
+
+/* --- GECORRIGEERDE STIJLEN VOOR GEKLEURDE KNOPPEN --- */
+.werkbalk button.btn {
+    color: white;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.werkbalk button.btn-groen {
+    background-color: #28a745;
+    border-color: #218838;
+}
+.werkbalk button.btn-groen:hover {
+    background-color: #218838;
+    color: white;
+}
+
+.werkbalk button.btn-blauw {
+    background-color: #007bff;
+    border-color: #0069d9;
+}
+.werkbalk button.btn-blauw:hover {
+    background-color: #0069d9;
+    color: white;
+}
+.werkbalk button.btn-blauw.actief {
+    background-color: #0056b3;
+    border-color: #004085;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+    color: white;
+}
+
+.werkbalk button.btn-rood {
+    background-color: #dc3545;
+    border-color: #c82333;
+}
+.werkbalk button.btn-rood:hover {
+    background-color: #c82333;
+    color: white;
+}
+
+.werkbalk button.btn-oranje {
+    background-color: #ffc107;
+    border-color: #e0a800;
+    color: #212529;
+}
+.werkbalk button.btn-oranje:hover {
+    background-color: #e0a800;
+    color: #212529;
+}
+
+.werkbalk button.btn-rood-outline {
+    background-color: #f8f8f8;
+    color: #dc3545;
+    border-color: #dc3545;
+}
+.werkbalk button.btn-rood-outline:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Contextbalken */
+.werkbalk-context {
+    background-color: #e7f1ff; /* Lichtblauw */
+    border: 1px solid #b3d7ff;
+}
+.werkbalk-context strong {
+    color: #0056b3;
+    font-weight: 600;
+}
+
+/* Flex-break */
+.flex-break {
+    flex-basis: 100%;
+    height: 0;
+    margin: 5px 0;
+}
+/* --- Legende: 3 kolommen op het scherm --- */
+#legende-weergave-container {
+  display: grid;
+  grid-template-columns: 1fr;       /* items onder elkaar */
+  gap: 8px;
+}
+
+.legende-weergave-item {
+  display: grid;
+  grid-template-columns: 18px 34px 1fr;  /* kolom1 kleur | kolom2 icoon | kolom3 tekst */
+  align-items: center;
+  column-gap: 8px;
+}
+
+.legende-weergave-kleur {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #333;    /* blijft zonder kolomlijnen; enkel het kleurvakje heeft een rand */
+  border-radius: 2px;
+}
+
+.legende-weergave-tekst {
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

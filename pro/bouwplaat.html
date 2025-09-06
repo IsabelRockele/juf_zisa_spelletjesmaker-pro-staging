@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bouwplaat Generator (PRO)</title>
+
+  <!-- PRO manifest & iconen (relatief maken voor GitHub Pages) -->
+  <link rel="manifest" href="manifest-pro.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="theme-color" content="#fffbe6">
+  <!-- voorkom Google-Translate overlay/CSP-consolemelding -->
+  <meta name="google" content="notranslate">
+
+  <!-- Base zodat interne links relatief tot /pro/ zijn op GitHub Pages -->
+  <base href="/juf_zisa_spelletjesmaker/pro/">
+
+  <!-- Styles: bestand ligt buiten /pro/, dus één map omhoog -->
+  <link rel="stylesheet" href="../bouwplaat.css">
+
+  <!-- jsPDF (externe lib) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    /* PRO-header: alleen terug naar menu */
+    .pro-header {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background-color: #3f7fbf; padding: 8px 12px; color: #fff;
+      z-index: 1000; height: 48px;
+    }
+    .pro-header .back-link{
+      background:#5a9fd4; color:#fff; border:none; padding:6px 10px;
+      border-radius:6px; font-size:14px; font-weight:600; text-decoration:none;
+      cursor:pointer; display:inline-block; white-space:nowrap;
+      /* float:left;  ← overbodig; display:inline-block wordt dan toch genegeerd */
+    }
+    body { margin-top: 60px; }
+  </style>
+</head>
+<body>
+
+<header class="pro-header">
+  <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+</header>
+
+<!-- Keuzescherm -->
+<div id="choice-screen">
+  <div id="choice-container">
+    <h1>Kies je Bouwplaat</h1>
+    <p>Waar wil je vandaag mee bouwen?</p>
+    <div class="choice-grid">
+      <div class="choice-button" data-type="clics">
+        <img src="../start_afbeeldingen/clics.png" alt="Clics blokje"
+             onerror="this.onerror=null;this.src='https://placehold.co/150x150/27ae60/ffffff?text=Clics';">
+        <span>Clics</span>
+      </div>
+      <div class="choice-button" data-type="linkin_cubes">
+        <img src="../start_afbeeldingen/linkincubes.png" alt="Linkin Cube"
+             onerror="this.onerror=null;this.src='https://placehold.co/150x150/3498db/ffffff?text=Linkin+Cubes';">
+        <span>Linkin Cubes</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Generator -->
+<div id="generator-screen" class="hidden">
+  <header>
+    <button id="menuBtn">Kies bouwmateriaal</button>
+    <h1 id="generatorTitle">Bouwplaat Generator</h1>
+  </header>
+
+  <div id="main-content">
+    <div id="left-panel">
+      <div id="controls">
+        <div class="control-group">
+          <h3>Tekengereedschap</h3>
+          <div id="colorPalette"></div>
+          <div class="tool-setting" style="margin-top: 10px;">
+            <button id="undoBtn">Ongedaan maken</button>
+            <button id="redoBtn">Opnieuw</button>
+            <button id="clearDrawingBtn" class="small-btn">Wis Tekening</button>
+          </div>
+        </div>
+        <div class="control-group">
+          <h3>Raster Grootte</h3>
+          <div style="display: flex; gap: 10px; justify-content: space-between;">
+            <div class="tool-setting" style="flex-grow: 1;">
+              <label for="gridWidth">Kolommen:</label>
+              <input type="number" id="gridWidth" value="20" min="5" max="50">
+            </div>
+            <div class="tool-setting" style="flex-grow: 1;">
+              <label for="gridHeight">Rijen:</label>
+              <input type="number" id="gridHeight" value="20" min="5" max="50">
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button id="updateGridSizeBtn" style="flex-grow: 1;">Update Raster</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="center-panel">
+      <div id="drawingCanvasContainer">
+        <canvas id="drawingCanvas"></canvas>
+      </div>
+    </div>
+
+    <div id="right-panel-buttons">
+      <div class="control-group">
+        <h3>Download</h3>
+        <button id="downloadPngBtn">Download als PNG</button>
+        <button id="downloadPdfBtn">Download als PDF</button>
+      </div>
+      <div class="control-group">
+        <h3>Tekening Beheren</h3>
+        <button id="saveDrawingBtn">Tekening Opslaan</button>
+        <button id="loadDrawingBtn">Tekening Laden</button>
+        <input type="file" id="loadDrawingInput" accept=".json" style="display: none;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCRIPT-ORDE: device-id.js → guard.js → paginacode ===== -->
+
+<!-- 1) Stabiele device-id (localStorage + cookie) -->
+<script src="./device-id.js"></script>
+
+<!-- 2) Centrale PRO-guard (registreert device en verleent/weigert toegang) -->
+<script type="module" src="./guard.js"></script>
+
+<!-- 3) Uw eigen paginacode (pas na de guard laden) -->
+<script src="../bouwplaat.js"></script>
+
+</body>
+</html>

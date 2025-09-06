@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Galgje – Zisa met frames</title>
+  <link rel="stylesheet" href="galgje.css" />
+</head>
+<body>
+  <section class="setup">
+    <a href="index.html" class="btn menu-btn">Keuzemenu</a>
+    <h1>Galgje-generator (Zisa)</h1>
+
+    <div class="panel">
+      <p>Vul uw zinnen in (één per veld). Klik op <strong>+</strong> voor extra zinnen.</p>
+
+      <div id="sentencesList" class="sentences-list">
+        </div>
+
+      <div class="row">
+        <button id="addSentenceBtn" class="btn icon" title="Zin toevoegen" aria-label="Zin toevoegen">＋</button>
+
+        <label for="balloonCount">Fouten toegestaan:</label>
+        <select id="balloonCount">
+          <option value="8">8</option>
+          <option value="10">10</option>
+          <option value="12" selected>12</option>
+        </select>
+
+        <label for="alphabetSelect">Alfabet:</label>
+        <select id="alphabetSelect">
+          <option value="std" selected>Standaard (A-Z)</option>
+          <option value="fr">Frans (met accenten)</option>
+        </select>
+
+        <button id="startBtn" class="btn primary">Start spel</button>
+        <button id="clearAllBtn" class="btn ghost">Alles leegmaken</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="game" id="game">
+    <div class="sky" aria-hidden="true">
+      <div class="cloud c1"></div><div class="cloud c2"></div>
+      <div class="cloud c3"></div><div class="cloud c4"></div>
+      <div class="cloud c5"></div>
+    </div>
+
+    <div class="topbar">
+      <span id="progress">Fouten: 0/12</span>
+      <div class="top-actions">
+        <button id="resetBtn" class="btn ghost">Opnieuw</button>
+      </div>
+    </div>
+
+    <div class="playwrap">
+      <div class="left">
+        <div id="word" class="word"></div>
+        <div id="feedback" class="status"></div>
+      </div>
+
+      <div class="stage">
+        <svg id="zisaStage" viewBox="0 0 800 520">
+          <g id="zisa" transform="translate(400,240)"></g>
+        </svg>
+      </div>
+    </div>
+
+    <div id="kbbar" class="kbbar">
+      <div id="keyboard" class="kb"></div>
+      <div class="kb-actions">
+        <button id="nextInlineBtn" class="btn secondary hidden">Volgend spel</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="modal" class="modal">
+    <div class="dialog">
+      <h3 id="modalTitle"></h3>
+      <p id="modalText"></p>
+      <div class="actions">
+        <button id="nextBtn" class="btn secondary">Volgend spel</button>
+        <button id="closeBtn" class="btn ghost">Sluiten</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="galgje.js"></script>
+</body>
+</html>

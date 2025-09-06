@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator voor Rekenpiramides - Keuzemenu</title>
+    <meta name="google" content="notranslate">
+
+    <!-- Styles liggen buiten /pro/ -->
+    <link rel="stylesheet" href="../rekenpiramide.css">
+
+    <!-- Alle relatieve paden resolven t.o.v. /juf_zisa_spelletjesmaker/pro/ -->
+    <base href="/juf_zisa_spelletjesmaker/pro/">
+
+    <style>
+        .pro-header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background-color: #3f7fbf;
+            padding: 8px 12px; color: #fff;
+            z-index: 1000; height: 48px;
+        }
+        .pro-header .back-link{
+            background: #5a9fd4; color: #fff; border: none; padding: 6px 10px;
+            border-radius: 6px; font-size: 14px; font-weight: 600; text-decoration: none;
+            cursor: pointer; display: inline-block; white-space: nowrap;
+            /* float:left; verwijderd i.v.m. console-waarschuwing */
+        }
+        body { margin-top: 60px; }
+    </style>
+</head>
+<body>
+<header class="pro-header">
+    <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+</header>
+
+<div id="main-content">
+    <h1>Generator voor Rekenpiramides</h1>
+
+    <div class="keuzevak">
+        <h2>Optelpiramides</h2>
+        <div id="optelPiramideMelding" class="melding"></div>
+
+        <div class="control-group">
+            <label class="group-title" for="numOefeningen_optelpiramide">Aantal piramides:</label>
+            <select id="numOefeningen_optelpiramide">
+                <option value="10">10</option>
+                <option value="15" selected>15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label class="group-title" for="optelPiramideHoogte">Hoogte van de piramide (rijen):</label>
+            <select id="optelPiramideHoogte">
+                <option value="3" selected>3 rijen</option>
+                <option value="4">4 rijen</option>
+                <option value="5">5 rijen</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label class="group-title" for="optellenMaxGetal">Maximaal getal (top van piramide):</label>
+            <select id="optellenMaxGetal">
+                <option value="10">tot 10</option>
+                <option value="20">tot 20</option>
+                <option value="50" selected>tot 50</option>
+                <option value="100">tot 100</option>
+                <option value="200">tot 200</option>
+                <option value="500">tot 500</option>
+                <option value="1000">tot 1000</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label class="group-title" for="optellenBrug">Brug:</label>
+            <select id="optellenBrug">
+                <option value="zonder">Zonder brug</option>
+                <option value="met">Met brug</option>
+                <option value="beide" selected>Beide</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label class="group-title">Type oefening:</label>
+            <label><input type="radio" name="optelPiramideType" value="som" checked> Vul de som in</label>
+            <label><input type="radio" name="optelPiramideType" value="ontbrekend"> Vul ontbrekende term in</label>
+            <label><input type="radio" name="optelPiramideType" value="mengeling"> Mengeling</label>
+        </div>
+
+        <button id="maakOptelPiramideBtn" class="maak-werkblad-btn">Maak Optelpiramide-Werkblad</button>
+    </div>
+
+    <div class="keuzevak">
+        <h2>Vermenigvuldigpiramides</h2>
+        <div id="vermenigvuldigPiramideMelding" class="melding"></div>
+
+        <div class="control-group">
+            <label class="group-title" for="numOefeningen_vermenigvuldigpiramide">Aantal piramides:</label>
+            <select id="numOefeningen_vermenigvuldigpiramide">
+                <option value="10">10</option>
+                <option value="15" selected>15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label class="group-title" for="vermenigvuldigPiramideHoogte">Hoogte van de piramide (rijen):</label>
+            <select id="vermenigvuldigPiramideHoogte">
+                <option value="2">2 rijen</option>
+                <option value="3" selected>3 rijen</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label class="group-title">Kies tafels:</label>
+            <label><input type="checkbox" id="selectAllTafelsVermenigvuldig"> Alles selecteren</label>
+            <div id="tafelKeuzeVermenigvuldig"></div>
+        </div>
+
+        <div class="control-group">
+            <label class="group-title">Type oefening:</label>
+            <label><input type="radio" name="vermenigvuldigPiramideType" value="som" checked> Vul het product in</label>
+            <label><input type="radio" name="vermenigvuldigPiramideType" value="ontbrekend"> Vul ontbrekende factor in</label>
+            <label><input type="radio" name="vermenigvuldigPiramideType" value="mengeling"> Mengeling</label>
+        </div>
+
+        <button id="maakVermenigvuldigPiramideBtn" class="maak-werkblad-btn">Maak Vermenigvuldigpiramide-Werkblad</button>
+    </div>
+</div>
+
+<!-- Uniforme device- en guard-laag: ALTIJD in deze volgorde -->
+<script src="./device-id.js"></script>
+<script type="module" src="./guard.js"></script>
+
+<!-- Paginascript NA de guard, eenmalig laden -->
+<script src="../rekenpiramide_keuze.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bedankt voor uw aankoop</title>
+  <style>
+    :root { --bg:#f7faf9; --card:#fff; --txt:#0f172a; --muted:#475569; }
+    body{font-family:system-ui,Segoe UI,Arial,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100dvh;margin:0;background:var(--bg)}
+    .card{max-width:720px;width:100%;background:var(--card);border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 10px 24px rgba(0,0,0,.06);padding:24px}
+    h1{margin:.2rem 0 1rem 0;color:var(--txt);font-size:2rem}
+    p{color:var(--muted);margin:.4rem 0 1rem}
+    code{background:#f1f5f9;padding:.2rem .4rem;border-radius:.4rem}
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <h1>Bedankt! 🎉</h1>
+    <p>We verwerken uw betaling. U ontvangt zo meteen een e-mail met:</p>
+    <ul>
+      <li>uw <strong>PRO-licentie</strong> en link om uw wachtwoord in te stellen</li>
+      <li>de <strong>factuur-PDF</strong> in bijlage</li>
+    </ul>
+    <p id="oidWrap" style="display:none">Uw referentie: <code id="oid"></code></p>
+    <p>Geen mail ontvangen na enkele minuten? Controleer uw spam, of neem contact op met <a href="mailto:zebrapost@jufzisa.be">zebrapost@jufzisa.be</a>.</p>
+  </main>
+  <script>
+    const p = new URLSearchParams(location.search);
+    const oid = p.get('oid');
+    if (oid) {
+      const el = document.getElementById('oid');
+      el.textContent = oid;
+      document.getElementById('oidWrap').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
+
+

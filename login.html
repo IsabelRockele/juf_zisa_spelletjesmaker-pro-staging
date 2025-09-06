@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inloggen (OTP)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-store" />
+  <style>
+    :root { --bg:#0b1020; --card:#121937; --text:#e9ecf6; --muted:#aab1c7; --accent:#7aa2ff; --ok:#36d399; --err:#ff6b6b; }
+    *{ box-sizing:border-box }
+    body{ margin:0; font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans","Helvetica Neue",sans-serif; background:var(--bg); color:var(--text) }
+    .wrap{ max-width: 760px; margin: 3rem auto; padding: 0 1rem; }
+    h1{ font-size: 2.2rem; margin:.25rem 0 1rem }
+    .card{ background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:.9rem; padding:1.25rem; box-shadow:0 6px 24px rgba(0,0,0,.25) }
+    label{ display:block; margin:.6rem 0 .35rem; font-weight:600 }
+    input{ width:100%; padding:.7rem .75rem; border-radius:.6rem; border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.06); color:var(--text) }
+    input:focus{ outline:2px solid rgba(122,162,255,.6); border-color:transparent }
+    .row{ display:flex; gap:.75rem; flex-wrap:wrap; align-items:end }
+    .row > div{ flex:1 1 260px }
+    button{ background:var(--accent); color:#0b1020; border:none; padding:.7rem 1rem; border-radius:.6rem; font-weight:700; cursor:pointer; }
+    button[disabled]{ opacity:.6; cursor:not-allowed }
+    .muted{ color: var(--muted) }
+    pre{ background:rgba(0,0,0,.25); padding:.7rem; border-radius:.6rem; overflow:auto; min-height:1.8rem }
+    .msg{ margin:.5rem 0 0; font-weight:600 }
+    .ok{ color:var(--ok) } .err{ color:var(--err) }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Inloggen met OTP</h1>
+    <div class="card">
+      <div class="row">
+        <div>
+          <label for="uid">UID</label>
+          <input id="uid" value="isabel-admin" autocomplete="username" />
+        </div>
+        <div style="flex:0 0 auto">
+          <button id="btnReq" onclick="requestOtp()">OTP aanvragen</button>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:.6rem">
+        <div>
+          <label for="code">Code (6 cijfers)</label>
+          <input id="code" type="text" inputmode="numeric" pattern="\\d{6}" maxlength="6"
+                 autocomplete="one-time-code" placeholder="vb. 012345" />
+        </div>
+        <div style="flex:0 0 auto">
+          <button id="btnVer" onclick="verifyOtp()">Verifiëren</button>
+        </div>
+      </div>
+
+      <div id="msg" class="msg"></div>
+      <pre id="out"></pre>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = "https://api-xc54winygq-ew.a.run.app";
+    const out = document.getElementById("out");
+    const msg = document.getElementById("msg");
+    const show = (o) => out.textContent = typeof o === "string" ? o : JSON.stringify(o, null, 2);
+    const setMsg = (t, ok=false) => { msg.textContent = t || ""; msg.className = "msg " + (ok ? "ok":"err"); };
+
+    async function requestOtp() {
+      try {
+        setMsg("");
+        const uid = document.getElementById("uid").value.trim();
+        if (!uid) { setMsg("Vul een UID in."); return; }
+
+        const res = await fetch(`${API_BASE}/otp/request`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ uid })
+        });
+        const data = await res.json();
+        show(data);
+
+        if (!data.ok) {
+          if (data.error === "TOO_MANY_REQUESTS" && typeof data.retryInMs === "number") {
+            const s = Math.ceil(Number(data.retryInMs)/1000);
+            setMsg(`Te snel opnieuw aangevraagd. Probeer over ~${s}s.`, false);
+          } else {
+            setMsg(`Fout: ${data.error || "onbekend"}`, false);
+          }
+          return;
+        }
+        setMsg("OTP aangevraagd.", true);
+      } catch (e) {
+        setMsg("Netwerkfout tijdens aanvragen.", false);
+        show(String(e));
+      }
+    }
+
+    async function verifyOtp() {
+      try {
+        setMsg("");
+        const uid = document.getElementById("uid").value.trim();
+        const code = document.getElementById("code").value.trim();
+
+        if (!/^\d{6}$/.test(code)) {
+          setMsg("Code moet exact 6 cijfers zijn.", false);
+          show({ ok:false, error:"CLIENT_INVALID_CODE_FORMAT" });
+          return;
+        }
+
+        const res = await fetch(`${API_BASE}/otp/verify`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ uid, code })
+        });
+        const data = await res.json();
+        show(data);
+
+        if (data.ok && data.token) {
+          // Belangrijk: token bewaren voor GitHub Pages (third-party cookies worden geblokkeerd)
+          localStorage.setItem("zisa_token", data.token);
+          // Door naar PRO
+          window.location.href = "pro/index.html";
+        } else {
+          setMsg(`Verifiëren mislukt: ${data.error || "onbekend"}`, false);
+        }
+      } catch (e) {
+        setMsg("Netwerkfout tijdens verifiëren.", false);
+        show(String(e));
+      }
+    }
+  </script>
+</body>
+</html>
+
+
+

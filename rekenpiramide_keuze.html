@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator voor Rekenpiramides - Keuzemenu</title>
+    <link rel="stylesheet" href="rekenpiramide.css">
+</head>
+<body>
+    <header>
+        <button onclick="window.location.href='index.html'">Keuzemenu</button>
+        <h1>Generator voor Rekenpiramides</h1>
+    </header>
+
+    <div id="main-content">
+
+        <div class="keuzevak">
+            <h2>Optelpiramides</h2>
+            <div id="optelPiramideMelding" class="melding"></div>
+            
+            <div class="control-group">
+                <label class="group-title" for="numOefeningen_optelpiramide">Aantal piramides:</label>
+                <select id="numOefeningen_optelpiramide">
+                    <option value="10">10</option>
+                    <option value="15" selected>15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label class="group-title" for="optelPiramideHoogte">Hoogte van de piramide (rijen):</label>
+                <select id="optelPiramideHoogte">
+                    <option value="3" selected>3 rijen</option>
+                    <option value="4">4 rijen</option>
+                    <option value="5">5 rijen</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label class="group-title" for="optellenMaxGetal">Maximaal getal (top van piramide):</label>
+                <select id="optellenMaxGetal">
+                    <option value="10">tot 10</option>
+                    <option value="20">tot 20</option>
+                    <option value="50" selected>tot 50</option>
+                    <option value="100">tot 100</option>
+                    <option value="200">tot 200</option>
+                    <option value="500">tot 500</option>
+                    <option value="1000">tot 1000</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label class="group-title" for="optellenBrug">Brug:</label>
+                <select id="optellenBrug">
+                    <option value="zonder">Zonder brug</option>
+                    <option value="met">Met brug</option>
+                    <option value="beide" selected>Beide</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label class="group-title">Type oefening:</label>
+                <label><input type="radio" name="optelPiramideType" value="som" checked> Vul de som in (onderste rij gegeven)</label>
+                <label><input type="radio" name="optelPiramideType" value="ontbrekend"> Vul ontbrekende term in (willekeurig vakje)</label>
+                <label><input type="radio" name="optelPiramideType" value="mengeling"> Mengeling (sommen en termen ontbreken)</label>
+            </div>
+
+            <button id="maakOptelPiramideBtn" class="maak-werkblad-btn">Maak Optelpiramide-Werkblad</button>
+        </div>
+
+        <div class="keuzevak">
+            <h2>Vermenigvuldigpiramides</h2>
+            <div id="vermenigvuldigPiramideMelding" class="melding"></div>
+            
+            <div class="control-group">
+                <label class="group-title" for="numOefeningen_vermenigvuldigpiramide">Aantal piramides:</label>
+                <select id="numOefeningen_vermenigvuldigpiramide">
+                    <option value="10">10</option>
+                    <option value="15" selected>15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label class="group-title" for="vermenigvuldigPiramideHoogte">Hoogte van de piramide (rijen):</label>
+                <select id="vermenigvuldigPiramideHoogte">
+                    <option value="2">2 rijen</option>
+                    <option value="3" selected>3 rijen</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label class="group-title">Kies tafels voor vermenigvuldiging:</label>
+                <label><input type="checkbox" id="selectAllTafelsVermenigvuldig"> Alles selecteren</label>
+                <div id="tafelKeuzeVermenigvuldig">
+                    </div>
+            </div>
+
+            <div class="control-group">
+                <label class="group-title">Type oefening:</label>
+                <label><input type="radio" name="vermenigvuldigPiramideType" value="som" checked> Vul het product in (onderste rij gegeven)</label>
+                <label><input type="radio" name="vermenigvuldigPiramideType" value="ontbrekend"> Vul ontbrekende factor in (willekeurig vakje)</label>
+                <label><input type="radio" name="vermenigvuldigPiramideType" value="mengeling"> Mengeling (producten en factoren ontbreken)</label>
+            </div>
+
+            <button id="maakVermenigvuldigPiramideBtn" class="maak-werkblad-btn">Maak Vermenigvuldigpiramide-Werkblad</button>
+        </div>
+
+    </div>
+
+    <script src="rekenpiramide_keuze.js"></script>
+</body>
+</html>

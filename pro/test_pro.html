@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <title>Zisa PRO – test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { font-size: 2rem; margin-bottom: .25rem; }
+    button { padding: .6rem 1rem; margin: .35rem .25rem; cursor: pointer; }
+    code { background: #f6f6f6; padding: .15rem .35rem; border-radius: .25rem; }
+    #log { white-space: pre-wrap; background:#fafafa; border:1px solid #eee; padding:1rem; border-radius:.5rem; min-height: 4rem; }
+  </style>
+</head>
+<body>
+  <h1>Zisa PRO – test</h1>
+  <p>Log in met <b>hetzelfde e-mailadres als de aankoop</b> (nu: <code>isabel.rockele@gmail.com</code>), zodat het entitlement kan worden geclaimd.</p>
+
+  <div>
+    <button id="login">Inloggen met Google</button>
+    <button id="logout">Uitloggen</button>
+  </div>
+  <div>
+    <button id="register">Registreer apparaat</button>
+    <button id="code">Vraag sessiecode</button>
+    <button id="verify">Verifieer sessiecode</button>
+  </div>
+
+  <h3>Status</h3>
+  <div id="status">Niet ingelogd.</div>
+
+  <h3>Log</h3>
+  <div id="log"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+    import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-functions.js";
+
+    // ===== JOUW Firebase-config =====
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1svbzlhdjiiDMyRIgqQq1jSu_F8li3Bw",
+      authDomain: "zisa-spelletjesmaker-pro.firebaseapp.com",
+      projectId: "zisa-spelletjesmaker-pro",
+      storageBucket: "zisa-spelletjesmaker-pro.firebasestorage.app",
+      messagingSenderId: "828063957776",
+      appId: "1:828063957776:web:8d8686b478846fe980db95",
+      measurementId: "G-9LHNLFHSXX"
+    };
+
+    // ===== Init Firebase =====
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const functions = getFunctions(app, "europe-west1");
+
+    // ===== Kleine helpers =====
+    const el = (id) => document.getElementById(id);
+    const log = (...args) => { const box = el("log"); if (box) box.textContent += args.join(" ") + "\n"; };
+    const setStatus = (t) => { const s = el("status"); if (s) s.textContent = t; };
+
+    const ensureDeviceId = () => {
+      let id = localStorage.getItem("zisa_device_id");
+      if (!id) { id = crypto.randomUUID(); localStorage.setItem("zisa_device_id", id); }
+      return id;
+    };
+
+    // Wacht tot de knoppen in de DOM staan
+    window.addEventListener("DOMContentLoaded", () => {
+      onAuthStateChanged(auth, (user) => {
+        if (user) setStatus(`Ingelogd als ${user.email} (uid: ${user.uid})`);
+        else setStatus("Niet ingelogd.");
+      });
+
+      el("login").onclick = async () => {
+        try {
+          const prov = new GoogleAuthProvider();
+          await signInWithPopup(auth, prov);  // popup moet toegestaan zijn
+        } catch (e) { log("Login fout:", e.message); }
+      };
+
+      el("logout").onclick = async () => {
+        await signOut(auth);
+        log("Uitgelogd.");
+      };
+
+      el("register").onclick = async () => {
+        try {
+          const deviceId = ensureDeviceId();
+          const call = httpsCallable(functions, "registerDevice");
+          const resp = await call({ deviceId });
+          log("registerDevice:", JSON.stringify(resp.data, null, 2));
+        } catch (e) { log("registerDevice fout:", e.message); }
+      };
+
+      let lastCode = null;
+
+      el("code").onclick = async () => {
+        try {
+          const deviceId = ensureDeviceId();
+          const call = httpsCallable(functions, "issueSessionCode");
+          const resp = await call({ deviceId });
+          log("issueSessionCode:", JSON.stringify(resp.data, null, 2));
+          if (resp.data?.ok) lastCode = resp.data.code;
+        } catch (e) { log("issueSessionCode fout:", e.message); }
+      };
+
+      el("verify").onclick = async () => {
+        try {
+          const user = auth.currentUser;
+          const deviceId = ensureDeviceId();
+          if (!user || !lastCode) { log("Geen user of code."); return; }
+
+          const r = await fetch("https://europe-west1-zisa-spelletjesmaker-pro.cloudfunctions.net/verifySessionCode", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId: user.uid, deviceId, code: lastCode })
+          });
+          const j = await r.json();
+          log("verifySessionCode:", JSON.stringify(j, null, 2));
+        } catch (e) { log("verifySessionCode fout:", e.message); }
+      };
+    });
+  </script>
+</body>
+</html>
+
+

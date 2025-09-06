@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8"/>
+<title>Woordzoeker Generator</title>
+<link href="woordzoeker.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header>
+<button id="menuBtn" onclick="window.location.href='index.html'">Keuzemenu</button>
+<h1>Woordzoeker Generator</h1>
+</header>
+<div id="main-content">
+<div id="left-panel">
+<div id="controls">
+<div class="control-group">
+<label for="woordenInput">Woorden (één per regel):</label>
+<textarea id="woordenInput" rows="10" placeholder="Typ hier je woorden (min. 6, max. 20 woorden, elk max. 12 letters lang)"></textarea>
+<div id="woordAantalMelding" style="font-size: 0.9em; color: #555; margin-top: 5px;"></div>
+</div>
+<div class="control-group">
+<label for="rasterFormaat">Raster formaat:</label>
+<select id="rasterFormaat">
+    <option value="auto">Automatisch</option>
+    <option value="6x6">6 x 6</option>
+    <option value="8x8">8 x 8</option>
+    <option value="10x10">10 x 10</option>
+    <option value="12x12">12 x 12</option>
+    <option value="15x15">15 x 15</option>
+    <option value="20x20">20 x 20</option>
+    <option value="25x25">25 x 25</option>
+</select>
+</div>
+<div class="control-group">
+<label>Richting:</label>
+<label><input checked="" name="richting" type="checkbox" value="horizontaal"/> Horizontaal</label>
+<label><input checked="" name="richting" type="checkbox" value="verticaal"/> Verticaal</label>
+<label><input checked="" name="richting" type="checkbox" value="diagonaal"/> Diagonaal</label>
+</div>
+<div id="meldingContainer" style="color: #004080; margin-top: 15px; font-weight: bold; min-height: 80px;"></div>
+<button id="genereerBtn">Genereer Woordzoeker</button>
+</div>
+</div>
+<div id="center-panel">
+<div id="right-panel">
+<canvas height="512" id="mainCanvas" width="512"></canvas>
+</div>
+<div id="woordenLijstContainer">
+    <h2>Woorden om te vinden:</h2>
+    <div id="woordenLijst" class="kolommen"></div>
+</div>
+</div>
+<div id="right-panel-buttons">
+<div class="control-group">
+<button id="toonOplossingBtn">Toon Oplossing</button>
+<button id="downloadPngBtn">Download als PNG</button>
+<button id="downloadPdfBtn">Download als PDF</button>
+</div>
+</div>
+</div>
+<script src="woordzoeker.js"></script>
+</body>
+</html>

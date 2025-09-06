@@ -1,0 +1,263 @@
+/* --- Algemene Styling (voor beide pagina's) --- */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f2f7;
+    padding: 20px;
+    margin: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+h1 {
+    color: #004080;
+    font-size: 2em;
+    text-align: center;
+    margin: 0 auto;
+}
+
+button {
+    background-color: #004080;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.control-group label {
+    font-weight: normal;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.group-title {
+    font-weight: bold;
+}
+
+.control-group select, .control-group input {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #aaddff;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.control-group input[type="radio"],
+.control-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+}
+
+/* --- Lay-out voor Keuzepagina (3 kolommen) --- */
+#main-content {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.keuzevak {
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+    padding: 20px;
+    border: 1px solid #b3e0ff;
+    border-radius: 8px;
+    background-color: #f0faff;
+    display: flex;
+    flex-direction: column;
+}
+
+.keuzevak h2 {
+    margin-top: 0;
+    text-align: center;
+    color: #004080;
+    border-bottom: 2px solid #b3e0ff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.maak-werkblad-btn {
+    margin-top: auto;
+    padding: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.melding {
+    color: #c00;
+    font-weight: bold;
+    min-height: 20px;
+    text-align: center;
+}
+
+#tafelKeuze, #splitsGetalKeuze {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+}
+
+/* --- Lay-out voor Werkbladpagina --- */
+.werkblad-pagina {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#werkblad-knoppen {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#werkblad-wrapper {
+    background-color: #ffffff;
+    border: 1px solid #b3e0ff;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+#werkblad-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    /* AANGEPAST: Zorgt voor uitlijning aan de bovenkant */
+    align-items: start;
+    justify-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2em;
+}
+
+.oefening-kolom {
+    /* Deze wordt nu alleen nog voor bewerkingen en tafels gebruikt */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 150px;
+}
+
+.oefening {
+    padding: 4px;
+}
+
+/* --- Styling voor Splits-oefeningen --- */
+.splitshuis {
+    border: 2px solid #333;
+    border-radius: 5px;
+    width: 120px;
+    text-align: center;
+    margin: 10px;
+    background-color: white;
+    overflow: hidden;
+}
+.splitshuis .dak {
+    background-color: #e0f2f7;
+    border-bottom: 2px solid #333;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.splitshuis .kamers {
+    display: flex;
+    border-top: 1px solid #ccc;
+}
+.splitshuis .kamers:first-of-type {
+    border-top: none;
+}
+.splitshuis .kamer {
+    width: 50%;
+    padding: 5px;
+}
+.splitshuis .kamer:first-child {
+    border-right: 1px solid #ccc;
+}
+
+.splitsbenen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    margin: 0 auto;
+}
+.splitsbenen .top {
+    font-weight: bold;
+    padding: 5px;
+    border: 2px solid #333;
+    background-color: #e0f2f7;
+    border-radius: 5px;
+    min-width: 30px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+.splitsbenen .benen-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    height: 30px;
+    margin-top: -2px;
+}
+.splitsbenen .been {
+    position: absolute;
+    height: 25px;
+    width: 2px;
+    background: #333;
+    top: 0;
+    transform-origin: top center;
+}
+.splitsbenen .links {
+    transform: rotate(-35deg);
+}
+.splitsbenen .rechts {
+    transform: rotate(35deg);
+}
+.splitsbenen .bottom {
+    display: flex;
+    width: 140%;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+.splitsbenen .bottom-deel {
+     border: 2px solid #333;
+     border-radius: 5px;
+     padding: 5px;
+     min-width: 30px;
+     text-align: center;
+}
+
+/* Media Query voor smalle schermen */
+@media (max-width: 1000px) {
+    #main-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #werkblad-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 kolommen op smallere schermen */
+    }
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Woorden & Getallen Bingo - Keuzemenu</title>
+    <link rel="stylesheet" href="bingo.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+
+    <div id="herstel-melding" class="herstel-melding verborgen">
+        <span>Er is een vorig spel gevonden. Wilt u doorgaan?</span>
+        <button id="herstel-ja">✅ Ja, ga door</button>
+        <button id="herstel-nee">❌ Nee, start een nieuw spel</button>
+    </div>
+
+    <div class="hoofd-menu">
+        <a href="index.html" class="menu-knop">Keuzemenu</a>
+        <hr>
+        
+        <button id="kies-avi-knop" class="menu-knop">Start Woordenbingo</button>
+        <div id="avi-selectie" class="verborgen">
+            <h3>Kies AVI-niveau</h3>
+            <div class="avi-knoppen">
+                <button class="avi-knop" data-level="AVI-START">AVI Start</button>
+                <button class="avi-knop" data-level="AVI-M3">AVI M3</button>
+                <button class="avi-knop" data-level="AVI-E3">AVI E3</button>
+                <button class="avi-knop" data-level="AVI-M4">AVI M4</button>
+                <button class="avi-knop" data-level="AVI-E4">AVI E4</button>
+                <button class="avi-knop" data-level="AVI-M5">AVI M5</button>
+                <button class="avi-knop" data-level="AVI-E5">AVI E5</button>
+            </div>
+        </div>
+
+        <div id="avi-start-subkeuze" class="verborgen">
+            <button id="start-met-letters" class="sub-knop">Spelen met Letters</button>
+            <button id="start-met-woorden" class="sub-knop">Spelen met Woorden</button>
+        </div>
+        <div id="avi-start-klankkeuze" class="verborgen">
+            <p>Duid de geleerde klanken aan:</p>
+            <div id="klank-kiezer"></div>
+            <button id="start-met-klanken-knop">Activeer Spel</button>
+        </div>
+        
+        <hr>
+        
+        <button id="kies-getal-knop" class="menu-knop">Start Getallenbingo</button>
+        <div id="getal-selectie" class="verborgen">
+             <h3>Kies een bereik</h3>
+             <button class="getal-knop" data-max="20">Getallen tot 20</button>
+             <button class="getal-knop" data-max="100">Getallen tot 100</button>
+             <button class="getal-knop" data-max="1000">Getallen tot 1000</button>
+        </div>
+
+        <hr>
+
+        <button id="kies-tafel-knop" class="menu-knop">Start Tafelbingo</button>
+        <div id="tafel-selectie" class="verborgen">
+            <h3>Kies tafels</h3>
+            <div id="tafel-kiezer"></div>
+            <h3>Kies type</h3>
+            <div id="tafel-type-kiezer">
+                <label><input type="radio" name="tafel-type" value="maal" checked> Maal</label>
+                <label><input type="radio" name="tafel-type" value="deel"> Deel</label>
+                <label><input type="radio" name="tafel-type" value="mix"> Mix</label>
+            </div>
+            <button id="start-tafel-spel-knop">Activeer Spel</button>
+        </div>
+        
+        <hr>
+
+        <button id="kies-reken-knop" class="menu-knop">Start Rekenbingo</button>
+        <div id="reken-selectie" class="verborgen">
+            <h3>Kies bereik</h3>
+            <div class="reken-optie-groep">
+                <label><input type="radio" name="reken-bereik" value="10" checked> Tot 10</label>
+                <label><input type="radio" name="reken-bereik" value="20"> Tot 20</label>
+                <label><input type="radio" name="reken-bereik" value="100"> Tot 100</label>
+                <label><input type="radio" name="reken-bereik" value="1000"> Tot 1000</label>
+            </div>
+            <h3>Kies type</h3>
+            <div class="reken-optie-groep">
+                <label><input type="radio" name="reken-brug" value="zonder" checked> Zonder brug</label>
+                <label><input type="radio" name="reken-brug" value="met"> Met brug</label>
+                <label><input type="radio" name="reken-brug" value="gemengd"> Gemengd</label>
+            </div>
+             <h3>Kies bewerking</h3>
+            <div class="reken-optie-groep">
+                <label><input type="radio" name="reken-bewerking" value="optellen" checked> Optellen</label>
+                <label><input type="radio" name="reken-bewerking" value="aftrekken"> Aftrekken</label>
+                <label><input type="radio" name="reken-bewerking" value="mix"> Mix</label>
+            </div>
+            <button id="start-reken-spel-knop">Activeer Spel</button>
+        </div>
+
+        <hr>
+        <button id="import-spel-knop" class="menu-knop">🔄 Importeer Spel</button>
+        <input type="file" id="import-spel-input" class="verborgen" accept=".json">
+    </div>
+
+    <div class="hoofd-content">
+        <div id="instructie-paneel">
+            <h2>Welkom bij de Bingo Generator!</h2>
+            <p>1. Kies en configureer een speltype uit het menu links.</p>
+            <p>2. Zodra uw spel klaar is, verschijnen hieronder de actieknoppen.</p>
+            <p><em>Of importeer een eerder opgeslagen spel met de knop 'Importeer Spel'.</em></p>
+        </div>
+
+        <div id="actie-paneel" class="verborgen">
+            <h3>Klaar om te Beginnen!</h3>
+            <p><strong>Gekozen spel:</strong> <span id="gekozen-spel-titel"></span></p>
+            <p>Wat wilt u nu doen?</p>
+            <a href="spel.html" id="start-spel-link" class="actie-knop">▶️ Start Spel</a>
+            <button id="maak-kaarten-knop" class="actie-knop">📄 Maak Bingokaarten</button>
+            <div class="export-container">
+                <button id="export-spel-knop" class="actie-knop">📥 Exporteer Spel (.json)</button>
+                <span class="tooltip-trigger" 
+                      data-tooltip="Sla dit exacte spel op als een klein bestandje.&#10;Waarom?&#10;• Voor een extra back-up.&#10;• Om te delen met een collega.&#10;• Om mee te nemen naar een andere computer (bv. van thuis naar school).">❓</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-overlay" class="verborgen">
+        <div id="custom-modal">
+            <h3 id="modal-titel">Opties voor Bingokaarten</h3>
+            <div id="modal-body">
+                </div>
+            <div id="modal-footer">
+                <button id="modal-genereer-knop" class="modal-actie-knop">Genereer Kaarten</button>
+                <button id="modal-annuleren-knop">Annuleren</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="bingo.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+/* (Alle bestaande stijlen blijven hier ongewijzigd) */
+
+/* Algemene stijlen (met reset) */
+* { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f0f4f8; color: #333; margin: 0; padding: 0; overflow: hidden; }
+.keuzemenu-knop { position: fixed; top: 15px; left: 15px; background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 8px; font-weight: bold; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); z-index: 1001; }
+.verborgen { display: none !important; }
+
+/* Instellingen Scherm */
+#instellingen-scherm { width: 95%; max-width: 700px; margin: 20px auto; background-color: white; padding: 20px 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+h1 { text-align: center; color: #0056b3; }
+.instelling-groep { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+.instelling-groep:last-child { border-bottom: none; }
+.instelling-groep label, .instelling-groep p { font-weight: bold; margin-bottom: 8px; display: block; }
+.instelling-groep input[type="number"] { width: 80px; padding: 8px; border-radius: 6px; border: 1px solid #ccc; }
+.operatie-kiezer label, .radio-groep label { font-weight: normal; display: inline-flex; align-items: center; margin-right: 20px; cursor: pointer; }
+.optie-container { padding-left: 15px; border-left: 3px solid #007bff; margin-top: 10px; }
+.tafel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; }
+.tafel-grid label { font-weight: normal; padding: 8px; border: 1px solid #ddd; border-radius: 6px; text-align: center; }
+#start-knop, #start-na-uitleg-knop { margin-top: 20px; display: block; width: 100%; padding: 15px; font-size: 20px; font-weight: bold; color: white; background: linear-gradient(145deg, #2ecc71, #28b463); border: none; border-radius: 8px; cursor: pointer; }
+
+
+/* NIEUW: Stijlen voor Uitleg Scherm */
+#uitleg-scherm {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+.uitleg-inhoud {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 90%;
+    width: 500px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+.uitleg-inhoud h2 {
+    margin-top: 0;
+    color: #0056b3;
+}
+.uitleg-item {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    font-size: 1.3em;
+    margin-top: 25px;
+}
+.uitleg-item img {
+    width: 70px;
+    height: 70px;
+    margin-right: 20px;
+}
+.uitleg-icoon {
+    font-size: 60px;
+    margin-right: 20px;
+    width: 70px;
+    text-align: center;
+}
+
+/* Spel Scherm */
+#spel-scherm { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #333; overflow: hidden; }
+#weg { width: 100%; height: 100%; background-image: url('loopspel_afbeeldingen/weg.png'); background-repeat: repeat-y; background-size: cover; animation: scroll-weg 10s linear infinite; position: relative; }
+@keyframes scroll-weg { from { background-position-y: 0px; } to { background-position-y: 1080px; } }
+#oefening-display { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); font-size: clamp(60px, 15vw, 180px); font-weight: bold; color: white; text-shadow: 4px 4px 8px rgba(0,0,0,0.7); text-align: center; }
+.obstakel { position: absolute; left: 50%; transform: translateX(-50%); height: auto; }
+.obstakel img { display: block; width: 100%; height: auto; }
+.obstakel-laag { bottom: 5%; }
+.obstakel-bewegend { animation: kom-dichterbij 4s linear forwards; }
+@keyframes kom-dichterbij {
+    from {
+        top: -20%;
+        /* Startgrootte, nu groter */
+        width: clamp(50px, 10vw, 110px);
+        opacity: 1;
+    }
+    to {
+        top: 110%;
+        /* Eindgrootte, nu een stuk groter */
+        width: clamp(180px, 30vw, 350px);
+        opacity: 1;
+    }
+}
+.obstakel-hoog { top: 5%; }
+.obstakel-hangend { width: clamp(300px, 55vw, 700px); animation: hang-en-verdwijn 4s linear forwards; }
+@keyframes hang-en-verdwijn { 0% { opacity: 1; transform: translateX(-50%) translateY(0); } 80% { opacity: 1; transform: translateX(-50%) translateY(0); } 100% { opacity: 0; transform: translateX(-50%) translateY(-50px); } }
+#stop-knop { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: linear-gradient(145deg, #ff6b6b, #e74c3c); color: white; padding: 10px 20px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; z-index: 100; }

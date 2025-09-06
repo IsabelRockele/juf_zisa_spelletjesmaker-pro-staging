@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <title>Zisa PRO – inloggen</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+  <style>
+    :root { --bg:#fff3e0; --card:#fff; --shadow:0 8px 28px rgba(0,0,0,.08); --btn:#fbbf24; }
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:var(--bg);margin:0}
+    .card{max-width:780px;margin:64px auto;background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:28px}
+    h1{margin:0 0 16px 0;font-size:28px}
+    label{display:block;font-weight:600;margin:16px 0 6px}
+    input{width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:10px;font-size:16px}
+    .row{display:grid;grid-template-columns:1fr 160px;gap:12px;margin-top:10px}
+    button{appearance:none;border:0;background:var(--btn);color:#000;font-weight:700;padding:12px 16px;border-radius:10px;cursor:pointer}
+    .muted{color:#666;font-size:14px;margin-top:8px}
+    .error{color:#b91c1c;background:#fee2e2;border:1px solid #fecaca;padding:10px 12px;border-radius:10px;margin-top:12px}
+    .ok{color:#065f46;background:#ecfdf5;border:1px solid #a7f3d0;padding:10px 12px;border-radius:10px;margin-top:12px}
+    a{color:#2563eb;text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Zisa PRO – inloggen</h1>
+    <p>Log in met <b>hetzelfde e-mailadres als bij de aankoop</b>. Na inloggen activeren we PRO op dit toestel en sturen we je door naar de app.</p>
+
+    <label for="email">E-mail</label>
+    <input id="email" type="email" autocomplete="username" placeholder="jouw@email.be" />
+
+    <div class="row">
+      <input id="pw" type="password" autocomplete="current-password" placeholder="Wachtwoord" />
+      <button id="loginBtn">Inloggen</button>
+    </div>
+
+    <div class="muted">
+      <a id="resetLink" href="#">Wachtwoord vergeten / instellen?</a>
+    </div>
+
+    <div id="msg"></div>
+
+    <p class="muted" style="margin-top:18px">Hulp nodig? Mail ons gerust: <a href="mailto:zebraklas@jufzisa.be">zebraklas@jufzisa.be</a></p>
+  </div>
+
+  <!-- Firebase (modular SDK) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+    // Jouw Firebase-config
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1svbzlhdjiiDMyRIgqQq1jSu_F8li3Bw",
+      authDomain: "zisa-spelletjesmaker-pro.firebaseapp.com",
+      projectId: "zisa-spelletjesmaker-pro",
+      storageBucket: "zisa-spelletjesmaker-pro.firebasestorage.app",
+      messagingSenderId: "828063957776",
+      appId: "1:828063957776:web:8d8686b478846fe980db95",
+      measurementId: "G-9LHNLFHSXX"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // ➜ Bepaal het basismapje dynamisch (werkt in /pro/, /pr/, …)
+    const HERE = new URL(location.href);
+    const APP_URL = new URL("app.html", HERE); // zelfde map + app.html
+
+    const email = document.getElementById('email');
+    const pw    = document.getElementById('pw');
+    const btn   = document.getElementById('loginBtn');
+    const msg   = document.getElementById('msg');
+    const reset = document.getElementById('resetLink');
+
+    function show(type, text){
+      msg.className = type === 'error' ? 'error' : 'ok';
+      msg.textContent = text;
+    }
+
+    // Al ingelogd? -> meteen door (respecteer optionele ?r= retourlink)
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const params = new URLSearchParams(location.search);
+        const r = params.get("r");
+        const target = r ? new URL(r, HERE) : APP_URL;
+        location.replace(target);
+      }
+    });
+
+    btn.onclick = async () => {
+      msg.textContent = "";
+      try {
+        await signInWithEmailAndPassword(auth, email.value.trim(), pw.value);
+        // onAuthStateChanged doet de redirect
+      } catch (e) {
+        show('error', e.message.replace('Firebase:', '').trim());
+      }
+    };
+
+    reset.onclick = async (e) => {
+      e.preventDefault();
+      if (!email.value.trim()) return show('error', "Vul eerst je e-mail in en klik dan op deze link.");
+      try {
+        await sendPasswordResetEmail(auth, email.value.trim());
+        show('ok', "We hebben je een e-mail gestuurd om je wachtwoord in te stellen/wijzigen.");
+      } catch (e) {
+        show('error', e.message.replace('Firebase:', '').trim());
+      }
+    };
+  </script>
+</body>
+</html>
+
+
+

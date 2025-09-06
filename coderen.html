@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Code-tekenen Generator</title>
+    <link rel="stylesheet" href="coderen.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="back-link">&leftarrow; Terug naar menu</a>
+        <h1>Code-tekenen Generator</h1>
+    </header>
+
+    <div id="main-content">
+        <div id="left-panel">
+            <div class="control-group">
+                <h3>Instructies</h3>
+                <ol>
+                    <li>Gebruik 'Startpunt' 📍 om te beginnen.</li>
+                    <li>Gebruik 'Lijn' om de code-route te tekenen.</li>
+                    <li>Plaats details met de andere tools.</li>
+                    <li>Gebruik 'Verplaats' 🖐️ om details te selecteren, verslepen, draaien, vergroten en verwijderen (met Delete/Backspace).</li>
+                    <li>Klik op "Genereer Code".</li>
+                </ol>
+            </div>
+
+            <div class="control-group">
+                <h3>Gereedschap</h3>
+                <div id="tool-palette">
+                    <button class="tool-btn selected" data-tool="start">Startpunt 📍</button>
+                    <button class="tool-btn" data-tool="line">Lijn (voor code)</button>
+                    <button class="tool-btn" data-tool="freehand">Vrije Lijn ✍️</button>
+                    <button class="tool-btn" data-tool="eye">Oog 👁️</button>
+                    <button class="tool-btn" data-tool="nose">Neus 👃</button>
+                    <button class="tool-btn" data-tool="mouth">Mond 👄</button>
+                    <button class="tool-btn" data-tool="triangle">Driehoek △</button>
+                    <button class="tool-btn" data-tool="coloredLine">Gekleurde Lijn</button>
+                    <button class="tool-btn" data-tool="move">Verplaats 🖐️</button>
+                    <button class="tool-btn" data-tool="eraser">Gum 🧼</button>
+                </div>
+                <div class="tool-setting" style="margin-top: 8px;">
+                    <input type="checkbox" id="fillTriangleCheckbox" style="width: auto;">
+                    <label for="fillTriangleCheckbox">Driehoek opvullen</label>
+                </div>
+                <div class="tool-setting" style="margin-top: 15px;">
+                    <label for="lineColor">Lijnkleur:</label>
+                    <input type="color" id="lineColor" value="#E53935">
+                </div>
+                <div class="tool-setting">
+                    <label for="featureColor">Detailkleur:</label>
+                    <input type="color" id="featureColor" value="#000000">
+                </div>
+            </div>
+
+             <div class="control-group">
+                <h3>Raster Grootte</h3>
+                <div class="tool-setting">
+                    <label for="gridWidth">Kolommen:</label>
+                    <input type="number" id="gridWidth" value="25" min="5" max="100">
+                </div>
+                <div class="tool-setting">
+                    <label for="gridHeight">Rijen:</label>
+                    <input type="number" id="gridHeight" value="30" min="5" max="100">
+                </div>
+                <button id="resetGridBtn">Nieuw Leeg Raster</button>
+                
+                <div class="grid-modifiers">
+                    <button id="addColLeftBtn" title="Kolom links toevoegen">+</button>
+                    <span>Kolom</span>
+                    <button id="removeColLeftBtn" title="Kolom links verwijderen">-</button>
+                     <button id="removeColRightBtn" title="Kolom rechts verwijderen">-</button>
+                     <button id="addColRightBtn" title="Kolom rechts toevoegen">+</button>
+                </div>
+                 <div class="grid-modifiers">
+                    <button id="addRowTopBtn" title="Rij boven toevoegen">+</button>
+                    <span>Rij</span>
+                    <button id="removeRowTopBtn" title="Rij boven verwijderen">-</button>
+                     <button id="removeRowBottomBtn" title="Rij onder verwijderen">-</button>
+                     <button id="addRowBottomBtn" title="Rij onder toevoegen">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <h3>Acties</h3>
+                <button id="generateBtn">Genereer Code</button>
+                <button id="undoCodeBtn">Code Stap Ongedaan Maken ↩️</button>
+                <button id="clearBtn">Wis Tekening</button>
+            </div>
+             <div id="meldingContainer" class="melding"></div>
+        </div>
+
+        <div id="center-panel">
+            <canvas id="drawingCanvas"></canvas>
+        </div>
+
+        <div id="right-panel">
+            <div class="control-group">
+                <h3>Gegenereerd Werkblad</h3>
+                <div id="output-container">
+                    <div id="instructions-header">Code:</div>
+                    <div id="instructions-output"></div>
+                    <canvas id="worksheetCanvas"></canvas>
+                </div>
+                <button id="downloadPdfBtn" disabled>Download Werkblad als PDF</button>
+            </div>
+             <div class="control-group">
+                <h3>Tekening</h3>
+                <button id="saveDrawingBtn">Tekening Opslaan</button>
+                <button id="loadDrawingBtn">Tekening Laden</button>
+                <input type="file" id="loadDrawingInput" accept=".json" style="display: none;">
+                <button id="catalogBtn">Catalogus</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="catalogModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div id="modal-header">
+                <button id="backToThemesBtn" style="display: none;">&leftarrow; Terug</button>
+                <h2 id="modal-title">Catalogus</h2>
+            </div>
+            <div id="catalog-themes" class="catalog-view"></div>
+            <div id="catalog-choices" class="catalog-view" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script src="coderen.js"></script>
+</body>
+</html>

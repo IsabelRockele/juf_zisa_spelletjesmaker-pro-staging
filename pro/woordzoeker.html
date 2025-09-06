@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8"/>
+  <title>Woordzoeker Generator</title>
+  <meta name="google" content="notranslate">
+  <base href="/juf_zisa_spelletjesmaker/pro/">
+
+  <link href="../woordzoeker.css" rel="stylesheet"/>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    .pro-header {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background-color: #3f7fbf; padding: 8px 12px; color: #fff;
+      z-index: 1000; height: 48px;
+    }
+    .pro-header .back-link{
+      background: #5a9fd4; color: #fff; border: none; padding: 6px 10px;
+      border-radius: 6px; font-size: 14px; font-weight: 600; text-decoration: none;
+      cursor: pointer; display: inline-block; white-space: nowrap;
+    }
+    body { margin-top: 60px; }
+  </style>
+</head>
+<body>
+
+  <header class="pro-header">
+    <a href="app.html" class="back-link" aria-label="Terug naar menu">&larr; Terug naar menu</a>
+  </header>
+
+  <header>
+    <h1>Woordzoeker Generator</h1>
+  </header>
+
+  <div id="main-content">
+    <div id="left-panel">
+      <div id="controls">
+        <div class="control-group">
+          <label for="woordenInput">Woorden (één per regel):</label>
+          <textarea id="woordenInput" rows="10" placeholder="Typ hier je woorden (min. 6, max. 20 woorden, elk max. 12 letters lang)"></textarea>
+          <div id="woordAantalMelding" style="font-size: 0.9em; color: #555; margin-top: 5px;"></div>
+        </div>
+
+        <div class="control-group">
+          <label for="rasterFormaat">Raster formaat:</label>
+          <select id="rasterFormaat">
+            <option value="auto">Automatisch</option>
+            <option value="6">6 x 6</option>
+            <option value="8">8 x 8</option>
+            <option value="10">10 x 10</option>
+            <option value="12">12 x 12</option>
+            <option value="15">15 x 15</option>
+            <option value="20">20 x 20</option>
+            <option value="25">25 x 25</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label>Richting:</label>
+          <label><input type="checkbox" name="richting" value="horizontaal" checked> Horizontaal</label>
+          <label><input type="checkbox" name="richting" value="verticaal" checked> Verticaal</label>
+          <label><input type="checkbox" name="richting" value="diagonaal" checked> Diagonaal</label>
+        </div>
+
+        <div id="meldingContainer" style="color: #004080; margin-top: 15px; font-weight: bold; min-height: 80px;"></div>
+        <button id="genereerBtn">Genereer Woordzoeker</button>
+      </div>
+    </div>
+
+    <div id="center-panel">
+      <div id="right-panel">
+        <canvas id="mainCanvas" width="512" height="512"></canvas>
+      </div>
+
+      <div id="woordenLijstContainer">
+        <h2>Woorden om te vinden:</h2>
+        <div id="woordenLijst" class="kolommen"></div>
+      </div>
+    </div>
+
+    <div id="right-panel-buttons">
+      <div class="control-group">
+        <button id="toonOplossingBtn">Toon Oplossing</button>
+        <button id="downloadPngBtn">Download als PNG</button>
+        <button id="downloadPdfBtn">Download als PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./device-id.js"></script>
+  <script type="module" src="./guard.js"></script>
+
+  <script>
+    (function() {
+      const map = {
+        wordsInput: 'woordenInput',
+        gridSize: 'rasterFormaat',
+        generateBtn: 'genereerBtn', // Aangepast om te matchen
+        wordList: 'woordenLijst',
+        mainCanvas: 'mainCanvas',
+        downloadPngBtn: 'downloadPngBtn',
+        downloadPdfBtn: 'downloadPdfBtn',
+        messageBox: 'meldingContainer',
+        // Shim is niet nodig voor de ontbrekende knoppen, omdat die direct worden toegevoegd met het juiste ID
+      };
+      const origGet = document.getElementById.bind(document);
+      document.getElementById = function(id){
+        return origGet(map[id] || id);
+      };
+    })();
+  </script>
+
+  <script src="../woordzoeker.js"></script>
+</body>
+</html>
+
+

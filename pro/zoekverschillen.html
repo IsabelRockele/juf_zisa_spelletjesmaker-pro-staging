@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zoek de Verschillen Editor</title>
+  <meta name="google" content="notranslate">
+
+  <base href="/juf_zisa_spelletjesmaker/pro/">
+
+  <link rel="stylesheet" href="../zoekverschillen.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    .pro-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #3f7fbf;
+        padding: 8px 12px;
+        color: #fff;
+        z-index: 1000;
+        height: 48px;
+    }
+    .pro-header .back-link{
+        background: #5a9fd4;
+        color: #fff;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        display: inline-block;
+        white-space: nowrap;
+    }
+    body { margin-top: 60px; }
+  </style>
+</head>
+<body>
+<header class="pro-header">
+  <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+</header>
+
+<div id="main-content">
+  <div id="left-panel">
+      <div class="control-group">
+          <h3>Bestand</h3>
+          <button id="uploadImageBtn">Upload Afbeelding</button>
+          <input type="file" id="fileInput" accept="image/*" style="display: none;">
+      </div>
+      
+      <div class="control-group">
+          <h3>Acties</h3>
+          <button id="opnieuwBtn">Opnieuw</button>
+          <button id="undoBtn" disabled>Ongedaan Maken</button>
+      </div>
+
+      <div class="control-group">
+          <h3>Handmatige Tools</h3>
+          <div id="tools-container">
+              <button class="tool-btn active" data-tool="potlood" title="Potlood">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+              </button>
+              <button class="tool-btn" data-tool="gum" title="Gum">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 13H5c-.55 0-1 .45-1 1s.45 1 1 1h14c.55 0 1-.45 1-1s-.45-1-1-1zm-3.12-3.51c-.62-.62-1.7-.18-1.7.71 0 .39.2.74.51.96l4.55 3.25c.6.43 1.44.05 1.58-.65.06-.27-.04-.55-.23-.74l-4.71-3.53zM5.41 4L4 5.41 12.59 14 14 12.59 5.41 4zM16 3c-1.3 0-2.42.36-3.33.98l-2.22 2.22c-.65.65-.92 1.54-.75 2.38.19.92 1.01 1.63 1.96 1.63h.04c.4 0 .78-.13 1.08-.38l2.22-1.58c.29-.21.63-.32.98-.32.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5c-.35 0-.69-.11-.98-.32l-2.22-1.58c-.3-.25-.68-.38-1.08-.38h-.04c-1.63 0-3.09.88-3.78 2.24-.26.51-.4 1.08-.4 1.68 0 .83.34 1.58.88 2.12.54.54 1.29.88 2.12.88s1.58-.34 2.12-.88l7.07-7.07c.54-.54.88-1.29.88-2.12s-.34-1.58-.88-2.12C17.58 3.34 16.83 3 16 3z"/></svg>
+              </button>
+              <button class="tool-btn" data-tool="select" title="Selecteer">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h4v4H3zM17 3h4v4h-4zM3 17h4v4H3zM17 17h4v4h-4zM5 11H3v2h2v-2zM11 5V3h2v2h-2zM19 11h2v2h-2v-2zM11 19v2h2v-2h-2z"/></svg>
+              </button>
+              <button class="tool-btn" data-tool="lijn" title="Lijn">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M21 19.14L4.86 3H3v2.14l16.14 16.14H21z"/></svg>
+              </button>
+              <button class="tool-btn" data-tool="rechthoek" title="Rechthoek">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5v14h18V5H3z"/></svg>
+              </button>
+              <button class="tool-btn" data-tool="cirkel" title="Cirkel">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+              </button>
+              <button class="tool-btn" data-tool="pipet" title="Pipet">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19.35 4.65c-1.39-1.39-3.63-1.39-5.02 0l-8.03 8.03c-.39.39-.39 1.02 0 1.41l1.01 1.01c.39.39 1.02.39 1.41 0l8.03-8.03c1.39-1.39 1.39-3.63 0-5.02zM12.92 6.08c.39-.39 1.02-.39 1.41 0l1.01 1.01c.39.39.39 1.02 0 1.41l-1.42 1.42-2.42-2.42 1.42-1.42zM3 21c0 .55.45 1 1 1h5c.55 0 1-.45 1-1v-5c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v5z"/></svg>
+              </button>
+              <button class="tool-btn" data-tool="opvulemmer" title="Opvulemmer">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM6 19c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm14-2.22l-4.22-4.22c-.66-.66-1.74-.66-2.4 0l-2.4 2.4-1.7-1.7c-.39-.39-1.02-.39-1.41 0L5 15.22V5h15v11.78zM17 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>
+              </button>
+          </div>
+          <div class="tool-setting">
+              <label for="dikte">Dikte:</label>
+              <input type="number" id="dikte" value="10" min="1" max="50">
+          </div>
+          <div class="tool-setting" id="color-selector">
+              <label>Kleur:</label>
+              <div id="color-display"></div>
+          </div>
+          <div class="tool-setting" id="gum-settings" style="display: none;">
+              <label for="gumvorm">Gomvorm:</label>
+              <select id="gumvorm">
+                  <option value="rond">Rond</option>
+                  <option value="vierkant">Vierkant</option>
+              </select>
+          </div>
+      </div>
+
+      <div class="control-group" id="selection-tools" style="display: none;">
+          <h3>Klembord</h3>
+          <div id="clipboard-preview-container" class="hidden">
+              <canvas id="clipboardCanvas"></canvas>
+          </div>
+          <button id="plakkenBtn" disabled>Plakken</button>
+      </div>
+  </div>
+
+  <div id="center-panel">
+      <div id="puzzel-container">
+          <div class="image-wrapper">
+              <h3>Origineel</h3>
+              <canvas id="canvasOrigineel" width="400" height="600"></canvas>
+          </div>
+          <div class="image-wrapper">
+              <h3>Jouw Puzzel (Bewerken)</h3>
+              <canvas id="canvasVerschillen" width="400" height="600" willReadFrequently="true"></canvas>
+          </div>
+      </div>
+      <p id="status-text">Upload een afbeelding om te beginnen.</p>
+  </div>
+
+  <div id="right-panel-buttons">
+      <div class="control-group">
+          <h3>Download</h3>
+          <button id="downloadPngBtn" disabled>Download als PNG</button>
+          <button id="downloadPdfBtn" disabled>Download als PDF</button>
+      </div>
+  </div>
+</div>
+
+<div id="edit-modal-overlay" class="hidden">
+  <div id="edit-modal">
+    <h3>Selectie Bewerken</h3>
+    <p>Gebruik je muis om ongewenste delen van de selectie weg te gummen.</p>
+    <canvas id="editCanvas" willReadFrequently="true"></canvas>
+    <div style="margin: 10px 0; text-align: left;">
+        <input type="checkbox" id="transparentBgCheckbox">
+        <label for="transparentBgCheckbox">Achtergrondkleur transparant maken</label>
+    </div>
+    <div class="edit-controls">
+        <button id="editUndoBtn" disabled>Ongedaan Maken</button>
+        <button id="editFlipHorizontalBtn">Spiegel H</button>
+        <button id="editFlipVerticalBtn">Spiegel V</button>
+        <button id="saveEditBtn">Opslaan</button>
+    </div>
+  </div>
+</div>
+
+<script src="./device-id.js"></script>
+<script type="module" src="./guard.js"></script>
+
+<script src="../zoekverschillen.js"></script>
+</body>
+</html>

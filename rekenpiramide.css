@@ -1,0 +1,223 @@
+/* --- Algemene Styling (voor beide pagina's) --- */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f2f7;
+    padding: 20px;
+    margin: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+h1 {
+    color: #004080;
+    font-size: 2em;
+    text-align: center;
+    margin: 0 auto;
+}
+
+button {
+    background-color: #004080;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.control-group label {
+    font-weight: normal;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.group-title {
+    font-weight: bold;
+}
+
+.control-group select, .control-group input {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #aaddff;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.control-group input[type="radio"],
+.control-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+}
+
+/* --- Lay-out voor Keuzepagina --- */
+#main-content {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.keuzevak {
+    flex: 1; /* Zorgt ervoor dat ze evenveel ruimte innemen */
+    min-width: 380px; /* Minimale breedte om de inhoud goed weer te geven */
+    max-width: 450px; /* Maximale breedte voor grote schermen */
+    padding: 20px;
+    border: 1px solid #b3e0ff;
+    border-radius: 8px;
+    background-color: #f0faff;
+    display: flex;
+    flex-direction: column;
+}
+
+.keuzevak h2 {
+    margin-top: 0;
+    text-align: center;
+    color: #004080;
+    border-bottom: 2px solid #b3e0ff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.maak-werkblad-btn {
+    margin-top: auto;
+    padding: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.melding {
+    color: #c00;
+    font-weight: bold;
+    min-height: 20px;
+    text-align: center;
+}
+
+/* AANGEPAST: Tafels in 2 rijen horizontaal */
+#tafelKeuzeVermenigvuldig {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* Verdeel in 6 gelijke kolommen, voor 2 rijen van 6 */
+    gap: 8px;
+}
+#tafelKeuzeVermenigvuldig label {
+    white-space: nowrap; /* Voorkom dat de tekst van een label over meerdere regels breekt */
+}
+
+
+/* --- Lay-out voor Werkbladpagina --- */
+.werkblad-pagina {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#werkblad-knoppen {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#werkblad-wrapper {
+    background-color: #ffffff;
+    border: 1px solid #b3e0ff;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+#werkblad-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 kolommen voor piramides */
+    gap: 25px; /* Meer ruimte tussen piramides */
+    align-items: start;
+    justify-items: center;
+    font-family: Arial, sans-serif; /* Aangepast naar Arial voor piramides */
+    font-size: 1.2em;
+}
+
+/* --- Styling voor Rekenpiramides --- */
+.rekenpiramide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px; /* Ruimte onder elke piramide */
+}
+
+.piramide-rij {
+    display: flex;
+    justify-content: center;
+    margin-top: -1px; /* Overlap de randen */
+}
+
+.piramide-vak {
+    width: 40px; /* Breedte van elk vakje */
+    height: 35px; /* Hoogte van elk vakje */
+    border: 1px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.1em;
+    background-color: #f8f8f8;
+    box-sizing: border-box; /* Zorgt dat padding en border binnen de breedte vallen */
+}
+
+/* Rond de hoeken van de bovenste vakjes af */
+.piramide-rij:first-child .piramide-vak {
+    border-radius: 5px;
+}
+
+/* Verberg onnodige zijkanten voor een mooiere piramidevorm */
+.piramide-vak:not(:first-child) {
+    border-left: none;
+}
+.piramide-rij:not(:first-child) .piramide-vak {
+    border-top: none;
+}
+
+
+/* Media Query voor smalle schermen */
+@media (max-width: 1000px) {
+    #main-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .keuzevak {
+        max-width: 90%; /* Meer ruimte op kleine schermen */
+    }
+
+    #werkblad-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 kolommen op smallere schermen */
+    }
+}
+
+@media (max-width: 600px) {
+    #werkblad-container {
+        grid-template-columns: 1fr; /* 1 kolom op zeer smalle schermen */
+    }
+    .rekenpiramide {
+        transform: scale(0.9); /* Kleinere piramides op zeer kleine schermen */
+    }
+}

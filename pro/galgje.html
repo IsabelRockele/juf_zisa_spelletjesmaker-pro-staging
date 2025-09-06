@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Galgje – Zisa met frames</title>
+
+  <!-- CSS en JS blijven buiten /pro/, dus één niveau hoger -->
+  <link rel="stylesheet" href="../galgje.css" />
+
+  <!-- Alle relatieve paden laten resolven t.o.v. /pro/ op GitHub Pages -->
+  <base href="/juf_zisa_spelletjesmaker/pro/">
+
+  <!-- voorkom Google-Translate overlay / CSP-consolemelding -->
+  <meta name="google" content="notranslate">
+
+  <style>
+    .pro-header {
+      position: relative;
+      background-color: #3f7fbf;
+      padding: 10px 12px;
+      color: #fff;
+      min-height: 56px;
+    }
+    .pro-header .back-link {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      text-decoration: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      background: #5a9fd4;
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .pro-header .title {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 800;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="pro-header">
+    <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+    <h1 class="title">Galgje-generator (Zisa)</h1>
+  </header>
+
+  <section class="setup">
+    <div class="panel">
+      <p>Vul uw zinnen in (één per veld). Klik op <strong>+</strong> voor extra zinnen.</p>
+
+      <div id="sentencesList" class="sentences-list"></div>
+
+      <div class="row">
+        <button id="addSentenceBtn" class="btn icon" title="Zin toevoegen" aria-label="Zin toevoegen">＋</button>
+
+        <label for="balloonCount">Fouten toegestaan:</label>
+        <select id="balloonCount">
+          <option value="8">8</option>
+          <option value="10">10</option>
+          <option value="12" selected>12</option>
+        </select>
+
+        <label for="alphabetSelect">Alfabet:</label>
+        <select id="alphabetSelect">
+          <option value="std" selected>Standaard (A-Z)</option>
+          <option value="fr">Frans (met accenten)</option>
+        </select>
+
+        <button id="startBtn" class="btn primary">Start spel</button>
+        <button id="clearAllBtn" class="btn ghost">Alles leegmaken</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="game" id="game">
+    <div class="sky" aria-hidden="true">
+      <div class="cloud c1"></div><div class="cloud c2"></div>
+      <div class="cloud c3"></div><div class="cloud c4"></div>
+      <div class="cloud c5"></div>
+    </div>
+
+    <div class="topbar">
+      <span id="progress">Fouten: 0/12</span>
+      <div class="top-actions">
+        <button id="resetBtn" class="btn ghost">Opnieuw</button>
+      </div>
+    </div>
+
+    <div class="playwrap">
+      <div class="left">
+        <div id="word" class="word"></div>
+        <div id="feedback" class="status"></div>
+      </div>
+
+      <div class="stage">
+        <svg id="zisaStage" viewBox="0 0 800 520">
+          <g id="zisa" transform="translate(400,240)"></g>
+        </svg>
+      </div>
+    </div>
+
+    <div id="kbbar" class="kbbar">
+      <div id="keyboard" class="kb"></div>
+      <div class="kb-actions">
+        <button id="nextInlineBtn" class="btn secondary hidden">Volgend spel</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="modal" class="modal">
+    <div class="dialog">
+      <h3 id="modalTitle"></h3>
+      <p id="modalText"></p>
+      <div class="actions">
+        <button id="nextBtn" class="btn secondary">Volgend spel</button>
+        <button id="closeBtn" class="btn ghost">Sluiten</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCRIPT-ORDE: device-id.js → guard.js → paginacode ===== -->
+
+  <!-- 1) Stabiele device-id (localStorage + cookie) -->
+  <script src="./device-id.js"></script>
+
+  <!-- 2) Centrale PRO-guard (registreert device en verleent/weigert toegang) -->
+  <script type="module" src="./guard.js"></script>
+
+  <!-- 3) Uw eigen paginacode (pas na de guard laden) -->
+  <script src="../galgje.js"></script>
+</body>
+</html>
+
+

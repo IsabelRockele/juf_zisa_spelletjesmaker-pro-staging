@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Bingo Spel (PRO)</title>
+
+    <!-- CSS staat in de hoofdmap van het spel -->
+    <link rel="stylesheet" href="../bingo.css">
+
+    <!-- Alle relatieve links binnen /pro/ laten resolven op GitHub Pages -->
+    <base href="/juf_zisa_spelletjesmaker/pro/">
+
+    <!-- Voorkom Google-Translate overlay (scheelt CSP-consolemelding) -->
+    <meta name="google" content="notranslate">
+
+    <style>
+        .pro-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #3f7fbf;
+            padding: 8px 12px;
+            color: #fff;
+            z-index: 1000;
+            height: 48px;
+        }
+        .pro-header .back-link{
+            background: #5a9fd4;
+            color: #fff;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+            white-space: nowrap;
+            /* float:left;  ← overbodig en negeert display:inline-block, daarom verwijderd */
+        }
+        body { margin-top: 60px; }
+        .spel-pagina-body {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+    </style>
+</head>
+<body class="spel-pagina-body">
+
+<header class="pro-header">
+    <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+</header>
+
+<div id="spel-wrapper">
+    <div class="spel-container">
+        <h1 id="huidig-niveau-titel">Spel wordt geladen...</h1>
+        <div id="items-overzicht"></div>
+        <div id="schuif-machine">
+            <div id="pijl-indicator">▼</div>
+            <div id="ballen-band"></div>
+        </div>
+        <div class="knoppen-container">
+            <button id="start-schuiven-knop">Kies item</button>
+            <a href="app.html" class="sluiten-knop">Spel Sluiten</a>
+        </div>
+    </div>
+</div>
+
+<div id="geen-spel-melding" class="verborgen">
+    <h2>Geen spel gevonden!</h2>
+    <p>Er is geen spel geconfigureerd. Ga terug naar het keuzemenu om een spel te starten.</p>
+    <a href="app.html" class="actie-knop">Terug naar menu</a>
+</div>
+
+<!-- Uniforme device- en guard-laag: ALTIJD in deze volgorde -->
+<script src="./device-id.js"></script>
+<script type="module" src="./guard.js"></script>
+
+<!-- Paginascript NA de guard, uit de hoofdmap van het spel -->
+<script src="../bingo.js"></script>
+</body>
+</html>
+
+

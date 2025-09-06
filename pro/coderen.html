@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Code-tekenen Generator (PRO)</title>
+
+  <!-- Bestaande CSS ligt buiten /pro/, dus één niveau hoger -->
+  <link rel="stylesheet" href="../coderen.css" />
+
+  <!-- jsPDF (zoals origineel) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Belangrijk: alle relatieve paden resolven naar /pro/ op GitHub Pages -->
+  <base href="/juf_zisa_spelletjesmaker/pro/">
+
+  <!-- voorkom Google-Translate overlay / CSP-consolemelding -->
+  <meta name="google" content="notranslate">
+
+  <!-- Header-styling -->
+  <style>
+    .pro-header {
+      position: relative;
+      background-color: #3f7fbf;
+      padding: 10px 12px;
+      color: #fff;
+      min-height: 56px;
+      border-bottom: 0;
+    }
+    .pro-header .back-link {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      text-decoration: none; color: #fff; font-weight: 700; font-size: 14px;
+      background: #5a9fd4; padding: 6px 10px; border-radius: 6px;
+      display: inline-block; white-space: nowrap;
+    }
+    .pro-header .title {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      margin: 0; text-align: center; font-size: 26px; font-weight: 800; letter-spacing: .2px;
+      white-space: nowrap; pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="pro-header">
+    <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+    <h1 class="title">Code-tekenen Generator</h1>
+  </header>
+
+  <div id="main-content">
+    <div id="left-panel">
+      <div class="control-group">
+        <h3>Instructies</h3>
+        <ol>
+          <li>Gebruik <strong>Startpunt</strong> 📍 om te beginnen.</li>
+          <li>Gebruik <strong>Lijn</strong> om de code-route te tekenen.</li>
+          <li>Plaats details met de andere tools.</li>
+          <li>Gebruik <strong>Verplaats</strong> 🖐️ om details te selecteren, verslepen, draaien, vergroten en verwijderen (Delete/Backspace).</li>
+          <li>Klik op <strong>Genereer Code</strong>.</li>
+        </ol>
+      </div>
+
+      <div class="control-group">
+        <h3>Gereedschap</h3>
+        <div id="tool-palette">
+          <button class="tool-btn selected" data-tool="start">Startpunt 📍</button>
+          <button class="tool-btn" data-tool="line">Lijn (voor code)</button>
+          <button class="tool-btn" data-tool="freehand">Vrije Lijn ✍️</button>
+          <button class="tool-btn" data-tool="eye">Oog 👁️</button>
+          <button class="tool-btn" data-tool="nose">Neus 👃</button>
+          <button class="tool-btn" data-tool="mouth">Mond 👄</button>
+          <button class="tool-btn" data-tool="triangle">Driehoek △</button>
+          <button class="tool-btn" data-tool="coloredLine">Gekleurde Lijn</button>
+          <button class="tool-btn" data-tool="move">Verplaats 🖐️</button>
+          <button class="tool-btn" data-tool="eraser">Gum 🧼</button>
+        </div>
+        <div class="tool-setting" style="margin-top: 8px;">
+          <input type="checkbox" id="fillTriangleCheckbox" style="width:auto;">
+          <label for="fillTriangleCheckbox">Driehoek opvullen</label>
+        </div>
+        <div class="tool-setting" style="margin-top: 12px;">
+          <label for="lineColor">Lijnkleur:</label>
+          <input type="color" id="lineColor" value="#E53935">
+        </div>
+        <div class="tool-setting">
+          <label for="featureColor">Detailkleur:</label>
+          <input type="color" id="featureColor" value="#000000">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <h3>Raster Grootte</h3>
+        <div class="tool-setting">
+          <label for="gridWidth">Kolommen:</label>
+          <input type="number" id="gridWidth" value="25" min="5" max="100">
+        </div>
+        <div class="tool-setting">
+          <label for="gridHeight">Rijen:</label>
+          <input type="number" id="gridHeight" value="30" min="5" max="100">
+        </div>
+        <button id="resetGridBtn">Nieuw Leeg Raster</button>
+
+        <div class="grid-modifiers">
+          <button id="addColLeftBtn" title="Kolom links toevoegen">+</button>
+          <span>Kolom</span>
+          <button id="removeColLeftBtn" title="Kolom links verwijderen">-</button>
+          <button id="removeColRightBtn" title="Kolom rechts verwijderen">-</button>
+          <button id="addColRightBtn" title="Kolom rechts toevoegen">+</button>
+        </div>
+        <div class="grid-modifiers">
+          <button id="addRowTopBtn" title="Rij boven toevoegen">+</button>
+          <span>Rij</span>
+          <button id="removeRowTopBtn" title="Rij boven verwijderen">-</button>
+          <button id="removeRowBottomBtn" title="Rij onder verwijderen">-</button>
+          <button id="addRowBottomBtn" title="Rij onder toevoegen">+</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <h3>Acties</h3>
+        <button id="generateBtn">Genereer Code</button>
+        <button id="undoCodeBtn">Code Stap Ongedaan Maken ↩️</button>
+        <button id="clearBtn">Wis Tekening</button>
+      </div>
+
+      <div id="meldingContainer" class="melding"></div>
+    </div>
+
+    <div id="center-panel">
+      <canvas id="drawingCanvas"></canvas>
+    </div>
+
+    <div id="right-panel">
+      <div class="control-group">
+        <h3>Gegenereerd Werkblad</h3>
+        <div id="output-container">
+          <div id="instructions-header">Code:</div>
+          <div id="instructions-output"></div>
+          <canvas id="worksheetCanvas"></canvas>
+        </div>
+        <button id="downloadPdfBtn" disabled>Download Werkblad als PDF</button>
+      </div>
+
+      <div class="control-group">
+        <h3>Tekening</h3>
+        <button id="saveDrawingBtn">Tekening Opslaan</button>
+        <button id="loadDrawingBtn">Tekening Laden</button>
+        <input type="file" id="loadDrawingInput" accept=".json" style="display:none;">
+        <button id="catalogBtn">Catalogus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Catalogus-modal -->
+  <div id="catalogModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <div id="modal-header">
+        <button id="backToThemesBtn" style="display:none;">&leftarrow; Terug</button>
+        <h2 id="modal-title">Catalogus</h2>
+      </div>
+      <div id="catalog-themes" class="catalog-view"></div>
+      <div id="catalog-choices" class="catalog-view" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- PRO-mapper: herschrijft 'catalogus/' naar 'coderen_afbeeldingen/' -->
+  <script>
+    (function () {
+      const origFetch = window.fetch;
+      window.fetch = function(input, init) {
+        let url = typeof input === 'string' ? input : (input && input.url);
+        if (url && url.includes('catalogus/')) {
+          const newUrl = url.replace(/(^|\/)catalogus\//g, '$1coderen_afbeeldingen/');
+          input = (typeof input === 'string') ? newUrl : new Request(newUrl, input);
+        }
+        return origFetch.call(this, input, init);
+      };
+
+      function remapSrcIfNeeded(imgEl) {
+        if (!imgEl) return;
+        const src = imgEl.getAttribute && imgEl.getAttribute('src');
+        if (src && src.includes('catalogus/')) {
+          imgEl.setAttribute('src', src.replace(/(^|\/)catalogus\//g, '$1coderen_afbeeldingen/'));
+        }
+      }
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('img').forEach(remapSrcIfNeeded);
+      });
+      const mo = new MutationObserver((mut) => {
+        for (const m of mut) {
+          if (m.type === 'attributes' && m.attributeName === 'src' && m.target.tagName === 'IMG') {
+            remapSrcIfNeeded(m.target);
+          }
+          m.addedNodes.forEach((node) => {
+            if (node.nodeType !== 1) return;
+            if (node.tagName === 'IMG') remapSrcIfNeeded(node);
+            node.querySelectorAll && node.querySelectorAll('img').forEach(remapSrcIfNeeded);
+          });
+        }
+      });
+      mo.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
+    })();
+  </script>
+
+  <!-- ===== SCRIPT-ORDE: device-id.js → guard.js → paginacode ===== -->
+  <!-- 1) Stabiele device-id (localStorage + cookie) -->
+  <script src="./device-id.js"></script>
+
+  <!-- 2) Centrale PRO-guard (registreert device en verleent/weigert toegang) -->
+  <script type="module" src="./guard.js"></script>
+
+  <!-- 3) Uw eigen paginacode (pas na de guard laden) -->
+  <script src="../coderen.js"></script>
+</body>
+</html>
+
+

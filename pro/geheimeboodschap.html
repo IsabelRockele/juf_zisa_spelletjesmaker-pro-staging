@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geheime Boodschap Generator</title>
+
+    <!-- Externe iconen (ongewijzigd) -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Stijlen liggen buiten /pro/ -->
+    <link href="../geheimeboodschap.css" rel="stylesheet"/>
+
+    <!-- Alle relatieve paden resolven t.o.v. /pro/ (GitHub Pages) -->
+    <base href="/juf_zisa_spelletjesmaker/pro/">
+
+    <!-- voorkom Google-Translate overlay / CSP-consolemelding -->
+    <meta name="google" content="notranslate">
+
+    <style>
+        .pro-header {
+            position: relative;
+            background-color: #3f7fbf;
+            padding: 10px 12px;
+            color: #fff;
+            min-height: 56px;
+        }
+        .pro-header .back-link {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-decoration: none;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            background: #5a9fd4;
+            padding: 6px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            width: auto !important;
+            white-space: nowrap;
+        }
+        .pro-header .title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- PRO-header: enkel 'Terug naar menu' -->
+    <header class="pro-header">
+        <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+        <h1 class="title">Geheime Boodschap Generator</h1>
+    </header>
+
+    <main>
+        <div id="setup-scherm">
+            <p class="instructie">Kies hoe je de geheime sleutel wilt instellen:</p>
+            <div class="keuze-opties">
+                <button id="zelf-uploaden-knop"><i class="fas fa-upload"></i> Zelf afbeeldingen uploaden</button>
+                <button id="thema-kiezen-knop"><i class="fas fa-palette"></i> Kies een thema</button>
+            </div>
+
+            <div id="upload-sectie" class="verborgen">
+                <div id="drop-zone">
+                    <p>Sleep 23 afbeeldingen hier, of upload ze hieronder per letter.</p>
+                </div>
+
+                <div id="upload-grid"></div>
+
+                <div class="upload-actie-knoppen">
+                    <button id="herschud-knop" class="secondary-knop" disabled><i class="fas fa-random"></i> Herschudden</button>
+                    <button id="naar-generator-knop-upload" disabled>Maak geheime boodschap</button>
+                    <button id="terug-naar-keuze-knop-uit-upload"><i class="fas fa-undo"></i> Terug</button>
+                </div>
+            </div>
+
+            <div id="thema-sectie" class="verborgen">
+                <p class="instructie">Kies een thema:</p>
+                <div id="thema-knoppen">
+                    <button class="thema-knop" data-thema="Sinterklaas"><i class="fas fa-sleigh"></i> Sinterklaas</button>
+                    <button class="thema-knop" data-thema="herfst"><i class="fas fa-leaf"></i> Herfst</button>
+                    <button class="thema-knop" data-thema="Halloween"><i class="fas fa-ghost"></i> Halloween</button>
+                    <button class="thema-knop" data-thema="Pasen"><i class="fas fa-egg"></i> Pasen</button>
+                    <button class="thema-knop" data-thema="lente"><i class="fas fa-seedling"></i> Lente</button>
+                    <button class="thema-knop" data-thema="zomer"><i class="fas fa-sun"></i> Zomer</button>
+                    <button class="thema-knop" data-thema="Carnaval"><i class="fas fa-mask"></i> Carnaval</button>
+                    <button class="thema-knop" data-thema="terug_naar_school"><i class="fas fa-school"></i> Terug naar school</button>
+                    <button class="thema-knop" data-thema="Kerst"><i class="fas fa-tree"></i> Kerst</button>
+                    <button class="thema-knop" data-thema="winter"><i class="fas fa-snowflake"></i> Winter</button>
+                </div>
+
+                <p id="thema-laad-status" class="instructie-knop verborgen"></p>
+
+                <div id="thema-afbeeldingen-preview" class="verborgen">
+                     <div id="thema-upload-grid"></div>
+                </div>
+
+                <div class="thema-actie-knoppen">
+                    <button id="naar-generator-knop-thema" disabled>Maak geheime boodschap</button>
+                    <button id="terug-naar-keuze-knop-uit-thema"><i class="fas fa-undo"></i> Terug</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="generator-scherm" class="verborgen">
+            <div class="generator-kolom">
+                <h2>Jouw Geheime Sleutel</h2>
+                <div id="sleutel-overzicht"></div>
+                <button id="terug-naar-setup-knop">Kies nieuwe afbeeldingen</button>
+            </div>
+            <div class="generator-kolom">
+                <h2>Geheime Boodschap</h2>
+                <div id="generator-type-keuze">
+                    <label><input type="radio" name="puzzeltype" value="zin" checked> Zin</label>
+                    <label><input type="radio" name="puzzeltype" value="woorden"> Losse woorden</label>
+                </div>
+                <div id="zin-sectie">
+                    <textarea id="boodschap-input" rows="4" placeholder="Typ hier je boodschap..."></textarea>
+                </div>
+                <div id="woorden-sectie" class="verborgen">
+                    <p class="instructie">Typ maximaal 8 woorden.</p>
+                    <div class="optie-container">
+                        <input type="checkbox" id="schrijflijn-toggle-checkbox" checked>
+                        <label for="schrijflijn-toggle-checkbox">Schrijflijnen toevoegen</label>
+                    </div>
+                    <div id="woorden-grid"></div>
+                </div>
+                <div class="actie-knoppen">
+                    <button id="genereer-knop">Genereer Puzzel</button>
+                    <button id="opnieuw-beginnen-knop">Nieuwe Zin / Woorden</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="puzzel-preview-scherm" class="verborgen">
+            <div class="preview-acties">
+                <button id="print-knop"><i class="fas fa-print"></i> Print Puzzel</button>
+                <button id="download-pdf-knop"><i class="fas fa-file-pdf"></i> Download als PDF</button>
+                <button id="sluit-preview-knop" class="secondary-knop"><i class="fas fa-times"></i> Sluit Voorbeeld</button>
+            </div>
+            <div id="print-container">
+                <h2 class="print-titel">Geheime Sleutel</h2>
+                <div id="puzzel-sleutel-container"></div>
+                <hr class="print-hr">
+                <h3 class="print-titel">De Boodschap</h3>
+                <div id="puzzel-content-container"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Externe libs (ongewijzigd) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- ===== SCRIPT-ORDE: device-id.js → guard.js → paginacode ===== -->
+    <!-- 1) Stabiele device-id (localStorage + cookie) -->
+    <script src="./device-id.js"></script>
+
+    <!-- 2) Centrale PRO-guard (registreert device en verleent/weigert toegang) -->
+    <script type="module" src="./guard.js"></script>
+
+    <!-- 3) Projectscript (pas na de guard laden) -->
+    <script src="../geheimeboodschap.js"></script>
+</body>
+</html>
+
+

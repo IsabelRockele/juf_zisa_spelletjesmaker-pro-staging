@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juf Zisa's Schaduw Match Generator</title>
+    <link rel="stylesheet" href="schaduw.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <header>
+        <button onclick="window.location.href='index.html'" id="menuBtn">Keuzemenu</button>
+        <h1>Schaduw Match Werkblad Generator</h1>
+        <div class="header-spacer"></div>
+    </header>
+
+    <div id="main-content">
+        <div id="left-panel">
+            <div id="controls">
+                <div class="control-group">
+                    <h3>Stap 1: Kies afbeeldingen</h3>
+                    <input type="file" id="imageUpload" accept="image/png" multiple>
+                    <button id="uploadTriggerBtn">Kies bestanden...</button>
+                    <span id="file-feedback">Geen bestanden geselecteerd.</span>
+                </div>
+
+                <div class="control-group">
+                    <h3>Stap 2: Maak schaduwen</h3>
+                    <button id="create-shadows-btn" disabled>Maak Schaduwen</button>
+                </div>
+
+                <div class="control-group">
+                    <h3>Stap 3: Kies werkblad</h3>
+                    <div id="keuze-werkblad-type">
+                        <label>
+                            <input type="radio" name="werkbladType" value="type2" checked disabled> Twee Kolommen
+                        </label>
+                        <label>
+                            <input type="radio" name="werkbladType" value="type1" disabled> Midden Object
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h3>Stap 4: Toon resultaat</h3>
+                    <button id="render-worksheet-btn" disabled>Toon Werkblad</button>
+                </div>
+                
+                <div class="control-group" id="edit-controls" style="display: none;">
+                    <h3>Stap 5: Verfijnen</h3>
+                    <button id="enable-move-btn">Verplaats & Pas Grootte Aan</button>
+                    
+                    <div id="resize-controls" class="sub-control-group" style="display: none;">
+                        <button id="increase-size-btn">Vergroot</button>
+                        <button id="decrease-size-btn">Verklein</button>
+                        <span id="size-feedback">Selecteer een item</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="center-panel">
+            <div id="werkbladWeergave">
+                <p class="placeholder-text">Begin bij Stap 1 om afbeeldingen te kiezen.</p>
+            </div>
+        </div>
+
+        <div id="right-panel-buttons">
+            <div class="control-group">
+                <h3>Acties</h3>
+                <button id="downloadPdfBtn">Download als PDF</button>
+                <button id="resetBtn">Opnieuw Maken</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Isabel Rockelé - Juf Zisa. Alle rechten voorbehouden.</p>
+    </footer>
+
+    <canvas id="hiddenCanvas"></canvas>
+    
+    <script src="schaduw.js"></script>
+</body>
+</html>

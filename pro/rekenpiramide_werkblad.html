@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jouw Rekenpiramide Werkblad</title>
+    <meta name="google" content="notranslate">
+
+    <!-- Alle relatieve paden resolven t.o.v. /juf_zisa_spelletjesmaker/pro/ -->
+    <base href="/juf_zisa_spelletjesmaker/pro/">
+
+    <!-- Styles liggen buiten /pro/ -->
+    <link rel="stylesheet" href="../rekenpiramide.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        .pro-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #3f7fbf;
+            padding: 8px 12px;
+            color: #fff;
+            z-index: 1000;
+            height: 48px;
+        }
+        .pro-header .back-link{
+            background: #5a9fd4;
+            color: #fff;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+            white-space: nowrap;
+            /* float:left; verwijderd om console-waarschuwing te vermijden */
+        }
+        body { margin-top: 60px; }
+    </style>
+</head>
+<body>
+<header class="pro-header">
+    <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+</header>
+
+<header>
+    <h1>Jouw Rekenpiramide Werkblad (<span id="bewerkingTekst"></span>)</h1>
+</header>
+
+<div class="werkblad-pagina">
+    <div id="werkblad-knoppen">
+        <button id="opnieuwBtn">Maak nieuwe oefeningen</button>
+        <button id="downloadPdfBtn">Download als PDF</button>
+    </div>
+    <div id="werkblad-wrapper">
+        <div id="werkblad-container"></div>
+    </div>
+</div>
+
+<!-- Uniforme device- en guard-laag: ALTIJD in deze volgorde -->
+<script src="./device-id.js"></script>
+<script type="module" src="./guard.js"></script>
+
+<!-- Paginascript NA de guard, eenmalig laden -->
+<script src="../rekenpiramide_werkblad.js"></script>
+</body>
+</html>
+
+

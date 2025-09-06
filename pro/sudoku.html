@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Sudoku Generator</title>
+    <meta name="google" content="notranslate">
+
+    <!-- Styles liggen buiten /pro/ -->
+    <link rel="stylesheet" href="../sudoku.css">
+
+    <!-- Alle relatieve paden resolven t.o.v. /juf_zisa_spelletjesmaker/pro/ -->
+    <base href="/juf_zisa_spelletjesmaker/pro/">
+
+    <!-- Externe lib (ongewijzigd) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        .pro-header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background-color: #3f7fbf;
+            padding: 8px 12px; color: #fff;
+            z-index: 1000; height: 48px;
+        }
+        .pro-header .back-link{
+            background: #5a9fd4; color: #fff; border: none; padding: 6px 10px;
+            border-radius: 6px; font-size: 14px; font-weight: 600; text-decoration: none;
+            cursor: pointer; display: inline-block; white-space: nowrap;
+            /* float:left; verwijderd i.v.m. console-waarschuwing */
+        }
+        body { margin-top: 60px; }
+    </style>
+</head>
+<body>
+<header class="pro-header">
+    <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+</header>
+
+<div id="main-content">
+    <div id="left-panel">
+        <div id="controls">
+            <div class="control-group">
+                <h3>Type Sudoku</h3>
+                <label><input type="radio" name="sudokuType" value="getallen" checked> Getallen</label>
+                <label><input type="radio" name="sudokuType" value="afbeeldingen"> Afbeeldingen</label>
+            </div>
+
+            <div class="control-group">
+                <h3>Werkblad</h3>
+                <label for="aantalSudokus">Aantal per pagina:</label>
+                <select id="aantalSudokus">
+                    <option value="1">1 per pagina</option>
+                    <option value="2">2 per pagina</option>
+                    <option value="3">3 per pagina</option>
+                    <option value="4">4 per pagina</option>
+                </select>
+                <small id="aantalMelding" style="color: #004080; min-height: 1.2em;"></small>
+            </div>
+
+            <div class="control-group" id="image-variety-controls" style="display: none;">
+                <label>Gebruik voor meerdere sudoku's:</label>
+                <label><input type="radio" name="imageVariety" value="same" checked> Dezelfde afbeeldingen</label>
+                <label><input type="radio" name="imageVariety" value="different"> Per sudoku andere afbeeldingen</label>
+            </div>
+
+            <div class="control-group" id="themeSelectionGroup" style="display: none;">
+                <h3>Kies een thema</h3>
+                <select id="themeSelect">
+                    <option value="">-- Kies een thema --</option>
+                    <option value="terug_naar_school">Terug naar school</option>
+                    <option value="herfst">Herfst</option>
+                    <option value="halloween">Halloween</option>
+                    <option value="sinterklaas">Sinterklaas</option>
+                    <option value="winter">Winter</option>
+                    <option value="kerst">Kerst</option>
+                    <option value="lente">Lente</option>
+                    <option value="pasen">Pasen</option>
+                    <option value="carnaval">Carnaval</option>
+                    <option value="zomer">Zomer</option>
+                </select>
+            </div>
+
+            <div class="control-group" id="themeImageSelection" style="display: none;">
+                <h4 id="themeImageSelectionLabel">Kies 4 afbeeldingen uit het thema:</h4>
+                <div id="selectableThemeImagePreviews" class="image-previews-container"></div>
+                <button id="confirmThemeImagesBtn" class="small-btn" style="margin-top: 10px;">Bevestig selectie</button>
+            </div>
+
+            <div id="image-controls" style="display:none;">
+                <div class="control-group" id="userUploadControls">
+                    <label for="imageInput" id="imageInputLabel">Kies 4 afbeeldingen:</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="imageInput" accept="image/*" multiple>
+                        <button id="clearImagesBtn" class="small-btn">Verwijder selectie</button>
+                    </div>
+                    <div id="image-previews" class="image-previews-container"></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Moeilijkheidsgraad</h3>
+                <select id="difficulty">
+                    <option value="easy">Makkelijk (±10-11 vakjes ingevuld)</option>
+                    <option value="medium">Gemiddeld (±8-9 vakjes ingevuld)</option>
+                    <option value="hard">Moeilijk (±6-7 vakjes ingevuld)</option>
+                </select>
+            </div>
+            
+            <div id="meldingContainer" style="color: #d9534f; margin-top: 15px; font-weight: bold; min-height: 40px;"></div>
+
+            <button id="genereerBtn">Genereer Nieuwe Sudoku</button>
+        </div>
+    </div>
+
+    <div id="center-panel">
+        <div id="right-panel">
+            <canvas id="mainCanvas" width="512" height="512"></canvas>
+        </div>
+    </div>
+
+    <div id="right-panel-buttons">
+        <div class="control-group">
+            <h3>Download</h3>
+            <button id="downloadPngBtn">Download als PNG</button>
+            <button id="downloadPdfBtn">Download als PDF</button>
+        </div>
+    </div>
+</div>
+
+<!-- Oude uitlogknop + logout-script verwijderd -->
+
+<!-- Uniforme device- en guard-laag: ALTIJD in deze volgorde -->
+<script src="./device-id.js"></script>
+<script type="module" src="./guard.js"></script>
+
+<!-- Paginascript NA de guard, eenmalig laden -->
+<script src="../sudoku.js"></script>
+</body>
+</html>
+
+

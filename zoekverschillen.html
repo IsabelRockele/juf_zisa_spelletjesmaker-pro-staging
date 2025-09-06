@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zoek de Verschillen Editor</title>
+  <link rel="stylesheet" href="zoekverschillen.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <button onclick="window.location.href='index.html'" id="menuBtn">Keuzemenu</button>
+    <h1>Zoek de Verschillen Editor</h1>
+  </header>
+
+  <div id="main-content">
+    <div id="left-panel">
+        <div class="control-group">
+            <h3>Bestand</h3>
+            <button id="uploadImageBtn">Upload Afbeelding</button>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+        </div>
+        
+        <div class="control-group">
+            <h3>Acties</h3>
+            <button id="opnieuwBtn">Opnieuw</button>
+            <button id="undoBtn" disabled>Ongedaan Maken</button>
+        </div>
+
+        <div class="control-group">
+            <h3>Handmatige Tools</h3>
+             <div id="tools-container">
+                <button class="tool-btn active" data-tool="potlood" title="Potlood">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                </button>
+                <button class="tool-btn" data-tool="gum" title="Gum">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16.24,3.56L21.19,8.5C21.97,9.29 21.97,10.55 21.19,11.34L12,20.53C10.44,22.09 7.91,22.09 6.34,20.53L1.4,15.58C-0.16,14.03 -0.16,11.5 1.4,9.94L10.59,0.75C11.37,-0.03 12.63,-0.03 13.42,0.75L16.24,3.56M4.22,14.17L9.17,19.12C9.56,19.5 10.19,19.5 10.59,19.12L19.03,10.68L14.1,5.75L5.66,14.19C5.27,14.58 5.27,15.21 5.66,15.6L4.22,14.17Z" />
+                    </svg>
+                </button>
+                <button class="tool-btn" data-tool="select" title="Selecteer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h4v4H3zM21 3h-4v4h4zM3 21h4v-4H3zM21 21h-4v-4h4zM9 3h6M9 21h6M3 9v6M21 9v6"></path></svg>
+                </button>
+                <button class="tool-btn" data-tool="lijn" title="Lijn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="19" x2="19" y2="5"></line></svg>
+                </button>
+                <button class="tool-btn" data-tool="cirkel" title="Cirkel">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+                </button>
+                <button class="tool-btn" data-tool="rechthoek" title="Rechthoek">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+                </button>
+                 <button class="tool-btn" data-tool="pipet" title="Pipet (Kleur Kiezen)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.3,5.3C18.5,4.5 17.5,4 16.5,4S14.5,4.5 13.7,5.3L12,7L3,16V21H8L16.7,12.3C18.3,10.7 18.3,8.1 16.7,6.5L19.3,5.3M17.8,7.9L15.6,10.1L14,8.5L16.2,6.3C16.8,5.7 17.7,5.7 18.3,6.3C18.9,6.9 18.9,7.8 17.8,7.9Z" />
+                    </svg>
+                </button>
+                <button class="tool-btn" data-tool="opvulemmer" title="Opvulemmer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M5,3C3.89,3 3,3.89 3,5V7H21V5C21,3.89 20.11,3 19,3H5M3,8V19C3,20.11 3.89,21 5,21H19C20.11,21 21,20.11 21,19V8H3M15.5,13.25C15.5,14.75 14.14,16 12.5,16C10.86,16 9.5,14.75 9.5,13.25C9.5,11.61 12.5,8.5 12.5,8.5C12.5,8.5 15.5,11.61 15.5,13.25Z" />
+                    </svg>
+                </button>
+            </div>
+            <div class="tool-setting">
+                <label for="dikte">Dikte:</label>
+                <input type="number" id="dikte" value="10" min="1" max="50">
+            </div>
+             <div class="tool-setting" id="color-selector">
+                <label>Kleur:</label>
+                <div id="color-display"></div>
+            </div>
+            <div class="tool-setting" id="gum-settings" style="display: none;">
+                <label for="gumvorm">Gomvorm:</label>
+                <select id="gumvorm">
+                    <option value="rond">Rond</option>
+                    <option value="vierkant">Vierkant</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="control-group" id="selection-tools" style="display: none;">
+            <h3>Klembord</h3>
+            <div id="clipboard-preview-container" class="hidden">
+                <canvas id="clipboardCanvas"></canvas>
+            </div>
+            <button id="plakkenBtn" disabled>Plakken</button>
+        </div>
+    </div>
+
+    <div id="center-panel">
+        <div id="puzzel-container">
+            <div class="image-wrapper">
+                <h3>Origineel</h3>
+                <canvas id="canvasOrigineel" width="400" height="600"></canvas>
+            </div>
+            <div class="image-wrapper">
+                <h3>Jouw Puzzel (Bewerken)</h3>
+                <canvas id="canvasVerschillen" width="400" height="600" willReadFrequently="true"></canvas>
+            </div>
+        </div>
+        <p id="status-text">Upload een afbeelding om te beginnen.</p>
+    </div>
+
+    <div id="right-panel-buttons">
+        <div class="control-group">
+            <h3>Download</h3>
+            <button id="downloadPngBtn" disabled>Download als PNG</button>
+            <button id="downloadPdfBtn" disabled>Download als PDF</button>
+        </div>
+    </div>
+  </div>
+
+  <div id="edit-modal-overlay" class="hidden">
+    <div id="edit-modal">
+      <h3>Selectie Bewerken</h3>
+      <p>Gebruik je muis om ongewenste delen van de selectie weg te gummen.</p>
+      <canvas id="editCanvas" willReadFrequently="true"></canvas>
+      <div style="margin: 10px 0; text-align: left;">
+          <input type="checkbox" id="transparentBgCheckbox">
+          <label for="transparentBgCheckbox">Achtergrondkleur transparant maken</label>
+      </div>
+      <div class="edit-controls">
+          <button id="editUndoBtn" disabled>Ongedaan Maken</button>
+          <button id="editFlipHorizontalBtn">Spiegel H</button>
+          <button id="editFlipVerticalBtn">Spiegel V</button>
+          <button id="saveEditBtn">Opslaan</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="zoekverschillen.js"></script>
+</body>
+</html>

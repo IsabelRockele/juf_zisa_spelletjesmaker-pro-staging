@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@mollie/api-client": "^4.3.3",
+    "firebase-admin": "^13.5.0"
+  }
+}

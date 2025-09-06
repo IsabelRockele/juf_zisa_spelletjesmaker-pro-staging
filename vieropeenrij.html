@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>4-op-een-Rij Spelbord Maker</title>
+    <link rel="stylesheet" href="vieropeenrij.css">
+</head>
+<body>
+    
+    <div class="hoofd-menu">
+        <a href="index.html" class="menu-knop">Keuzemenu</a>
+        <hr>
+        <h3>4-op-een-Rij</h3>
+        <p>Gebruik de opties hiernaast om een spelbord te maken en af te drukken.</p>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <h1>Spelbord Maker</h1>
+            <p>Stel hier je eigen 4-op-een-rij spelbord samen met woorden of getallen.</p>
+
+            <hr>
+
+            <div class="keuzemenu">
+                <h2>Stap 1: Kies je Speltype</h2>
+                <div class="knoppen-groep">
+                    <button id="kies-woorden-knop" class="type-knop">Woorden</button>
+                    <button id="kies-getallen-knop" class="type-knop">Getallen</button>
+                    <button id="kies-tafels-knop" class="type-knop">Maal- en Deeltafels</button>
+                </div>
+            </div>
+
+            <div id="woorden-opties" class="optie-groep verborgen">
+                <h2>Stap 2: Stel je Woordenbord samen</h2>
+                <label for="avi-niveau">Kies AVI-niveau:</label>
+                <select id="avi-niveau"></select>
+                
+                <label>Kies Spellingmoeilijkheid (kies één of meer):</label>
+                <div id="moeilijkheid-checkboxes"></div>
+            </div>
+
+            <div id="getallen-opties" class="optie-groep verborgen">
+                <h2>Stap 2: Stel je Getallenbord samen</h2>
+                <div class="knoppen-groep">
+                    <button class="getal-knop" data-max="20">Getallen tot 20</button>
+                    <button class="getal-knop" data-max="42">Getallen tot 42</button>
+                    <button class="getal-knop" data-max="100">Getallen tot 100</button>
+                    <button class="getal-knop" data-max="1000">Getallen tot 1000</button>
+                </div>
+            </div>
+
+            <div id="tafels-opties" class="optie-groep verborgen">
+                <h2>Stap 2: Kies de Tafels (kies één of meer)</h2>
+                <div id="tafel-checkboxes"></div>
+                
+                <h2>Stap 3: Kies de Soort Oefening</h2>
+                <div id="tafel-type-radios" class="radio-groep">
+                    <div class="radio-container">
+                        <input type="radio" id="type-maal" name="tafel-type" value="maal" checked>
+                        <label for="type-maal">Enkel maal</label>
+                    </div>
+                    <div class="radio-container">
+                        <input type="radio" id="type-deel" name="tafel-type" value="deel">
+                        <label for="type-deel">Enkel deel</label>
+                    </div>
+                     <div class="radio-container">
+                        <input type="radio" id="type-beide" name="tafel-type" value="beide">
+                        <label for="type-beide">Maal en deel</label>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <button id="genereer-bord-knop" class="genereer-knop verborgen">Genereer Spelbord</button>
+        </div>
+    </div>
+
+    <script src="vieropeenrij.js"></script>
+</body>
+</html>

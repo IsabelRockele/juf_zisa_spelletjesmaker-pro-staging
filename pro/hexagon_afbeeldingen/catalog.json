@@ -1,0 +1,43 @@
+{
+  "Dieren": [
+    {
+      "naam": "krab",
+      "afbeelding": "krab.png",
+      "bestandsnaam": "krab.json"
+    },
+    {
+      "naam": "walvis",
+      "afbeelding": "walvis.png",
+      "bestandsnaam": "walvis.json"
+    },
+    {
+      "naam": "kraai",
+      "afbeelding": "kraai.png",
+      "bestandsnaam": "kraai.json"
+    }
+  ],
+  "Voertuigen": [
+    {
+      "naam": "Auto",
+      "afbeelding": "auto.png",
+      "bestandsnaam": "auto.json"
+    },
+    {
+      "naam": "boot",
+      "afbeelding": "boot.png",
+      "bestandsnaam": "boot.json"
+    },
+    {
+      "naam": "helikopter",
+      "afbeelding": "helikopter.png",
+      "bestandsnaam": "helikopter.json"
+    }
+  ],
+  "Kerst": [
+    {
+      "naam": "kerstboom",
+      "afbeelding": "kerstboom.png",
+      "bestandsnaam": "kerstboom.json"
+    }
+  ]
+}

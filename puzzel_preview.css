@@ -1,0 +1,135 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e9ecef;
+    padding: 20px;
+}
+
+#print-container {
+    width: 780px; 
+    min-height: 1100px;
+    margin: 0 auto 20px auto;
+    padding: 25px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    box-sizing: border-box; 
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 22px; 
+    text-align: center;
+    color: #005a9c;
+}
+
+h2 {
+    font-size: 16px; 
+    text-align: center;
+    color: #005a9c;
+    margin-top: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.sleutel-overzicht-preview {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr); 
+    gap: 8px;
+    max-width: 100%;
+    margin: 0 auto 20px auto;
+    justify-content: center;
+}
+
+.sleutel-overzicht-preview .sleutel-item {
+    font-size: 12px;
+}
+
+.sleutel-overzicht-preview .sleutel-item img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
+/* Algemene puzzel-elementen */
+.woord-wrapper {
+    gap: 2px; /* Minimale ruimte tussen letters */
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.hokje {
+    /* Kleinere puzzelvakjes voor een betere pasvorm */
+    width: 34px;
+    height: 34px;
+}
+
+.leesteken {
+    /* Kleinere leestekens */
+    font-size: 22px;
+    margin: 0 2px;
+}
+
+/* Lay-out voor de zin-modus */
+.zin-output {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Lay-out voor de woorden-modus */
+.woorden-output-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.woord-input-groep-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px; 
+    background-color: #f9f9f9;
+    min-height: 120px; /* Voldoende hoogte voor de lijn om te zakken */
+}
+
+.woord-input-groep-preview .woord-wrapper {
+    margin: 0 auto;
+}
+
+.schrijflijn-container {
+    /* NIEUW: Duwt de lijn naar de bodem van de container */
+    margin-top: auto; 
+    /* Zorgt voor ademruimte boven de lijn */
+    padding-top: 10px; 
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.schrijflijn {
+    flex-grow: 1;
+    border-bottom: 1px solid #555;
+}
+
+/* Actiebalk onderaan */
+.actie-balk {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #343a40;
+    padding: 15px;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.terug-knop {
+    background-color: #6c757d;
+}
+.terug-knop:hover {
+    background-color: #5a6268;
+}

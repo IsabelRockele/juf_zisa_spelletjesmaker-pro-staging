@@ -1,0 +1,36 @@
+{
+  "Dieren": [
+    {
+      "name": "Hond",
+      "image": "coderen_afbeeldingen/hond.png",
+      "json": "coderen_afbeeldingen/hond.json"
+    }
+  ],
+  "Kerst": [
+    {
+      "name": "kerstboom",
+      "image": "coderen_afbeeldingen/kerstboom.png",
+      "json": "coderen_afbeeldingen/kerstboom.json"
+    }
+  ],
+  "Halloween": [
+     {
+      "name": "pompoen",
+      "image": "coderen_afbeeldingen/pompoen.png",
+      "json": "coderen_afbeeldingen/pompoen.json"
+    }
+  ],
+  "Terug naar school": [],
+  "Pasen": [],
+  "Herfst": [],
+  "Lente": [],
+  "Zomer": [],
+  "Winter": [
+    {
+      "name": "sneeuwman",
+      "image": "coderen_afbeeldingen/sneeuwman.png",
+      "json": "coderen_afbeeldingen/sneeuwman.json"
+    }
+  ],
+  "Carnaval": []
+}

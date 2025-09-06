@@ -1,0 +1,224 @@
+/* --- Algemene Styling --- */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f2f7;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f0faff;
+    border-bottom: 2px solid #b3e0ff;
+    flex-shrink: 0;
+}
+
+h1 {
+    color: #004080;
+    font-size: 2em;
+    text-align: center;
+    flex-grow: 1;
+    margin: 0;
+}
+
+#app-container {
+    display: flex;
+    gap: 20px;
+    max-width: 1400px;
+    margin: auto;
+}
+
+#toolbox-panel {
+    flex: 1.5;
+    padding: 30px;
+    border: 1px solid #b3e0ff;
+    border-radius: 8px;
+    background-color: #e6f7ff;
+}
+
+#main-panel {
+    flex: 3;
+    padding: 15px;
+    border: 1px solid #b3e0ff;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+h2 {
+    color: #004080;
+    border-bottom: 2px solid #b3e0ff;
+    padding-bottom: 5px;
+}
+
+.uitleg {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+.control-group {
+    margin-bottom: 15px;
+}
+
+.control-group label {
+    margin-right: 5px;
+}
+
+.control-group input[type="number"] {
+    width: 60px;
+    padding: 5px;
+}
+
+button {
+    background-color: #004080;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px 2px; /* Aangepaste marge */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #b3e0ff;
+    margin: 20px 0;
+}
+
+/* --- Stukken Bibliotheek --- */
+#piece-library {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.piece {
+    border: 2px dashed #888;
+    padding: 5px;
+    cursor: grab;
+    display: grid;
+}
+
+/* --- Canvas Rooster --- */
+#grid-container {
+    display: grid;
+    border: 2px solid #004080;
+    margin-top: 15px;
+    background-color: #fdfdfd;
+    width: fit-content; /* Zorgt dat de container zich aanpast aan de grid */
+}
+
+.grid-cell {
+    width: 35px;
+    height: 35px;
+    border: 1px solid #d0e0e8;
+    background-color: white;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    outline: none;
+    transition: background-color 0.2s;
+}
+
+.grid-cell:focus {
+    background-color: #e0f2f7;
+}
+
+.ghost-preview {
+    opacity: 0.5 !important;
+    border-style: dashed !important;
+}
+
+/* --- WERKBLAD OUTPUT STIJLEN (AANGEPAST) --- */
+#worksheet-controls {
+    margin-top: 20px;
+}
+
+#worksheet-output {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc; /* Subtiele rand rond het hele werkblad-gebied */
+    border-radius: 8px;
+}
+
+.worksheet-grid {
+    display: inline-grid; /* Zorgt dat de rand strak om de cellen zit */
+    border: 2px solid black;
+    /* De breedte wordt nu door JS ingesteld, dus geen width: fit-content hier */
+}
+
+.worksheet-cell {
+    width: 35px;
+    height: 35px;
+    border: 1px solid #999; /* Iets donkerdere rand voor duidelijkheid */
+    box-sizing: border-box;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.worksheet-pieces-container {
+    margin-top: 30px; /* Meer ruimte tussen rooster en stukken */
+    padding-top: 20px;
+    border-top: 2px dashed #ccc;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 25px; /* Meer ruimte tussen de stukken (verticaal en horizontaal) */
+    align-items: flex-start;
+    justify-content: flex-start; /* Zorgt dat de stukken links beginnen */
+}
+/* VOEG DEZE REGELS TOE AAN HET EINDE VAN JE CSS-BESTAND */
+
+#example-image-container {
+    margin-top: 15px;
+}
+
+#example-image-container img {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #b3e0ff;
+}
+/* VOEG DEZE REGELS TOE AAN HET EINDE VAN JE CSS-BESTAND */
+
+.worksheet-title {
+    font-size: 1.5em; /* 24px */
+    color: #004080;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.worksheet-subtitle {
+    font-size: 1em; /* 16px */
+    color: #555;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 25px; /* Extra ruimte onder de subtitel */
+    text-align: center;
+}
+
+/* Speciale class voor een betere weergave tijdens de download */
+.print-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

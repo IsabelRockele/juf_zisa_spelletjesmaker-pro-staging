@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leesgenerator</title>
+    <link rel="stylesheet" href="lees.css">
+</head>
+<body>
+    <a href="index.html" class="keuzemenu-knop">Keuzemenu</a>
+
+    <div id="instellingen-scherm">
+        <h1>Maak je lees-sequentie</h1>
+
+        <div class="container">
+            <div class="editor-paneel">
+                <div class="instelling-item">
+                    <label for="tijd-woord">Tijd per woord (sec):</label>
+                    <input type="number" id="tijd-woord" value="2" min="1">
+                </div>
+                <div class="instelling-item">
+                    <label for="tijd-afbeelding">Tijd per beweging (sec):</label>
+                    <input type="number" id="tijd-afbeelding" value="4" min="1">
+                </div>
+
+                <div id="sequentie-bouwer">
+                    <h2>Items in de lijst:</h2>
+                    <ul id="item-lijst">
+                        </ul>
+                </div>
+
+                <div class="actie-knoppen">
+                    <button id="voeg-woord-knop" class="plus-knop">+ Woord toevoegen</button>
+                    <button id="voeg-beweging-knop" class="plus-knop">+ Beweging toevoegen</button>
+                </div>
+            </div>
+
+            <div id="woorden-overzicht">
+                <h2>Ingevoerde woorden:</h2>
+                <div id="overzicht-inhoud">
+                    <p>Nog geen woorden toegevoegd.</p>
+                </div>
+            </div>
+        </div>
+
+        <button id="start-knop">▶️ Start de sessie!</button>
+
+        <div class="io-knoppen-container">
+            <button id="export-knop" class="io-knop">📥 Exporteer Lijst</button>
+            <label for="import-input" class="io-knop">📤 Importeer Lijst</label>
+            <input type="file" id="import-input" accept=".json" style="display: none;">
+        </div>
+    </div>
+
+    <div id="generator-scherm" class="verborgen">
+        <div id="display"></div>
+        <div id="countdown-bar-container">
+            <div id="countdown-bar"></div>
+        </div>
+        <button id="stop-knop">■ Stop</button>
+    </div>
+
+    <div id="beweging-kiezer-modal" class="modal-verborgen">
+        <div class="modal-inhoud">
+            <span class="modal-sluiten">&times;</span>
+            <h2>Kies een beweging</h2>
+            <div id="beweging-opties">
+                </div>
+        </div>
+    </div>
+
+    <script src="lees.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Punttekening Bewerken & Bekijken</title>
+  <link rel="stylesheet" href="punttekening.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <button onclick="window.location.href='index.html'" id="menuBtn">Keuzemenu</button>
+    <h1>Punttekening Bewerken & Bekijken</h1>
+  </header>
+
+  <div id="main-content">
+    <div id="left-panel">
+        <div id="controls">
+            <div class="control-group">
+                <label for="fileInput">Afbeelding uploaden:</label>
+                <input type="file" id="fileInput" accept="image/*">
+                <button id="uploadImageBtn">Upload</button>
+            </div>
+
+            <div class="control-group">
+                <label for="maxAantal">Max punten:</label>
+                <input type="number" id="maxAantal" value="20" min="1" max="200">
+                <button id="undoBtn">1 punt/actie terug</button>
+                <button id="clearAllBtn">Alles wissen</button>
+                <button id="opnieuwBtn">Opnieuw</button>
+            </div>
+
+            <div class="control-group">
+                <h3>Teken Tools</h3>
+                <div id="tools-icons">
+                    <label>
+                        <input type="radio" name="tool" value="bekijken" id="toolBekijken" checked>
+                        <img src="icons/icon_plaats_punten.png" alt="Plaats punten" title="Klik om punten te plaatsen." class="tool-icon" data-tooltip="Klik om punten te plaatsen.">
+                    </label>
+                    <label>
+                        <input type="radio" name="tool" value="vrijeLijn" id="toolVrijeLijn">
+                        <img src="icons/icon_vrije_lijn.png" alt="Vrije lijn" title="Teken een vrije lijn (pas de dikte aan bij 'dikte')." class="tool-icon" data-tooltip="Teken een vrije lijn (pas de dikte aan bij 'dikte').">
+                    </label>
+                    <label>
+                        <input type="radio" name="tool" value="rechteLijn" id="toolRechteLijn">
+                        <img src="icons/icon_rechte_lijn.png" alt="Rechte lijn" title="Teken een rechte lijn (pas de dikte aan bij 'dikte')." class="tool-icon" data-tooltip="Teken een rechte lijn (pas de dikte aan bij 'dikte').">
+                    </label>
+                    <label>
+                        <input type="radio" name="tool" value="cirkel" id="toolCirkel">
+                        <img src="icons/icon_cirkel.png" alt="Cirkel" title="Teken een cirkel (pas de dikte aan bij 'dikte')." class="tool-icon" data-tooltip="Teken een cirkel (pas de dikte aan bij 'dikte').">
+                    </label>
+                    <label>
+                        <input type="radio" name="tool" value="gummen" id="toolGummen">
+                        <img src="icons/icon_gum.png" alt="Gummen" title="Gum getekende lijnen of de achtergrond weg (pas dikte en vorm aan)." class="tool-icon" data-tooltip="Gum getekende lijnen of de achtergrond weg (pas dikte en vorm aan).">
+                    </label>
+                </div>
+                
+                <div class="tool-setting">
+                    <label for="dikte">Dikte (potlood/gum):</label>
+                    <input type="number" id="dikte" value="5" min="1" max="50">
+                </div>
+                <div class="tool-setting">
+                    <label for="gumvorm">Gumvorm:</label>
+                    <select id="gumvorm">
+                        <option value="circle">Rond</option>
+                        <option value="square">Vierkant</option>
+                    </select>
+                </div>
+            </div>
+
+            </div>
+    </div>
+
+    <div id="center-panel"> <div id="right-panel"> <canvas id="mainCanvas" width="512" height="768"></canvas>
+        </div>
+        <textarea id="outputJson" readonly placeholder="Coördinaten van de punten"></textarea>
+    </div>
+
+    <div id="right-panel-buttons">
+      <div class="control-group">
+            <button id="downloadEditedImageBtn">Download Afbeelding (PNG)</button>
+            <button id="showWorksheetBtn">Download Werkblad (PDF)</button>
+        </div>
+    </div>
+  </div>
+
+  <script src="punttekening.js"></script>
+</body>
+</html>

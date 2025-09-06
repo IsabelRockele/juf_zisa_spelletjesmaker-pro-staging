@@ -1,0 +1,75 @@
+/* --- Algemene en Knop Styling --- */
+body { font-family: 'Comic Sans MS', cursive, sans-serif; background: #fce4ec; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+.screen { text-align: center; }
+.panel { background: white; padding: 30px 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); }
+h1 { color: #c2185b; margin-top: 0; }
+p { color: #333; font-size: 1.1em; max-width: 400px; }
+.start-button { background-color: #e91e63; color: white; border: none; padding: 15px 30px; font-size: 20px; font-weight: bold; border-radius: 12px; cursor: pointer; margin-top: 20px; transition: background-color 0.2s; }
+.start-button:hover { background-color: #c2185b; }
+.stop-button { background-color: #78909c; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 10px; cursor: pointer; transition: background-color 0.2s; }
+.stop-button:hover { background-color: #546e7a; }
+.menu-btn { position: fixed; top: 20px; left: 20px; z-index: 1000; background-color: #003366; color: white; padding: 10px 18px; border-radius: 10px; text-decoration: none; font-size: 16px; font-weight: bold; transition: background-color 0.2s; }
+.menu-btn:hover { background-color: #002244; }
+.button-group { display: flex; gap: 15px; justify-content: center; }
+.start-button.secondary { background-color: #007bff; }
+.start-button.secondary:hover { background-color: #0056b3; }
+
+/* --- Spel-styling --- */
+.drop-zone { height: 250px; width: 450px; display: flex; justify-content: center; align-items: center; gap: 0; margin: 0 auto 20px auto; border: 3px dashed #f8bbd0; border-radius: 20px; transition: background-color 0.3s, border 0.3s; }
+.drop-zone.drag-over { background-color: #fdeaf1; }
+.options-container { display: flex; justify-content: center; gap: 20px; min-height: 250px; }
+.heart-half { width: 200px; height: 230px; position: relative; cursor: grab; transition: transform 0.3s ease-out; }
+.heart-half.dragging { opacity: 0.5; }
+.heart-half img { width: 100%; height: 100%; pointer-events: none; }
+.heart-half span { position: absolute; top: 50%; font-size: 60px; font-weight: bold; color: white; text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000; pointer-events: none; }
+.left-half span { left: 38%; transform: translate(-50%, -50%); }
+.right-half span { left: 55%; transform: translate(-50%, -50%); }
+.full-heart-container { width: 400px; height: 380px; background-image: url('harten_afbeeldingen/hart_volledig.png'); background-size: contain; background-position: center; background-repeat: no-repeat; display: flex; justify-content: center; align-items: center; animation: flash-together 1s ease-in-out; }
+.full-heart-container span { font-size: 100px; font-weight: bold; color: white; text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000; }
+@keyframes flash-together { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); filter: drop-shadow(0 0 15px white) brightness(1.5); } }
+.game-footer { margin-top: 20px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+.feedback { font-size: 24px; min-height: 30px; font-weight: bold; flex-grow: 1; text-align: center; }
+.show-correct-animation { outline: 5px solid #4CAF50; border-radius: 10px; transform: scale(1.1); transition: transform 0.3s, outline 0.3s; }
+
+/* --- Werkblad Styling --- */
+.werkblad-pagina {
+    background: white; border: 1px solid #ccc; width: 210mm; height: 297mm;
+    padding: 15mm; box-sizing: border-box; font-family: Arial, sans-serif;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto repeat(4, 1fr); /* 1 rij voor titel, 4 voor harten */
+    gap: 15px; align-content: start;
+}
+.werkblad-pagina h2 { grid-column: 1 / -1; text-align: center; color: #333; margin: 0; }
+.werkblad-pagina .opdracht {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    color: #555;
+    max-width: none; /* TOEGEVOEGD: Heft de limiet van 400px op */
+}
+.werkblad-hart { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+.werkblad-hart img { max-width: 90%; max-height: 90%; object-fit: contain; }
+.werkblad-hart span {
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    font-size: 40px; font-weight: bold; color: black;
+}
+
+/* Positionering voor de witte harten */
+.werkblad-hart.left-half span {
+    left: 40%; /* GOED: Blijft ongewijzigd */
+}
+.werkblad-hart.right-half span {
+    left: 53%; /* AANGEPAST: Iets meer naar links (was 60%) */
+}
+
+/* --- Preview Modal Styling --- */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+.modal-content { background-color: #fefefe; border-radius: 10px; padding: 20px; width: auto; max-width: 95vw; max-height: 95vh; display: flex; flex-direction: column; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px; }
+.modal-header h2 { color: #333; margin: 0; }
+.close-button { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+.close-button:hover { color: #000; }
+#preview-body { overflow: auto; text-align: center; background: #eee; padding: 20px; }
+#preview-body .werkblad-pagina { transform-origin: top center; margin: 0 auto; }
+.modal-footer { display: flex; justify-content: center; border-top: 1px solid #ddd; padding-top: 15px; margin-top: 15px; }.modal-footer { display: flex; justify-content: center; border-top: 1px solid #ddd; padding-top: 15px; margin-top: 15px; }

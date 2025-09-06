@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekenen Loopspel</title>
+    <link rel="stylesheet" href="loopspel.css">
+</head>
+<body>
+    <a href="index.html" class="keuzemenu-knop">Keuzemenu</a>
+
+    <div id="instellingen-scherm">
+        <h1>Stel je rekenspel in</h1>
+        
+        <div class="instelling-groep">
+            <label>Tijd per oefening (seconden):</label>
+            <input type="number" id="tijd-oefening" value="5" min="2">
+        </div>
+        <div class="instelling-groep operatie-kiezer">
+            <label><input type="radio" name="operatie-type" value="maal-deel" checked> Maal & Deel</label>
+            <label><input type="radio" name="operatie-type" value="plus-min"> Plus & Min</label>
+        </div>
+        <div id="maal-deel-opties" class="optie-container">
+            <div class="instelling-groep">
+                <p>Kies de bewerking:</p>
+                <div class="radio-groep">
+                    <label><input type="radio" name="maal-deel-bewerking" value="maal"> Alleen Maal</label>
+                    <label><input type="radio" name="maal-deel-bewerking" value="deel"> Alleen Deel</label>
+                    <label><input type="radio" name="maal-deel-bewerking" value="beide" checked> Beide gemixt</label>
+                </div>
+            </div>
+            <div class="instelling-groep">
+                <p>Kies de tafels:</p>
+                <div id="tafel-selectie" class="tafel-grid"></div>
+            </div>
+        </div>
+        <div id="plus-min-opties" class="optie-container verborgen">
+             <div class="instelling-groep">
+                <p>Kies de bewerking:</p>
+                 <div class="radio-groep">
+                    <label><input type="radio" name="plus-min-bewerking" value="plus"> Alleen Optellen</label>
+                    <label><input type="radio" name="plus-min-bewerking" value="min"> Alleen Aftrekken</label>
+                    <label><input type="radio" name="plus-min-bewerking" value="beide" checked> Beide gemixt</label>
+                </div>
+            </div>
+            <div class="instelling-groep">
+                <p>Kies het bereik:</p>
+                <div class="radio-groep">
+                    <label><input type="radio" name="bereik" value="10" checked> tot 10</label>
+                    <label><input type="radio" name="bereik" value="20"> tot 20</label>
+                    <label><input type="radio" name="bereik" value="100"> tot 100</label>
+                </div>
+            </div>
+            <div id="brug-opties" class="instelling-groep checkbox-groep verborgen">
+                <label><input type="checkbox" name="brug" value="zonder" checked> Zonder brug</label>
+                <label><input type="checkbox" name="brug" value="met"> Met brug</label>
+            </div>
+        </div>
+
+        <button id="start-knop">▶️ Start het spel!</button>
+    </div>
+
+    <div id="uitleg-scherm" class="verborgen">
+        <div class="uitleg-inhoud">
+            <h2>Speluitleg</h2>
+            <div class="uitleg-item">
+                <img src="loopspel_afbeeldingen/steen.png" alt="Steen">
+                <span>**Spring** over de stenen!</span>
+            </div>
+            <div class="uitleg-item">
+                <img src="loopspel_afbeeldingen/tak.png" alt="Tak">
+                <span>**Buk** voor de takken!</span>
+            </div>
+            <div class="uitleg-item">
+                <span class="uitleg-icoon">🧮</span>
+                <span>**Roep** het antwoord op de som!</span>
+            </div>
+            <button id="start-na-uitleg-knop">Begrepen, start!</button>
+        </div>
+    </div>
+
+    <div id="spel-scherm" class="verborgen">
+        <div id="weg">
+            <div id="oefening-display"></div>
+        </div>
+        <button id="stop-knop">■ Stop</button>
+    </div>
+
+    <script src="loopspel.js"></script>
+</body>
+</html>

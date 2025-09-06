@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>4-op-een-Rij Spelbord Maker</title>
+    <meta name="google" content="notranslate">
+
+    <!-- Alle relatieve paden resolven t.o.v. /juf_zisa_spelletjesmaker/pro/ -->
+    <base href="/juf_zisa_spelletjesmaker/pro/">
+
+    <!-- Styles liggen buiten /pro/ -->
+    <link rel="stylesheet" href="../vieropeenrij.css">
+
+    <style>
+        .pro-header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background-color: #3f7fbf;
+            padding: 8px 12px; color: #fff;
+            z-index: 1000; height: 48px;
+        }
+        .pro-header .back-link{
+            background: #5a9fd4; color: #fff; border: none; padding: 6px 10px;
+            border-radius: 6px; font-size: 14px; font-weight: 600; text-decoration: none;
+            cursor: pointer; display: inline-block; white-space: nowrap;
+            /* float:left; verwijderd i.v.m. console-waarschuwing */
+        }
+        body { margin-top: 60px; }
+    </style>
+</head>
+<body>
+<header class="pro-header">
+    <a href="app.html" class="back-link" aria-label="Terug naar menu">&larr; Terug naar menu</a>
+</header>
+
+<div class="hoofd-menu">
+    <hr>
+    <h3>4-op-een-Rij</h3>
+    <p>Gebruik de opties hiernaast om een spelbord te maken en af te drukken.</p>
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <h1>Spelbord Maker</h1>
+        <p>Stel hier je eigen 4-op-een-rij spelbord samen met woorden of getallen.</p>
+
+        <hr>
+
+        <div class="keuzemenu">
+            <h2>Stap 1: Kies je Speltype</h2>
+            <div class="knoppen-groep">
+                <button id="kies-woorden-knop" class="type-knop">Woorden</button>
+                <button id="kies-getallen-knop" class="type-knop">Getallen</button>
+                <button id="kies-tafels-knop" class="type-knop">Maal- en Deeltafels</button>
+            </div>
+        </div>
+
+        <div id="woorden-opties" class="optie-groep verborgen">
+            <h2>Stap 2: Stel je Woordenbord samen</h2>
+            <label for="avi-niveau">Kies AVI-niveau:</label>
+            <select id="avi-niveau"></select>
+            
+            <label>Kies Spellingmoeilijkheid (kies één of meer):</label>
+            <div id="moeilijkheid-checkboxes"></div>
+        </div>
+
+        <div id="getallen-opties" class="optie-groep verborgen">
+            <h2>Stap 2: Stel je Getallenbord samen</h2>
+            <div class="knoppen-groep">
+                <button class="getal-knop" data-max="20">Getallen tot 20</button>
+                <button class="getal-knop" data-max="42">Getallen tot 42</button>
+                <button class="getal-knop" data-max="100">Getallen tot 100</button>
+                <button class="getal-knop" data-max="1000">Getallen tot 1000</button>
+            </div>
+        </div>
+
+        <div id="tafels-opties" class="optie-groep verborgen">
+            <h2>Stap 2: Kies de Tafels (kies één of meer)</h2>
+            <div id="tafel-checkboxes"></div>
+            
+            <h2>Stap 3: Kies de Soort Oefening</h2>
+            <div id="tafel-type-radios" class="radio-groep">
+                <div class="radio-container">
+                    <input type="radio" id="type-maal" name="tafel-type" value="maal" checked>
+                    <label for="type-maal">Enkel maal</label>
+                </div>
+                <div class="radio-container">
+                    <input type="radio" id="type-deel" name="tafel-type" value="deel">
+                    <label for="type-deel">Enkel deel</label>
+                </div>
+                <div class="radio-container">
+                    <input type="radio" id="type-beide" name="tafel-type" value="beide">
+                    <label for="type-beide">Maal en deel</label>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <button id="genereer-bord-knop" class="genereer-knop verborgen">Genereer Spelbord</button>
+    </div>
+</div>
+
+<!-- Uniforme device- en guard-laag: ALTIJD in deze volgorde -->
+<script src="./device-id.js"></script>
+<script type="module" src="./guard.js"></script>
+
+<!-- Paginascript NA de guard, eenmalig laden -->
+<script src="../vieropeenrij.js"></script>
+</body>
+</html>
+
+

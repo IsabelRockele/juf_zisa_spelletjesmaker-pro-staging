@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Rekentabel Generator</title>
+    <link rel="stylesheet" href="rekenrooster.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <header>
+        <button id="menuBtn" onclick="window.location.href='index.html'">Keuzemenu</button>
+        <h1>Rekentabel Generator</h1>
+    </header>
+
+    <div id="main-content">
+        <div id="left-panel">
+            <div class="control-group">
+                <h3>Instellingen</h3>
+                <label>Bewerking(en):</label>
+                <div id="bewerking-keuze">
+                    <label><input type="checkbox" name="bewerking" value="+" > Optellen (+)</label>
+                    <label><input type="checkbox" name="bewerking" value="-"> Aftrekken (-)</label>
+                    <label><input type="checkbox" name="bewerking" value="x"> Vermenigvuldigen (x)</label>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label for="puzzelType">Soort Puzzel:</label>
+                <select id="puzzelType">
+                    <option value="klassiek" selected>Klassiek (vul de uitkomst in)</option>
+                    <option value="omgekeerd">Omgekeerd (vind het startgetal)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="aantalTabellen">Aantal rekentabellen:</label>
+                <div>
+                    <label class="radio-inline"><input type="radio" name="aantalTabellen" value="1" checked> 1</label>
+                    <label class="radio-inline"><input type="radio" name="aantalTabellen" value="2"> 2</label>
+                    <label class="radio-inline"><input type="radio" name="aantalTabellen" value="4"> 4</label>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="gridSize">Formaat:</label>
+                <select id="gridSize">
+                    <option value="4">4x4 Rooster</option>
+                    <option value="5">5x5 Rooster</option>
+                    <option value="6">6x6 Rooster</option>
+                </select>
+            </div>
+
+            <div class="control-group" id="getalbereik-group">
+                <label for="numberRange">Max Getal (voor +/- startgetallen):</label>
+                <select id="numberRange">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="100">100</option>
+                    <option value="1000">1000</option>
+                </select>
+            </div>
+
+            <div class="control-group" id="tafels-group" style="display:none;">
+                <label>Tafels (voor x): <span id="tafelHint" style="font-weight: normal; font-size: 0.9em;"></span></label>
+                <div id="tafelKeuze">
+                    </div>
+            </div>
+
+             <div class="control-group">
+                <label for="legeVakken">Aantal lege vakken:</label>
+                <input type="range" id="legeVakken" min="1" max="10" value="4">
+                <span id="legeVakkenLabel">4</span>
+            </div>
+        </div>
+
+        <div id="center-panel">
+            <canvas id="roosterCanvas" width="500" height="500"></canvas>
+        </div>
+
+        <div id="right-panel-buttons">
+            <button id="genereerBtn">Nieuwe Puzzel</button>
+            <button id="oplossingBtn">Toon Oplossing</button>
+            <button id="downloadPngBtn">Download als PNG</button>
+            <button id="downloadPdfBtn">Download als PDF</button>
+        </div>
+    </div>
+
+    <script src="rekenrooster.js"></script>
+</body>
+</html>

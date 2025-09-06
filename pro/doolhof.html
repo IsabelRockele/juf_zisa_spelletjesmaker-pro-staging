@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8"/>
+  <title>Doolhof Generator (PRO)</title>
+
+  <!-- Alle relatieve paden resolven nu t.o.v. /pro/ op GitHub Pages -->
+  <base href="/juf_zisa_spelletjesmaker/pro/">
+
+  <!-- voorkom Google-Translate overlay / CSP-consolemelding -->
+  <meta name="google" content="notranslate">
+
+  <!-- PRO manifest & iconen (relatief, correct voor GH Pages) -->
+  <link rel="manifest" href="manifest-pro.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="theme-color" content="#fffbe6">
+
+  <!-- Styles liggen buiten /pro/ -->
+  <link href="../doolhof.css" rel="stylesheet"/>
+
+  <!-- jsPDF (externe lib) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    /* PRO-header: enkel 'Keuzemenu' */
+    .pro-header{
+      position: fixed; top: 0; left: 0; width: 100%;
+      background:#3f7fbf; color:#fff; padding:8px 12px; z-index:1000; height:48px;
+      display:flex; align-items:center;
+    }
+    .pro-header .back-link{
+      background:#5a9fd4; color:#fff; border:none; padding:6px 10px; border-radius:6px;
+      font-size:14px; font-weight:600; text-decoration:none; cursor:pointer; white-space:nowrap;
+    }
+    body{ margin-top:60px; }
+  </style>
+</head>
+<body>
+
+  <!-- PRO-header -->
+  <div class="pro-header">
+    <a href="app.html" class="back-link">&larr; Keuzemenu</a>
+  </div>
+
+  <header>
+    <button id="menuBtn" onclick="window.location.href='app.html'">Keuzemenu</button>
+    <h1>Doolhof Generator</h1>
+  </header>
+
+  <div id="main-content">
+    <div id="left-panel">
+      <div id="controls">
+        <fieldset class="control-group">
+          <legend>1. Kies een Vorm</legend>
+          <div id="vorm-kiezer"></div>
+        </fieldset>
+
+        <fieldset class="control-group">
+          <legend>2. Kies Moeilijkheid</legend>
+          <div id="moeilijkheid-kiezer">
+            <label><input type="radio" name="difficulty" value="easy" checked> Makkelijk</label>
+            <label><input type="radio" name="difficulty" value="medium"> Middelmatig</label>
+            <label><input type="radio" name="difficulty" value="hard"> Moeilijk</label>
+          </div>
+        </fieldset>
+
+        <fieldset class="control-group">
+          <legend>3. Kies Lijndikte</legend>
+          <div id="dikte-kiezer">
+            <input type="range" id="thicknessSlider" min="1" max="10" value="2" step="1">
+            <output id="thicknessValue">2</output> px
+          </div>
+        </fieldset>
+
+        <button id="generateButton">Genereer Nieuwe Doolhof</button>
+
+        <div class="solution-buttons">
+          <button id="solveMazeBtn">Toon Oplossing</button>
+          <button id="hideSolutionBtn" class="hidden">Verberg Oplossing</button>
+        </div>
+
+        <div id="instructieText" style="color:#004080; margin-top:15px; font-weight:bold; min-height:60px;">
+          Kies een vorm en moeilijkheid.
+        </div>
+      </div>
+    </div>
+
+    <div id="center-panel">
+      <div id="drawingCanvasContainer">
+        <canvas id="mazeCanvas" width="500" height="500"></canvas>
+      </div>
+    </div>
+
+    <div id="right-panel-buttons">
+      <div class="control-group">
+        <h3>Download</h3>
+        <button id="downloadPngBtn">Download als PNG</button>
+        <button id="downloadPdfBtn">Download als PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCRIPT-ORDE: device-id.js → guard.js → paginacode ===== -->
+
+  <!-- 1) Stabiele device-id (localStorage + cookie) -->
+  <script src="./device-id.js"></script>
+
+  <!-- 2) Centrale PRO-guard (registreert device en verleent/weigert toegang) -->
+  <script type="module" src="./guard.js"></script>
+
+  <!-- 3) Uw eigen paginacode (pas na de guard laden) -->
+  <script src="../doolhof.js"></script>
+
+</body>
+</html>
+
+

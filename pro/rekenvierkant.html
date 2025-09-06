@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8"/>
+<title>Rekenvierkant Generator</title>
+<meta name="google" content="notranslate">
+
+<!-- Alle relatieve paden resolven t.o.v. /juf_zisa_spelletjesmaker/pro/ -->
+<base href="/juf_zisa_spelletjesmaker/pro/">
+
+<link href="../rekenvierkant.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+    .pro-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #3f7fbf;
+        padding: 8px 12px;
+        color: #fff;
+        z-index: 1000;
+        height: 48px;
+    }
+    .pro-header .back-link{
+        background: #5a9fd4;
+        color: #fff;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        display: inline-block;
+        white-space: nowrap;
+        /* float:left; verwijderd i.v.m. console-waarschuwing */
+    }
+    body { margin-top: 60px; }
+</style>
+</head>
+<body>
+<header class="pro-header">
+    <a href="app.html" class="back-link">&larr; Terug naar menu</a>
+</header>
+
+<header>
+<h1>Rekenvierkant Generator</h1>
+</header>
+
+<div id="main-content">
+  <div id="left-panel">
+    <div id="controls">
+
+      <div class="control-group">
+        <label>Wat wil je oefenen?</label>
+        <label><input checked name="soort" type="radio" value="plusmin"/> Optellen / Aftrekken</label>
+        <label><input name="soort" type="radio" value="maaldeel"/> Vermenigvuldigen / Delen</label>
+      </div>
+
+      <div id="keuze-plusmin">
+        <div class="control-group">
+          <label for="typeOpgave">Type opgave:</label>
+          <select id="typeOpgave">
+            <option value="optellen">Optellen</option>
+            <option value="aftrekken">Aftrekken</option>
+            <option value="gemengd">Gemengd</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="niveau">Niveau:</label>
+          <select id="niveau">
+            <option value="10">Tot 10</option>
+            <option value="20">Tot 20</option>
+            <option value="100">Tot 100</option>
+            <option value="1000">Tot 1000</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="formaat">Formaat:</label>
+          <select id="formaat">
+            <option value="5x5">5 x 5</option>
+            <option value="7x7">7 x 7</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="keuze-maaldeel" style="display:none;">
+        <div class="control-group">
+          <label for="typeTafeloefening">Type opgave:</label>
+          <select id="typeTafeloefening">
+            <option value="maal">Maal</option>
+            <option value="delen">Delen</option>
+            <option value="gemengd">Gemengd</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Tafels:</label>
+          <div id="tafelKeuze">
+            <label><input id="selecteerAlles" type="checkbox"/> Alles selecteren</label>
+            <label><input type="checkbox" value="1"/> 1</label>
+            <label><input type="checkbox" value="2"/> 2</label>
+            <label><input type="checkbox" value="3"/> 3</label>
+            <label><input type="checkbox" value="4"/> 4</label>
+            <label><input type="checkbox" value="5"/> 5</label>
+            <label><input type="checkbox" value="6"/> 6</label>
+            <label><input type="checkbox" value="7"/> 7</label>
+            <label><input type="checkbox" value="8"/> 8</label>
+            <label><input type="checkbox" value="9"/> 9</label>
+            <label><input type="checkbox" value="10"/> 10</label>
+          </div>
+        </div>
+        <div class="control-group">
+          <label for="maxUitkomst">Max. uitkomst:</label>
+          <select id="maxUitkomst">
+            <option value="50">Tot 50</option>
+            <option value="100">Tot 100</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="gridCount">Aantal Rekenroosters op werkblad:</label>
+        <div id="gridCount">
+          <label><input type="radio" name="numGrids" value="1" checked/> 1</label>
+          <label><input type="radio" name="numGrids" value="2"/> 2</label>
+          <label><input type="radio" name="numGrids" value="3"/> 3</label>
+          <label><input type="radio" name="numGrids" value="4"/> 4</label>
+        </div>
+      </div>
+
+      <div id="meldingContainer" style="color: #004080; margin-top: 15px; font-weight: bold; min-height: 80px;"></div> 
+      <button id="genereerBtn">Genereer Rekenvierkant</button>
+
+    </div>
+  </div>
+
+  <div id="center-panel">
+    <div id="right-panel">
+      <canvas height="512" id="mainCanvas" width="512"></canvas>
+    </div>
+    <textarea id="outputJson" placeholder="Gegenereerde sommen" readonly></textarea>
+  </div>
+
+  <div id="right-panel-buttons">
+    <div class="control-group">
+      <button id="downloadPngBtn">Download als PNG</button>
+      <button id="downloadPdfBtn">Download als PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- Uniforme device- en guard-laag: ALTIJD in deze volgorde -->
+<script src="./device-id.js"></script>
+<script type="module" src="./guard.js"></script>
+
+<!-- Paginascript NA de guard, eenmalig laden -->
+<script src="../rekenvierkant.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digitaal Rad van Fortuin</title>
+    <link rel="stylesheet" href="rad.css">
+</head>
+<body class="options-view">
+
+    <a href="index.html" class="menu-button">Keuzemenu</a>
+
+    <div class="container">
+        <h1>Digitaal Rad van Fortuin</h1>
+
+        <div class="controls">
+            <div class="controls-header">
+                <h2>Stap 1: Kies en genereer je opdrachten</h2>
+                <div class="option-group">
+                    <label><input type="checkbox" id="removeAfterSpin" checked> Verwijder na draai</label>
+                </div>
+            </div>
+
+            <div class="controls-columns">
+                <div class="column">
+                    <h3>Eigen lijsten & afbeeldingen</h3>
+                    <textarea id="itemInput" placeholder="Typ hier elke optie op een nieuwe regel..." rows="4"></textarea>
+                    <button id="exportListBtn" class="preset-btn" style="width:100%; margin-bottom: 10px; background-color: #16a085;">Bewaar Invoer als .txt</button>
+                    
+                    <label for="fileUpload" class="upload-label">Upload Klaslijst (.txt)</label>
+                    <input type="file" id="fileUpload" accept=".txt" style="display: none;">
+                    <label for="imageUpload" class="upload-label">Upload Afbeeldingen</label>
+                    <input type="file" id="imageUpload" accept="image/*" multiple style="display: none;">
+                </div>
+
+                <div class="column">
+                    <h3>Rekenen</h3>
+                    <div class="option-group" style="background-color: #e74c3c1a;">
+                        <label style="color: var(--warning-color); font-weight: 600; width: 100%; cursor: pointer;">
+                            <input type="checkbox" id="timedMathCheckbox"> Tempo-modus (elke som 4s)
+                        </label>
+                    </div>
+                    <h4>Kies Tafels (max. 25)</h4>
+                    <div class="option-group">
+                        <label><input type="radio" name="table_type" value="maal" checked> Maal</label>
+                        <label><input type="radio" name="table_type" value="deel"> Deel</label>
+                        <label><input type="radio" name="table_type" value="beide"> Beide</label>
+                    </div>
+                    <div class="table-selection">
+                        <div id="maal-checkboxes" class="checkbox-grid"></div>
+                    </div>
+                    <button id="generateTablesBtn" class="generate-btn">Genereer Tafels</button>
+                    
+                    <h4 style="margin-top: 1.5rem;">Kies Rekensommen (max. 25)</h4>
+                    <div class="option-group">
+                        <label><input type="checkbox" name="brug_option" value="zonder" checked> Zonder brug</label>
+                        <label><input type="checkbox" name="brug_option" value="met" checked> Met brug</label>
+                    </div>
+                    <div class="button-group-4-cols">
+                        <button class="preset-btn math-btn" data-type="plusmin10">+ / - tot 10</button>
+                        <button class="preset-btn math-btn" data-type="plusmin20">+ / - tot 20</button>
+                        <button class="preset-btn math-btn" data-type="plusmin100">+ / - tot 100</button>
+                        <button class="preset-btn math-btn" data-type="plusmin1000">+ / - tot 1000</button>
+                    </div>
+                    <button id="generateSumsBtn" class="generate-btn" style="margin-top: 10px;">Genereer Sommen</button>
+                </div>
+
+                <div class="column">
+                    <h3>Executieve Functies</h3>
+                    <div class="option-group">
+                        <label><input type="checkbox" id="imageModeCheckbox"> Beeldmodus (voor niet-lezers)</label>
+                    </div>
+                    <div id="ef-selection-grid" class="ef-selection-grid">
+                        <label><input type="checkbox" name="ef_category" value="werkgeheugen"> Werkgeheugen</label>
+                        <label><input type="checkbox" name="ef_category" value="inhibitie"> Inhibitie</label>
+                        <label><input type="checkbox" name="ef_category" value="flexibiliteit"> Flexibiliteit</label>
+                        <label><input type="checkbox" name="ef_category" value="planning"> Planning</label>
+                    </div>
+                    <button id="generateEfBtn" class="ef-btn">Genereer EF Opdrachten</button>
+                    <a href="handleiding.pdf" download class="download-btn" style="margin-top: 1.5rem;">Download Handleiding (PDF)</a>
+                </div>
+                
+                <div class="column">
+                    <h3>Beweging</h3>
+                    <p style="font-size: 0.9rem; margin-bottom: 15px;">Genereer leuke en snelle bewegingsoefeningen.</p>
+                    <button id="generateMovementBtn" class="movement-btn">Genereer Bewegingstaken</button>
+                </div>
+
+                <div class="column">
+                    <h3>Taal</h3>
+                    <h4>Taaldenken</h4>
+                    <div id="taal-selection-grid" class="ef-selection-grid">
+                        <label><input type="checkbox" name="taal_category" value="rijmen" checked> Rijmen</label>
+                        <label><input type="checkbox" name="taal_category" value="zinmaken" checked> Zin maken met...</label>
+                        <label><input type="checkbox" name="taal_category" value="noem3" checked> Noem 3...</label>
+                        <label><input type="checkbox" name="taal_category" value="grammatica" checked> Meervoud / Verkleinwoord</label>
+                        <label><input type="checkbox" name="taal_category" value="tegengestelden" checked> Tegengestelden</label>
+                    </div>
+                    <button id="generateTaalBtn" class="taal-btn">Genereer Taalopdrachten</button>
+
+                    <h4 style="margin-top: 1.5rem;">Technisch Lezen</h4>
+                    <p style="font-size: 0.9rem; margin-bottom: 15px;">Genereer leuke opdrachten om een tekst (op papier) op een gekke manier te lezen.</p>
+                    <button id="generateTechLezenBtn" class="tech-lezen-btn">Genereer Leesopdrachten</button>
+                </div>
+
+                <div class="column" style="background-color: #ecf0f1; border-radius: 8px;">
+                    <h3>Mix & Match</h3>
+                    <p style="font-size: 0.9rem; margin-bottom: 15px;">Vink de categorieën aan die je wilt mengen (max. 25 opdrachten).</p>
+                    <div id="mix-selection-grid" class="ef-selection-grid">
+                        <label><input type="checkbox" class="mix-category-checkbox" data-category="rekenen_tafels"> Rekenen: Tafels</label>
+                        <label><input type="checkbox" class="mix-category-checkbox" data-category="rekenen_sommen"> Rekenen: Sommen</label>
+                        <label><input type="checkbox" class="mix-category-checkbox" data-category="ef"> Executieve Functies</label>
+                        <label><input type="checkbox" class="mix-category-checkbox" data-category="beweging"> Beweging</label>
+                        <label><input type="checkbox" class="mix-category-checkbox" data-category="taal"> Taal: Taaldenken</label>
+                        <label><input type="checkbox" class="mix-category-checkbox" data-category="taal_lezen"> Taal: Technisch Lezen</label>
+                    </div>
+                    <button id="generateMixBtn" class="action-btn" style="margin-top: 10px; background-color: var(--primary-color);">Genereer Gemengd Rad</button>
+                </div>
+
+            </div>
+
+            <button id="showWheelBtn" class="action-btn" disabled>Stap 2: Toon het Rad</button>
+        </div>
+
+        <div id="wheelViewControls">
+            <button id="restartBtn" class="preset-btn">Nog eens met dit rad</button>
+            <button id="downloadListBtn" class="preset-btn" style="background-color: #16a085;">Download Overzicht</button>
+            <button id="newOptionsBtn" type="button" class="warning-btn">Nieuwe opties kiezen</button>
+        </div>
+
+        <div class="main-content">
+            <div class="wheel-wrapper">
+                <canvas id="wheelCanvas" width="650" height="650"></canvas>
+                <div class="pointer"></div>
+                <button id="spinBtn">DRAAI!</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div id="resultOutput"></div>
+            <div id="timer-bar-container" class="timer-bar-container">
+                <div id="timer-bar" class="timer-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="rad.js"></script>
+</body>
+</html>
