@@ -1,0 +1,150 @@
+/* --- ALGEMENE STIJL EN CENTRALE LAYOUT --- */
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif; /* Speelser lettertype */
+    background-color: #ffe0b2; /* Zacht oranje/perzik achtergrond */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px; /* Ruimte rondom het paneel */
+    box-sizing: border-box;
+    position: relative; /* Nodig voor absoluut gepositioneerde elementen zoals de menu-knop */
+}
+
+/* --- HET CENTRALE PANEEL --- */
+.panel {
+    background-color: #ffffff; /* Wit paneel */
+    border-radius: 25px; /* Nog rondere hoeken */
+    padding: 60px 80px; /* Meer padding, ruimer gevoel */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); /* Duidelijkere schaduw */
+    text-align: center;
+    width: 85%; /* Iets breder */
+    max-width: 900px; /* Maximale breedte */
+    border: 3px solid #ffcc80; /* Speelse oranje rand */
+}
+
+h1 {
+    font-size: 3.5rem; /* Nog grotere titel */
+    color: #ff8a65; /* Vrolijk oranje voor de titel */
+    margin-top: 0;
+    margin-bottom: 60px; /* Meer ruimte onder de titel */
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1); /* Lichte tekstschaduw */
+}
+
+.button-container {
+    display: flex;
+    gap: 50px; /* Nog meer ruimte tussen knoppen */
+    justify-content: center;
+}
+
+/* --- GROTE, VROLIJKE 3D DRUKKNOPPEN --- */
+.choice-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 280px;   /* Extra groot */
+    height: 200px;  /* Extra groot */
+    background-color: #81c784; /* Lichtgroen */
+    color: white;
+    font-size: 3.5rem; /* Extra grote tekst */
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 20px; /* Nog rondere hoeken */
+    transition: all 0.1s ease-in-out;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+    /* 3D effect */
+    border-bottom: 10px solid rgba(0,0,0,0.25); /* Duidelijker 3D effect */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Knopschaduw */
+}
+
+.choice-btn:active:not(.disabled) {
+    transform: translateY(5px); /* Knop wordt 'ingedrukt' */
+    border-bottom-width: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.choice-btn.plus {
+    background-color: #4CAF50; /* Helder groen */
+    border-bottom-color: #388E3C;
+    font-size: 6rem; /* Nog extra groot symbool */
+}
+.choice-btn.min {
+    background-color: #f44336; /* Helder rood */
+    border-bottom-color: #D32F2F;
+    font-size: 6rem; /* Nog extra groot symbool */
+}
+
+/* Kleuren voor de 'Tot 100' en 'Tot 1000' knoppen */
+#naar-stap2-btn { /* 'Tot 100' knop */
+    background-color: #64b5f6; /* Zachtblauw */
+    border-bottom-color: #42a5f5;
+}
+.choice-btn.disabled { /* 'Tot 1000' knop */
+    background-color: #bdbdbd; /* Grijs */
+    border-bottom-color: #9e9e9e;
+    cursor: not-allowed;
+    opacity: 0.8;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1); /* Zachtere schaduw voor disabled */
+}
+.choice-btn.disabled:active {
+    transform: none; /* Disabled knoppen duwen niet in */
+    border-bottom-width: 10px;
+}
+
+/* --- MENU KNOP LINKSBOVEN (BUITEN PANEEL) --- */
+.menu-btn {
+    position: fixed; /* AANGEPAST: Positioneer t.o.v. het venster */
+    top: 25px;
+    left: 25px;
+    background-color: #003366; /* Donkerblauw */
+    color: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    /* 3D effect */
+    border-bottom: 4px solid #002244;
+    transition: all 0.1s ease-in-out;
+    z-index: 100; /* Zorgt dat de knop boven andere elementen blijft */
+}
+.menu-btn:active {
+    transform: translateY(2px);
+    border-bottom-width: 2px;
+}
+
+/* --- RESPONSIVITEIT VOOR KLEINERE SCHERMEN --- */
+@media (max-width: 768px) {
+    .panel {
+        padding: 40px 30px;
+        width: 95%;
+    }
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+    }
+    .button-container {
+        flex-direction: column; /* Knoppen onder elkaar op kleine schermen */
+        gap: 20px;
+    }
+    .choice-btn {
+        width: 100%; /* Volle breedte */
+        height: 150px;
+        font-size: 2.5rem;
+    }
+    .choice-btn.plus, .choice-btn.min {
+        font-size: 4rem;
+    }
+    .menu-btn {
+        top: 15px;
+        left: 15px;
+        padding: 10px 18px;
+        font-size: 1rem;
+    }
+}

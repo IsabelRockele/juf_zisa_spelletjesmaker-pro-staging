@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8">
+  <title>Hulpschema -</title>
+  <link rel="stylesheet" href="hulpschema.css">
+</head>
+<body>
+  <h1>Hulpschema -</h1>
+
+  <div class="content-wrapper">
+    <div id="sidebar">
+      <button onclick="window.location.href='keuze-hulpschema.html'" class="knop terug">Terug</button>
+      <button id="reset" class="knop reset">Opnieuw</button>
+      <button onclick="window.location.href='plus100.html'" class="knop wissel">Wissel naar +</button>
+      <div id="vuilbak-container">
+        <img id="vuilbak" src="afbeeldingen_hulpschema/vuilbak.png" alt="vuilbak">
+        <div id="vuilbak-teller">
+          <div><span class="t-label">T</span> <span class="e-label">E</span></div>
+          <div><span id="t-count">0</span> <span id="e-count">0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="main">
+      <div id="toolbar">
+        <button id="blokjes">Blokjes</button>
+        <button id="schijfjes">Schijfjes</button>
+        <div class="tool geel-blok"  id="kubus" style="display: none;"></div>
+        <div class="tool staaf-groen"  id="staaf" style="display: none;">
+          <div class="verdeling">
+            <div class="lijn" style="left: 20px;"></div><div class="lijn" style="left: 40px;"></div>
+            <div class="lijn" style="left: 60px;"></div><div class="lijn" style="left: 80px;"></div>
+            <div class="lijn" style="left: 100px;"></div><div class="lijn" style="left: 120px;"></div>
+            <div class="lijn" style="left: 140px;"></div><div class="lijn" style="left: 160px;"></div>
+            <div class="lijn" style="left: 180px;"></div>
+          </div>
+        </div>
+        <div class="tool schijf geel"  id="schijf-geel" style="display: none;"><span>1</span></div>
+        <div class="tool schijf groen"  id="schijf-groen" style="display: none;"><span>10</span></div>
+      </div>
+      
+      <div id="schema-min" style="display: block;">
+        <div class="schema-header">
+          <div class="label-t">T</div>
+          <div class="label-e">E</div>
+        </div>
+        <div class="schema-light">
+          <div class="light-t"></div>
+          <div class="light-e"></div>
+        </div>
+        <div class="schema-body">
+          <div class="vak wit">
+            <div class="wissel-vak"></div>
+          </div>
+          <div class="vak wit">
+            <div class="doel-vak">
+              <div class="cirkelrij">
+                <div class="cirkel"></div><div class="cirkel"></div><div class="cirkel"></div><div class="cirkel"></div><div class="cirkel"></div>
+              </div>
+              <div class="cirkelrij">
+                <div class="cirkel"></div><div class="cirkel"></div><div class="cirkel"></div><div class="cirkel"></div><div class="cirkel"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="hulpschema.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kies Hulpschema</title>
+    <link rel="stylesheet" href="keuze-hulpschema.css">
+</head>
+<body>
+    <div class="panel">
+        <div id="stap1" class="stap">
+            <a href="index.html" class="menu-btn">Keuzemenu</a>
+            <h1>Kies waarmee je wilt oefenen</h1>
+            <div class="button-container">
+                <button id="naar-stap2-btn" class="choice-btn">Tot 100</button>
+                <button class="choice-btn disabled">Tot 1000</button>
+            </div>
+        </div>
+
+        <div id="stap2" class="stap" style="display: none;">
+            <button id="terug-naar-stap1-btn" class="menu-btn">Terug</button>
+            <h1>Oefenen tot 100</h1>
+            <div class="button-container">
+                <a href="plus100.html?terug=keuze-hulpschema.html#stap2" class="choice-btn plus">+</a>
+                <a href="min100.html?terug=keuze-hulpschema.html#stap2" class="choice-btn min">-</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const stap1 = document.getElementById('stap1');
+        const stap2 = document.getElementById('stap2');
+        const naarStap2Btn = document.getElementById('naar-stap2-btn');
+        const terugNaarStap1Btn = document.getElementById('terug-naar-stap1-btn');
+
+        // Functie om de juiste stap te tonen op basis van de URL
+        function toonJuisteStap() {
+            if (window.location.hash === '#stap2') {
+                stap1.style.display = 'none';
+                stap2.style.display = 'block';
+            } else {
+                stap1.style.display = 'block';
+                stap2.style.display = 'none';
+            }
+        }
+
+        // Toon de juiste stap wanneer de pagina laadt
+        document.addEventListener('DOMContentLoaded', toonJuisteStap);
+
+        // Knoppen om tussen stappen te wisselen
+        naarStap2Btn.addEventListener('click', () => {
+            stap1.style.display = 'none';
+            stap2.style.display = 'block';
+        });
+
+        terugNaarStap1Btn.addEventListener('click', () => {
+            stap2.style.display = 'none';
+            stap1.style.display = 'block';
+            // Optioneel: verwijder de #stap2 uit de URL
+            history.pushState("", document.title, window.location.pathname + window.location.search);
+        });
+    </script>
+</body>
+</html>
