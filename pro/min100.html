@@ -70,41 +70,63 @@
     </div>
   </div>
   
-    <!-- Kidmode script -->
-  <script>
-  (function(){
-    const qp = new URLSearchParams(location.search);
-    const isKid = qp.get('kid') === '1';
-    if (!isKid) return;
+<!-- Kidmode script (robust) -->
+<script>
+(function(){
+  const qp = new URLSearchParams(location.search);
+  const isKid = qp.get('kid') === '1';
+  if (!isKid) return;
 
-    // 1) Kidmodus markeren
-    document.documentElement.classList.add('kidmode');
+  // Markeer kidmodus (handig als je later iets wil verbergen via CSS)
+  document.documentElement.classList.add('kidmode');
 
-    // 2) Doelpagina voor terug
-    const target = './hulpschema-kid.html';
+  // Doel: altijd terug naar de kind-startpagina
+  const target = './hulpschema-kid.html';
+  const range = qp.get('range') || '100';
+  const targetUrl = `${target}?range=${range}`;
 
-    // 3) Pas onclick-handlers aan
-    document.querySelectorAll('[onclick]').forEach(el => {
-      const val = el.getAttribute('onclick') || '';
-      if (/window\\.location\\.href\\s*=\\s*['"][^'"]*(app\\.html|keuze-?hulpschema\\.html)['"]/.test(val)) {
-        el.onclick = function(e){
-          e.preventDefault();
-          const range = qp.get('range') || '100';
-          window.location.href = `${target}?range=${range}`;
-        };
-      }
-    });
+  // 1) Herleid expliciet de bekende Terug-knop (button.knop.terug)
+  document.querySelectorAll('button.knop.terug, .knop.terug, #sidebar .knop.terug').forEach(btn => {
+    // Verwijder inline onclick en zet onze eigen handler eroverheen
+    btn.removeAttribute('onclick');
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      window.location.href = targetUrl;
+      return false;
+    }, { capture: true });
+  });
 
-    // 4) Pas <a href> links aan
-    document.querySelectorAll('a[href]').forEach(a => {
-      const href = a.getAttribute('href') || '';
-      if (/app\\.html/.test(href) || /keuze-?hulpschema\\.html/.test(href)) {
-        const range = qp.get('range') || '100';
-        a.setAttribute('href', `${target}?range=${range}`);
-      }
-    });
-  })();
-  </script>
+  // 2) Fallback: alle elementen met onclick die naar app/keuze sturen, overschrijven
+  document.querySelectorAll('[onclick]').forEach(el => {
+    const val = el.getAttribute('onclick') || '';
+    if (/app\.html|keuze-?hulpschema\.html/i.test(val)) {
+      el.removeAttribute('onclick');
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        window.location.href = targetUrl;
+        return false;
+      }, { capture: true });
+    }
+  });
+
+  // 3) Alle <a href="..."> naar app/keuze herschrijven
+  document.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href') || '';
+    if (/app\.html|keuze-?hulpschema\.html/i.test(href)) {
+      a.setAttribute('href', targetUrl);
+      // extra zekerheid: ook klik kapen
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        window.location.href = targetUrl;
+        return false;
+      }, { capture: true });
+    }
+  });
+})();
+</script>
 
   <!-- PRO scripts -->
   <script src="./js/device-id.js"></script>
