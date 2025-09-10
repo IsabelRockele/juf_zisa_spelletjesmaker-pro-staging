@@ -2,96 +2,99 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Hulpschema – Start (Kindmodus)</title>
-  <!-- STAGING base href; voor live later vervangen door /juf_zisa_spelletjesmaker/pro/ -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hulpschema – Kindmodus</title>
+
+  <!-- STAGING base; voor live vervangen door /juf_zisa_spelletjesmaker/pro/ -->
   <base href="/juf_zisa_spelletjesmaker-pro-staging/pro/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Zelfde layout als keuze-hulpschema.html -->
+  <link rel="stylesheet" href="../keuze-hulpschema.css">
+
   <meta name="google" content="notranslate">
-
   <style>
-    :root { --bg:#f5f7fb; --c1:#275ea8; --c2:#3f7fbf; --btn:#ffffff; --btnh:#eef4ff; }
-    *{box-sizing:border-box;}
-    html,body{margin:0;padding:0;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
-    .wrap{max-width:860px;margin:20px auto;padding:16px;}
-    h1{font-size:28px;color:#123b72;margin:0 0 10px;font-weight:800;text-align:center;}
-    p.lead{margin:0 0 20px;text-align:center;color:#345;}
-    .kader{
-      background:#fff;border:1px solid #dde6f4;border-radius:16px;padding:18px;
-      box-shadow:0 2px 8px rgba(0,0,0,.04);
-    }
-    .stap{margin-bottom:14px;color:#234; font-weight:700;}
-    .groep{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px;}
-    .btn{
-      appearance:none;border:2px solid var(--c2);background:var(--btn);color:var(--c1);
-      border-radius:14px;padding:16px 14px;font-size:20px;font-weight:800;cursor:pointer;
-      text-align:center;transition:.15s transform ease,.15s background ease;
-    }
-    .btn:hover{background:var(--btnh);transform:translateY(-1px);}
-    .btn:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(0.2);}
-    .keuze{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0 2px;}
-    .keuzeknop{
-      border:2px solid #b7c8e8;background:#fff;color:#234;border-radius:999px;padding:8px 12px;
-      font-weight:700;cursor:pointer;
-    }
-    .keuzeknop.actief{background:#eaf2ff;border-color:#3f7fbf;color:#123b72;}
-    .info{font-size:14px;color:#567;margin-top:6px;}
-    .divider{height:1px;background:#e6eefb;margin:14px 0;}
-    .note{font-size:12px;color:#678;text-align:center;margin-top:8px;}
+    /* Kleine aanvullingen: titels centreren zoals op jouw keuze-scherm */
+    .panel { max-width: 900px; margin: 0 auto; }
+    .panel h1 { text-align: center; }
+    /* Verberg eventuele “menu”/terug-achtige elementen: deze kindpagina heeft die niet nodig */
+    .menu-btn.top, .terug-knoop { display:none !important; }
   </style>
-
-  <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const bereikKnoppen = Array.from(document.querySelectorAll('.keuzeknop[data-bereik]'));
-    const sect100 = document.getElementById('sect-100');
-    const sect1000 = document.getElementById('sect-1000');
-    let bereik = '100';
-
-    function updateUI(){
-      sect100.style.display  = (bereik === '100')  ? 'grid' : 'none';
-      sect1000.style.display = (bereik === '1000') ? 'grid' : 'none';
-      bereikKnoppen.forEach(b => b.classList.toggle('actief', b.dataset.bereik === bereik));
-    }
-    bereikKnoppen.forEach(b => b.addEventListener('click', () => { bereik = b.dataset.bereik; updateUI(); }));
-
-    const qp = new URLSearchParams(location.search);
-    if (qp.get('range') === '1000'){ bereik = '1000'; }
-
-    updateUI();
-  });
-  </script>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Hulpschema</h1>
-    <p class="lead">Kies eerst het bereik en dan de oefening.</p>
-    <div class="kader">
-
-      <div class="stap">Stap 1 — Kies bereik</div>
-      <div class="keuze">
-        <button class="keuzeknop actief" data-bereik="100">Tot 100</button>
-        <button class="keuzeknop" data-bereik="1000">Tot 1000</button>
+  <div class="panel">
+    <!-- STAP 1: bereik kiezen (zelfde knoppen-stijl: choice-btn) -->
+    <div id="stap1" class="stap">
+      <h1>Kies bereik</h1>
+      <div class="button-container">
+        <button id="bereik-100" class="choice-btn">Tot 100</button>
+        <button id="bereik-1000" class="choice-btn">Tot 1000</button>
       </div>
-      <div class="info">Je kunt later altijd terugkeren naar deze pagina via dezelfde QR.</div>
+    </div>
 
-      <div class="divider"></div>
-
-      <div class="stap">Stap 2 — Kies oefening</div>
-
-      <div id="sect-100" class="groep">
-        <a class="btn" href="./plus100.html?kid=1">Plus tot 100</a>
-        <a class="btn" href="./min100.html?kid=1">Min tot 100</a>
+    <!-- STAP 2: bewerking kiezen in gekozen bereik (zelfde knoppen-stijl + / -) -->
+    <div id="stap2" class="stap" style="display:none;">
+      <button id="terug-naar-stap1" class="menu-btn">Terug</button>
+      <h1 id="stap2-titel">Oefenen</h1>
+      <div class="button-container">
+        <!-- Zelfde class-namen als in keuze-hulpschema.html -->
+        <a id="link-plus" class="choice-btn plus" href="#">+</a>
+        <a id="link-min"  class="choice-btn min"  href="#">-</a>
       </div>
-
-      <div id="sect-1000" class="groep" style="display:none">
-        <a class="btn" href="./plus1000.html?kid=1">Plus tot 1000</a>
-        <a class="btn" href="./min1000.html?kid=1">Min tot 1000</a>
-      </div>
-
-      <p class="note">Deze kindpagina toont geen keuzemenu of terugknoppen.</p>
     </div>
   </div>
 
-  <!-- PRO: device-id → guard -->
+  <script>
+    // Zelfde "stap"-aanpak als in keuze-hulpschema.html, maar minimalistisch
+    const stap1 = document.getElementById('stap1');
+    const stap2 = document.getElementById('stap2');
+    const bereik100Btn  = document.getElementById('bereik-100');
+    const bereik1000Btn = document.getElementById('bereik-1000');
+    const terugBtn      = document.getElementById('terug-naar-stap1');
+    const titelStap2    = document.getElementById('stap2-titel');
+    const linkPlus      = document.getElementById('link-plus');
+    const linkMin       = document.getElementById('link-min');
+
+    // Houd bereik bij en bouw de links (altijd in kindmodus: ?kid=1)
+    let bereik = '100';
+
+    function toonStap1(){
+      stap1.style.display = 'block';
+      stap2.style.display = 'none';
+      // Verwijder # uit URL
+      history.pushState('', document.title, location.pathname + location.search);
+    }
+    function toonStap2(){
+      stap1.style.display = 'none';
+      stap2.style.display = 'block';
+      location.hash = '#stap2';
+      titelStap2.textContent = (bereik === '100') ? 'Oefenen tot 100' : 'Oefenen tot 1000';
+
+      // Bouw de juiste links:
+      if (bereik === '100') {
+        linkPlus.href = './plus100.html?kid=1&range=100';
+        linkMin.href  = './min100.html?kid=1&range=100';
+      } else {
+        // Deze werken zodra plus1000.html / min1000.html bestaan
+        linkPlus.href = './plus1000.html?kid=1&range=1000';
+        linkMin.href  = './min1000.html?kid=1&range=1000';
+      }
+    }
+
+    // Event handlers
+    bereik100Btn.addEventListener('click', () => { bereik = '100';  toonStap2(); });
+    bereik1000Btn.addEventListener('click', () => { bereik = '1000'; toonStap2(); });
+    terugBtn.addEventListener('click', toonStap1);
+
+    // Als iemand met #stap2 komt: respecteer ook de query ?range
+    document.addEventListener('DOMContentLoaded', () => {
+      const qp = new URLSearchParams(location.search);
+      const rangeParam = qp.get('range');
+      if (rangeParam === '1000') bereik = '1000';
+      if (location.hash === '#stap2') { toonStap2(); }
+    });
+  </script>
+
+  <!-- PRO-beveiliging (zoals elders): device-id → guard -->
   <script src="./js/device-id.js"></script>
   <script type="module" src="./js/guard.js"></script>
 </body>
