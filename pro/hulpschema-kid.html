@@ -82,7 +82,9 @@
 
     // Event handlers
     bereik100Btn.addEventListener('click', () => { bereik = '100';  toonStap2(); });
-    bereik1000Btn.addEventListener('click', () => { bereik = '1000'; toonStap2(); });
+    bereik1000Btn.addEventListener('click', () => {
+  window.location.href = './Tot_1000.html';
+});
     terugBtn.addEventListener('click', toonStap1);
 
     // Als iemand met #stap2 komt: respecteer ook de query ?range
