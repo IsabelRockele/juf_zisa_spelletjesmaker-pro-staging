@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hulpschema +/- 1000</title>
+    <meta name="google" content="notranslate">
+    <base href="/juf_zisa_spelletjesmaker/pro/">
+    <style>
+        /* --- Algemene Stijlen --- */
+        body {
+            font-family: sans-serif;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f5f7fb;
+            color: #333;
+        }
+
+        h1, h2, h3, h4 {
+            margin: 0 0 12px 0;
+        }
+
+        button, input, select {
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            box-sizing: border-box;
+            padding: 12px;
+        }
+
+        .paneel {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .paneel h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #2b3d6e;
+        }
+
+        .flex-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .flex-col {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-actie {
+          background: #2b6cb0;
+          color: #fff;
+          border: none;
+          padding: 12px 16px;
+          border-radius: 10px;
+          font-weight: 600;
+          cursor: pointer;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+          transition: background 0.2s, box-shadow 0.2s;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .btn-terug {
+          background-color: #b71c1c;
+          position: fixed;
+          top: 20px;
+          left: 20px;
+          z-index: 1000;
+        }
+        .btn-terug:hover,
+        .btn-terug:focus {
+          background-color: #e53935;
+        }
+        
+        /* --- Hoofd Applicatie Styling --- */
+        #main-app {
+            display: none;
+            flex-direction: row;
+            gap: 16px;
+        }
+
+        /* Linkerkolom met instellingen */
+        .instellingen {
+            width: 360px;
+            min-width: 320px;
+        }
+
+        .instel-rij {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .instel-rij label {
+            font-weight: 600;
+            color: #2b3d6e;
+        }
+
+        .instel-rij input[type="number"],
+        .instel-rij input[type="text"],
+        .instel-rij select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #cfd8ea;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .radio-groep {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .radio-groep label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .scheiding {
+            height: 1px;
+            background: #e9eef8;
+            margin: 12px 0;
+        }
+
+        /* Rechterkolom - werkblad en schema */
+        .werkblad-container {
+            flex: 1;
+            min-width: 640px;
+        }
+
+        .canvas-zone {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 16px;
+        }
+
+        .canvas-paneel, .schema-paneel {
+            height: 700px;
+            overflow: auto;
+        }
+
+        /* Schema raster */
+        .schema-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            padding: 8px;
+            background: #f9fbff;
+            border-radius: 12px;
+            border: 1px solid #e0e7f4;
+        }
+
+        .schema-vak {
+            background: #fff;
+            border-radius: 10px;
+            border: 1px solid #e1e6f5;
+            min-height: 72px;
+            padding: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .schema-vak h4 {
+            margin: 0 0 6px 0;
+            font-size: 14px;
+            color: #2b3d6e;
+        }
+
+        .schema-vak .drop-zone {
+            border: 2px dashed #c9d4ee;
+            border-radius: 8px;
+            min-height: 40px;
+            padding: 6px;
+        }
+
+        .min-bottom-container {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .min-bottom-box {
+            flex: 1;
+            min-height: 32px;
+            border: 2px dashed #c9d4ee;
+            border-radius: 8px;
+        }
+
+        /* Elementen die je kan slepen */
+        .blokje {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid #d6def0;
+            background: #f6faff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            font-weight: 700;
+            color: #2b3d6e;
+            margin: 4px;
+            cursor: grab;
+        }
+
+        .blokje:active {
+            cursor: grabbing;
+        }
+
+        .blokje .ico {
+            width: 22px;
+            height: 22px;
+        }
+
+        .blokje .txt {
+            margin-left: 8px;
+            font-size: 16px;
+        }
+
+        /* Vuilbak */
+        .vuilbak {
+            background: #fff0f0;
+            border: 2px dashed #ffb3b3;
+            border-radius: 12px;
+            padding: 10px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a33;
+            font-weight: 600;
+        }
+
+        /* Startscherm overlay */
+        #start-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 32, 61, 0.8);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            z-index: 999;
+        }
+
+        .start-card {
+            width: min(760px, 92vw);
+            background: #1f2e57;
+            border-radius: 16px;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+            padding: 18px;
+        }
+
+        .start-card h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .start-card p {
+            margin: 6px 0 10px 0;
+            line-height: 1.45;
+        }
+
+        .start-knoppen {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .start-knoppen .btn-actie {
+            background: #5a9fd4;
+        }
+
+        .start-knoppen .btn-actie:hover {
+            background: #73afe0;
+        }
+
+        /* PRO header ruimte */
+        body { margin-top: 60px; }
+    </style>
+</head>
+<body>
+<header class="pro-header" style="position:fixed;top:0;left:0;width:100%;background:#3f7fbf;color:#fff;z-index:1000;height:48px;padding:8px 12px">
+  <a href="app.html" class="back-link" aria-label="Terug naar menu"
+     style="background:#5a9fd4;color:#fff;border:none;padding:6px 10px;border-radius:6px;
+            font-size:14px;font-weight:600;text-decoration:none;display:inline-block;white-space:nowrap">
+    &larr; Terug naar menu
+  </a>
+</header>
+
+<!-- Start Overlay -->
+<div id="start-overlay">
+    <div class="start-card">
+        <h1>Hulpschema +/- 1000</h1>
+        <p>Stel hieronder je werkblad samen en sleep onderdelen naar het schema. Start het spel met een leeg schema of open een voorbeeld.</p>
+        <div class="start-knoppen">
+            <button class="btn-actie" id="btn-start-leeg">Start met leeg schema</button>
+            <button class="btn-actie" id="btn-open-voorbeeld">Open voorbeeld</button>
+            <button class="btn-actie btn-terug" onclick="window.location.href='app.html'">
+            Terug
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Hoofd Applicatie -->
+<div id="main-app" class="container">
+
+    <div class="flex-row">
+
+        <!-- Linkerkolom: Instellingen -->
+        <div class="instellingen paneel">
+
+            <h2>Instellingen</h2>
+
+            <div class="instel-rij">
+                <label for="titel">Titel werkblad</label>
+                <input type="text" id="titel" placeholder="bv. Oefenen tot 1000">
+            </div>
+
+            <div class="instel-rij">
+                <label for="naam">Naam leerling</label>
+                <input type="text" id="naam" placeholder="Naam">
+            </div>
+
+            <div class="instel-rij">
+                <label for="datum">Datum</label>
+                <input type="text" id="datum" placeholder="dd/mm/jjjj">
+            </div>
+
+            <div class="scheiding"></div>
+
+            <div class="instel-rij">
+                <label>Hulpschema onderdelen</label>
+                <div class="radio-groep">
+                    <label><input type="checkbox" class="chk" value="honderden" checked> Honderden</label>
+                    <label><input type="checkbox" class="chk" value="tientallen" checked> Tientallen</label>
+                    <label><input type="checkbox" class="chk" value="eenheden" checked> Eenheden</label>
+                    <label><input type="checkbox" class="chk" value="operatoren" checked> + / −</label>
+                </div>
+            </div>
+
+            <div class="instel-rij">
+                <label>Minivakken onderaan</label>
+                <div class="radio-groep">
+                    <label><input type="checkbox" class="chk" value="minA" checked> A</label>
+                    <label><input type="checkbox" class="chk" value="minB" checked> B</label>
+                    <label><input type="checkbox" class="chk" value="minC" checked> C</label>
+                    <label><input type="checkbox" class="chk" value="minD" checked> D</label>
+                    <label><input type="checkbox" class="chk" value="minE" checked> E</label>
+                </div>
+            </div>
+
+            <div class="scheiding"></div>
+
+            <div class="flex-col">
+                <button class="btn-actie" id="btn-voorbeeld-simple">Voorbeeld (optellen)</button>
+                <button class="btn-actie" id="btn-voorbeeld-min">Voorbeeld (aftrekken)</button>
+                <button class="btn-actie" id="btn-leeg-schema">Leeg schema</button>
+            </div>
+
+        </div>
+
+        <!-- Rechterkolom: Werkblad & Schema -->
+        <div class="werkblad-container">
+            <div class="paneel">
+                <h2>Werkblad</h2>
+
+                <div class="canvas-zone">
+
+                    <!-- Linkerzijde: Canvas -->
+                    <div class="canvas-paneel">
+                        <div id="canvas-root"></div>
+                    </div>
+
+                    <!-- Rechterzijde: Schema -->
+                    <div class="schema-paneel">
+                        <h2>Schema</h2>
+                        <div class="schema-grid" id="schema-grid">
+                            <!-- Kolommen A t/m E -->
+                            <div class="schema-vak" data-col="A">
+                                <h4>Kolom A</h4>
+                                <div class="drop-zone" data-column="A"></div>
+                                <div class="min-bottom-container">
+                                    <div class="min-bottom-box drop-zone" data-column="A"></div>
+                                </div>
+                            </div>
+                            <div class="schema-vak" data-col="B">
+                                <h4>Kolom B</h4>
+                                <div class="drop-zone" data-column="B"></div>
+                                <div class="min-bottom-container">
+                                    <div class="min-bottom-box drop-zone" data-column="B"></div>
+                                </div>
+                            </div>
+                            <div class="schema-vak" data-col="C">
+                                <h4>Kolom C</h4>
+                                <div class="drop-zone" data-column="C"></div>
+                                <div class="min-bottom-container">
+                                    <div class="min-bottom-box drop-zone" data-column="C"></div>
+                                </div>
+                            </div>
+                            <div class="schema-vak" data-col="D">
+                                <h4>Kolom D</h4>
+                                <div class="drop-zone" data-column="D"></div>
+                                <div class="min-bottom-container">
+                                    <div class="min-bottom-box drop-zone" data-column="D"></div>
+                                </div>
+                            </div>
+                            <div class="schema-vak" data-col="E">
+                                <h4>Kolom E</h4>
+                                <div class="drop-zone" data-column="E"></div>
+                                <div class="min-bottom-container">
+                                    <div class="min-bottom-box drop-zone" data-column="E"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="scheiding"></div>
+
+                        <div class="vuilbak" id="vuilbak">Sleep hierheen om te verwijderen</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="paneel">
+                <h2>Onderdelen</h2>
+                <div id="onderdelen-bak"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Uniforme device- en guard-laag: ALTIJD in deze volgorde -->
+<script src="./js/device-id.js"></script>
+<script type="module" src="./js/guard.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const startOverlay = document.getElementById('start-overlay');
+        const mainApp = document.getElementById('main-app');
+        const btnStartLeeg = document.getElementById('btn-start-leeg');
+        const btnOpenVoorbeeld = document.getElementById('btn-open-voorbeeld');
+        const btnVoorbeeldSimple = document.getElementById('btn-voorbeeld-simple');
+        const btnVoorbeeldMin = document.getElementById('btn-voorbeeld-min');
+        const btnLeegSchema = document.getElementById('btn-leeg-schema');
+
+        const onderdelenBak = document.getElementById('onderdelen-bak');
+        const schemaGrid = document.getElementById('schema-grid');
+        const canvasRoot = document.getElementById('canvas-root');
+        const vuilbakContainer = document.getElementById('vuilbak');
+
+        /* -----------------------------
+           Hulpfuncties voor DOM
+        ------------------------------*/
+        const el = (tag, attrs={}, ...children) => {
+            const n = document.createElement(tag);
+            Object.entries(attrs).forEach(([k,v]) => {
+                if (k === 'class') n.className = v;
+                else if (k === 'dataset') Object.entries(v).forEach(([dk,dv]) => n.dataset[dk] = dv);
+                else if (k.startsWith('on') && typeof v === 'function') n.addEventListener(k.substring(2), v);
+                else n.setAttribute(k, v);
+            });
+            children.forEach(c => {
+                if (typeof c === 'string') n.appendChild(document.createTextNode(c));
+                else if (c) n.appendChild(c);
+            });
+            return n;
+        };
+
+        const ico = (pathD) => {
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('viewBox', '0 0 24 24');
+            svg.setAttribute('class', 'ico');
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', pathD);
+            path.setAttribute('fill', 'currentColor');
+            svg.appendChild(path);
+            return svg;
+        };
+
+        /* -----------------------------
+           Onderdelen-definitie
+        ------------------------------*/
+        const ONDERDELEN = [
+            { type: 'honderd', label: '100', icon: 'M3 3h18v18H3z' },
+            { type: 'tien', label: '10', icon: 'M4 4h16v16H4z' },
+            { type: 'een', label: '1', icon: 'M6 6h12v12H6z' },
+            { type: 'plus', label: '+', icon: 'M11 3h2v18h-2zM3 11h18v2H3z' },
+            { type: 'min', label: '−', icon: 'M3 11h18v2H3z' },
+        ];
+
+        function maakBlokje(item){
+            const blok = el('div', { class: 'blokje', draggable: true, dataset: { type: item.type } });
+            blok.appendChild(ico(item.icon));
+            blok.appendChild(el('span', { class: 'txt' }, item.label));
+            blok.addEventListener('dragstart', onDragStart);
+            blok.addEventListener('dragend', onDragEnd);
+            return blok;
+        }
+
+        function vulOnderdelen(){
+            onderdelenBak.innerHTML = '';
+            ONDERDELEN.forEach(o => onderdelenBak.appendChild(maakBlokje(o)));
+        }
+
+        /* -----------------------------
+           Schema opbouw
+        ------------------------------*/
+        function maakSchema(){
+            schemaGrid.querySelectorAll('.drop-zone').forEach(z => z.innerHTML = '');
+        }
+
+        function voorbeeldSimple(){
+            maakSchema();
+            voegBlok('A','honderd'); voegBlok('B','honderd'); 
+            voegBlok('C','tien');    voegBlok('C','tien');
+            voegBlok('D','een');     voegBlok('E','plus');
+        }
+
+        function voorbeeldMin(){
+            maakSchema();
+            voegBlok('A','honderd'); voegBlok('B','tien'); 
+            voegBlok('C','een');     voegBlok('D','min');
+        }
+
+        function leegSchema(){
+            maakSchema();
+        }
+
+        function voegBlok(col, type){
+            const z = schemaGrid.querySelector(`.drop-zone[data-column="${col}"]`);
+            if (!z) return;
+            const item = ONDERDELEN.find(o => o.type === type);
+            if (!item) return;
+            z.appendChild(maakBlokje(item));
+        }
+
+        /* -----------------------------
+           Drag & Drop
+        ------------------------------*/
+        let dragGhost = null;
+
+        function onDragStart(e){
+            e.dataTransfer.setData('text/plain', e.target.dataset.type || '');
+            e.dataTransfer.effectAllowed = 'move';
+
+            const ghost = e.target.cloneNode(true);
+            ghost.style.position = 'absolute';
+            ghost.style.top = '-9999px';
+            document.body.appendChild(ghost);
+            e.dataTransfer.setDragImage(ghost, 20, 20);
+            dragGhost = ghost;
+        }
+        function onDragEnd(){
+            if (dragGhost) {
+                document.body.removeChild(dragGhost);
+                dragGhost = null;
+            }
+        }
+        function onDragMove(e){
+            e.preventDefault();
+        }
+        function onDrop(e){
+            e.preventDefault();
+            const type = e.dataTransfer.getData('text/plain');
+            const item = ONDERDELEN.find(o => o.type === type);
+            if (!item) return;
+            const dropZone = e.currentTarget.closest('.drop-zone') || e.currentTarget;
+            dropZone.appendChild(maakBlokje(item));
+        }
+
+        /* -----------------------------
+           Canvas / Werkblad (placeholder)
+        ------------------------------*/
+        function tekenWerkblad(){
+            canvasRoot.innerHTML = '';
+            const card = el('div', { class: 'paneel' }, 
+                el('h3', {}, 'Werkblad voorbeeld'),
+                el('p', {}, 'Hier zou je PDF/canvas-opbouw komen.')
+            );
+            canvasRoot.appendChild(card);
+        }
+
+        /* -----------------------------
+           Start & knoppen
+        ------------------------------*/
+        function startMetLeeg(){
+            startOverlay.style.display = 'none';
+            mainApp.style.display = 'flex';
+            leegSchema();
+            vulOnderdelen();
+            tekenWerkblad();
+        }
+
+        function openVoorbeeld(){
+            startOverlay.style.display = 'none';
+            mainApp.style.display = 'flex';
+            voorbeeldSimple();
+            vulOnderdelen();
+            tekenWerkblad();
+        }
+
+        btnStartLeeg.addEventListener('click', startMetLeeg);
+        btnOpenVoorbeeld.addEventListener('click', openVoorbeeld);
+        btnVoorbeeldSimple.addEventListener('click', () => {
+            voorbeeldSimple();
+        });
+        btnVoorbeeldMin.addEventListener('click', () => {
+            voorbeeldMin();
+        });
+        btnLeegSchema.addEventListener('click', () => {
+            leegSchema();
+        });
+        
+        document.body.addEventListener('dragstart', onDragStart);
+        document.body.addEventListener('dragend', onDragEnd);
+        document.body.addEventListener('dragover', onDragMove);
+
+        document.querySelectorAll('.drop-zone').forEach(vak => {
+            vak.addEventListener('dragover', e => e.preventDefault());
+            vak.addEventListener('drop', onDrop);
+        });
+
+        vuilbakContainer.addEventListener('dragover', e => e.preventDefault());
+        vuilbakContainer.addEventListener('drop', onVuilbakDrop);
+    });
+    </script>
+</body>
+</html>
