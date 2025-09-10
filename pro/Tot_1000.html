@@ -292,7 +292,7 @@
 <body>
 
     <div id="start-screen">
-         <button class="btn-actie btn-terug" onclick="window.location.href='keuze-hulpschema.html'">
+         <button class="btn-actie btn-terug" onclick="__goBackHulpschema()">
             Terug
         </button>
       
@@ -353,6 +353,19 @@
 
         </div>
     </div>
+
+    <!-- Helper: correcte terug-navigatie (kid/leerkracht) -->
+    <script>
+      function __goBackHulpschema() {
+        const qp = new URLSearchParams(location.search);
+        if (qp.get('kid') === '1') {
+          const range = qp.get('range') || '100';
+          window.location.href = `./hulpschema-kid.html?range=${range}`;
+        } else {
+          window.location.href = 'keuze-hulpschema.html';
+        }
+      }
+    </script>
 
     <!-- PRO guard-laag: strikt vóór jouw eigen script -->
     <script src="./js/device-id.js"></script>
@@ -760,4 +773,5 @@
     </script>
 </body>
 </html>
+
 
