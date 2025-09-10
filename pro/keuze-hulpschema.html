@@ -1,68 +1,137 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
- <base href="/juf_zisa_spelletjesmaker-pro-staging/pro/">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kies Hulpschema</title>
-    <link rel="stylesheet" href="../keuze-hulpschema.css">
+  <meta charset="UTF-8">
+  <base href="/juf_zisa_spelletjesmaker-pro-staging/pro/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kies Hulpschema</title>
+  <link rel="stylesheet" href="../keuze-hulpschema.css">
 </head>
 <body>
-    <div class="panel">
-        <div id="stap1" class="stap">
-            <a href="index.html" class="menu-btn">Keuzemenu</a>
-            <h1>Kies waarmee je wilt oefenen</h1>
-            <div class="button-container">
-                <button id="naar-stap2-btn" class="choice-btn">Tot 100</button>
-                <button class="choice-btn disabled">Tot 1000</button>
-            </div>
-        </div>
-
-        <div id="stap2" class="stap" style="display: none;">
-            <button id="terug-naar-stap1-btn" class="menu-btn">Terug</button>
-            <h1>Oefenen tot 100</h1>
-            <div class="button-container">
-                <a href="./plus100.html?terug=keuze-hulpschema.html#stap2" class="choice-btn plus">+</a>
-                <a href="./min100.html?terug=keuze-hulpschema.html#stap2" class="choice-btn min">-</a>
-            </div>
-        </div>
+  <div class="panel">
+    <div id="stap1" class="stap">
+      <a href="index.html" class="menu-btn">Keuzemenu</a>
+      <h1>Kies waarmee je wilt oefenen</h1>
+      <div class="button-container">
+        <button id="naar-stap2-btn" class="choice-btn">Tot 100</button>
+        <button class="choice-btn disabled">Tot 1000</button>
+      </div>
     </div>
 
-    <script>
-        const stap1 = document.getElementById('stap1');
-        const stap2 = document.getElementById('stap2');
-        const naarStap2Btn = document.getElementById('naar-stap2-btn');
-        const terugNaarStap1Btn = document.getElementById('terug-naar-stap1-btn');
+    <div id="stap2" class="stap" style="display: none;">
+      <button id="terug-naar-stap1-btn" class="menu-btn">Terug</button>
+      <h1>Oefenen tot 100</h1>
+      <div class="button-container">
+        <a href="./plus100.html?terug=keuze-hulpschema.html#stap2" class="choice-btn plus">+</a>
+        <a href="./min100.html?terug=keuze-hulpschema.html#stap2" class="choice-btn min">-</a>
+      </div>
+    </div>
+  </div>
 
-        // Functie om de juiste stap te tonen op basis van de URL
-        function toonJuisteStap() {
-            if (window.location.hash === '#stap2') {
-                stap1.style.display = 'none';
-                stap2.style.display = 'block';
-            } else {
-                stap1.style.display = 'block';
-                stap2.style.display = 'none';
-            }
-        }
+  <script>
+    const stap1 = document.getElementById('stap1');
+    const stap2 = document.getElementById('stap2');
+    const naarStap2Btn = document.getElementById('naar-stap2-btn');
+    const terugNaarStap1Btn = document.getElementById('terug-naar-stap1-btn');
 
-        // Toon de juiste stap wanneer de pagina laadt
-        document.addEventListener('DOMContentLoaded', toonJuisteStap);
+    function toonJuisteStap() {
+      if (window.location.hash === '#stap2') {
+        stap1.style.display = 'none';
+        stap2.style.display = 'block';
+      } else {
+        stap1.style.display = 'block';
+        stap2.style.display = 'none';
+      }
+    }
+    document.addEventListener('DOMContentLoaded', toonJuisteStap);
 
-        // Knoppen om tussen stappen te wisselen
-        naarStap2Btn.addEventListener('click', () => {
-            stap1.style.display = 'none';
-            stap2.style.display = 'block';
-        });
+    naarStap2Btn.addEventListener('click', () => {
+      stap1.style.display = 'none';
+      stap2.style.display = 'block';
+    });
+    terugNaarStap1Btn.addEventListener('click', () => {
+      stap2.style.display = 'none';
+      stap1.style.display = 'block';
+      history.pushState("", document.title, window.location.pathname + window.location.search);
+    });
+  </script>
 
-        terugNaarStap1Btn.addEventListener('click', () => {
-            stap2.style.display = 'none';
-            stap1.style.display = 'block';
-            // Optioneel: verwijder de #stap2 uit de URL
-            history.pushState("", document.title, window.location.pathname + window.location.search);
-        });
-    </script>
-
+  <!-- PRO init eerst -->
   <script src="./js/device-id.js"></script>
   <script type="module" src="./js/guard.js"></script>
+
+  <!-- QR-paneel voor leerkracht (compact, rechtsonder) -->
+  <div id="kid-qr-panel" style="
+    position:fixed; right:14px; bottom:14px; z-index:9999;
+    background:#fff; border:1px solid #e3e8f5; border-radius:12px;
+    box-shadow:0 6px 20px rgba(0,0,0,.08); padding:12px; width: 280px;">
+    <div style="font:600 14px system-ui; color:#123b72; margin-bottom:8px;">
+      QR voor thuisgebruik
+    </div>
+    <button id="gen-qr"
+      style="width:100%; padding:10px; border-radius:9px; border:2px solid #3f7fbf; background:#fff; color:#275ea8; font-weight:800; cursor:pointer;">
+      Maak QR
+    </button>
+    <div id="qr-wrap" style="display:none; margin-top:10px; text-align:center;">
+      <div id="qr-box" style="display:inline-block; padding:6px; background:#fff; border:1px solid #eef3ff;"></div>
+      <a id="qr-dl" download="hulpschema-qr.png"
+         style="display:block; margin-top:8px; font:600 13px system-ui; color:#275ea8; text-decoration:underline; cursor:pointer;">
+         Download als PNG
+      </a>
+      <div id="qr-exp" style="margin-top:6px; font:12px system-ui; color:#566;">
+        Geldig t/m: …
+      </div>
+    </div>
+  </div>
+
+  <!-- QR generator lib (lichtgewicht) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+
+  <!-- Aanroep naar je Cloud Function 'createKidLink' — NA guard.js! -->
+  <script type="module">
+    import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-functions.js";
+    // wachten tot de pagina + guard init klaar zijn
+    window.addEventListener('load', () => {
+      const fns = getFunctions(undefined, "europe-west1");
+
+      const genBtn = document.getElementById("gen-qr");
+      const wrap   = document.getElementById("qr-wrap");
+      const box    = document.getElementById("qr-box");
+      const dl     = document.getElementById("qr-dl");
+      const exp    = document.getElementById("qr-exp");
+
+      genBtn.addEventListener("click", async () => {
+        const old = genBtn.textContent;
+        genBtn.disabled = true; genBtn.textContent = "Bezig…";
+        try {
+          const { data } = await httpsCallable(fns, "createKidLink")({ target: "kid-start", range: "100" });
+          const url = data.url;
+          const expires = new Date(data.expiresAt);
+
+          wrap.style.display = "block";
+          box.innerHTML = "";
+          new QRCode(box, { text: url, width: 220, height: 220, correctLevel: QRCode.CorrectLevel.M });
+
+          setTimeout(() => {
+            const img = box.querySelector("img");
+            if (!img) return;
+            const canvas = document.createElement("canvas");
+            canvas.width = img.width; canvas.height = img.height;
+            const ctx = canvas.getContext("2d");
+            ctx.fillStyle = "#fff"; ctx.fillRect(0,0,canvas.width,canvas.height);
+            const ph = new Image(); ph.crossOrigin = "anonymous";
+            ph.onload = () => { ctx.drawImage(ph, 0, 0); dl.href = canvas.toDataURL("image/png"); };
+            ph.src = img.src;
+          }, 80);
+
+          exp.textContent = "Geldig t/m: " + expires.toLocaleDateString("nl-BE");
+        } catch (e) {
+          alert("Kon geen QR maken: " + (e.message || e));
+        } finally {
+          genBtn.textContent = old; genBtn.disabled = false;
+        }
+      });
+    });
+  </script>
 </body>
 </html>
