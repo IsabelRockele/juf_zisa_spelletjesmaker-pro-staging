@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Hulpschema +/- 1000</title>
     <meta name="google" content="notranslate">
-    <base href="/juf_zisa_spelletjesmaker-pro-staging/pro/">
+    <base href="/juf_zisa_spelletjesmaker/pro/">
     <style>
         /* --- Algemene Stijlen --- */
         body {
@@ -16,62 +16,61 @@
             margin: 0;
             padding: 0;
             display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            background-color: #f0f4f8;
+        }
+
+        /* --- Startscherm Styling --- */
+        #start-screen {
+            background-image: url('start_afbeeldingen/achtergrond.png');
+            background-size: cover;
+            background-position: center;
+            flex-grow: 1;
+            display: flex;
             flex-direction: column;
             align-items: center;
-            background: #f5f7fb;
-            color: #333;
+            justify-content: center;
         }
-
-        h1, h2, h3, h4 {
-            margin: 0 0 12px 0;
+        #start-screen-container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 15px;
         }
-
-        button, input, select {
-            font-family: inherit;
-            font-size: 16px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            box-sizing: border-box;
-            padding: 12px;
-        }
-
-        .paneel {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-
-        .paneel h2 {
-            font-size: 20px;
-            margin-bottom: 10px;
-            color: #2b3d6e;
-        }
-
-        .flex-row {
+        .keuzescherm { display: flex; justify-content: center; gap: 4em; margin-top: 2em; }
+        .keuzeblok { display: flex; flex-direction: column; align-items: center; }
+        .knop-keuze {
+            font-size: 6em;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            width: 180px;
+            height: 180px;
+            cursor: pointer;
             display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            transition: transform 0.1s ease;
         }
-
-        .flex-col {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .knop-keuze:active {
+            transform: scale(0.95);
         }
+        .knop-keuze.plus { background-color: #1e90ff; }
+        .knop-keuze.min { background-color: orange; }
 
+        /* --- Stijl voor Terug-knop (overgenomen uit index.html) --- */
         .btn-actie {
-          background: #2b6cb0;
-          color: #fff;
+          padding: 16px 32px;
+          font-size: 1.6em;
           border: none;
-          padding: 12px 16px;
-          border-radius: 10px;
-          font-weight: 600;
+          border-radius: 12px;
           cursor: pointer;
+          color: #fff;
+          font-family: inherit;
+          margin: 10px 0;
           box-shadow: 0 4px 12px rgba(0,0,0,0.08);
           transition: background 0.2s, box-shadow 0.2s;
           display: flex;
@@ -94,541 +93,656 @@
         #main-app {
             display: none;
             flex-direction: row;
-            gap: 16px;
-        }
-
-        /* Linkerkolom met instellingen */
-        .instellingen {
-            width: 360px;
-            min-width: 320px;
-        }
-
-        .instel-rij {
-            display: grid;
-            grid-template-columns: 180px 1fr;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .instel-rij label {
-            font-weight: 600;
-            color: #2b3d6e;
-        }
-
-        .instel-rij input[type="number"],
-        .instel-rij input[type="text"],
-        .instel-rij select {
             width: 100%;
-            padding: 8px 10px;
-            border: 1px solid #cfd8ea;
-            border-radius: 8px;
-            box-sizing: border-box;
+            height: 100vh;
         }
-
-        .radio-groep {
+        #sidebar {
+            width: 180px;
+            background-color: #f0f4f8;
+            padding: 20px;
             display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 15px;
         }
-
-        .radio-groep label {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .scheiding {
-            height: 1px;
-            background: #e9eef8;
-            margin: 12px 0;
-        }
-
-        /* Rechterkolom - werkblad en schema */
-        .werkblad-container {
-            flex: 1;
-            min-width: 640px;
-        }
-
-        .canvas-zone {
-            display: grid;
-            grid-template-columns: 1fr 360px;
-            gap: 16px;
-        }
-
-        .canvas-paneel, .schema-paneel {
-            height: 700px;
-            overflow: auto;
-        }
-
-        /* Schema raster */
-        .schema-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            padding: 8px;
-            background: #f9fbff;
-            border-radius: 12px;
-            border: 1px solid #e0e7f4;
-        }
-
-        .schema-vak {
-            background: #fff;
-            border-radius: 10px;
-            border: 1px solid #e1e6f5;
-            min-height: 72px;
-            padding: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-        }
-
-        .schema-vak h4 {
-            margin: 0 0 6px 0;
-            font-size: 14px;
-            color: #2b3d6e;
-        }
-
-        .schema-vak .drop-zone {
-            border: 2px dashed #c9d4ee;
+        .knop {
+            padding: 15px;
+            font-size: 1.1em;
+            border: none;
             border-radius: 8px;
-            min-height: 40px;
-            padding: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            text-align: center;
         }
+        .knop.opnieuw { background-color: #28a745; }
+        .knop.opnieuw:hover { background-color: #218838; }
+        .knop.ander-schema { background-color: #dc3545; }
+        .knop.ander-schema:hover { background-color: #c82333; }
+        .knop.wissel { background-color: #007bff; }
+        .knop.wissel:hover { background-color: #0056b3; }
+        
+        #vuilbak-container {
+            border: 2px dashed grey; border-radius: 8px; padding: 10px;
+            text-align: center; margin-top: auto;
+        }
+        #vuilbak { 
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 10px auto;
+            pointer-events: none;
+        }
+        #vuilbak-teller div { font-weight: bold; font-size: 1.1em; display: flex; justify-content: space-around; }
+        #vuilbak-teller div:first-child span:nth-child(1) { color: #B4C6E7; font-weight: bold; }
+        #vuilbak-teller div:first-child span:nth-child(2) { color: #C5E0B3; font-weight: bold; }
+        #vuilbak-teller div:first-child span:nth-child(3) { color: #FFD965; font-weight: bold; }
 
-        .min-bottom-container {
+        #main {
+            flex-grow: 1;
+            padding: 20px;
             display: flex;
-            gap: 8px;
-            margin-top: 6px;
+            flex-direction: column;
+            position: relative; 
         }
-
-        .min-bottom-box {
-            flex: 1;
-            min-height: 32px;
-            border: 2px dashed #c9d4ee;
-            border-radius: 8px;
+        #main h1 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #333;
         }
-
-        /* Elementen die je kan slepen */
-        .blokje {
-            display: inline-flex;
-            align-items: center;
+        #toolbar {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            display: flex;
             justify-content: center;
-            padding: 6px 10px;
-            border-radius: 8px;
-            border: 1px solid #d6def0;
-            background: #f6faff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            font-weight: 700;
-            color: #2b3d6e;
-            margin: 4px;
-            cursor: grab;
-        }
-
-        .blokje:active {
-            cursor: grabbing;
-        }
-
-        .blokje .ico {
-            width: 22px;
-            height: 22px;
-        }
-
-        .blokje .txt {
-            margin-left: 8px;
-            font-size: 16px;
-        }
-
-        /* Vuilbak */
-        .vuilbak {
-            background: #fff0f0;
-            border: 2px dashed #ffb3b3;
-            border-radius: 12px;
-            padding: 10px;
-            height: 80px;
-            display: flex;
             align-items: center;
-            justify-content: center;
-            color: #a33;
-            font-weight: 600;
-        }
-
-        /* Startscherm overlay */
-        #start-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(20, 32, 61, 0.8);
-            color: #fff;
-            display: grid;
-            place-items: center;
-            z-index: 999;
-        }
-
-        .start-card {
-            width: min(760px, 92vw);
-            background: #1f2e57;
-            border-radius: 16px;
-            box-shadow: 0 10px 24px rgba(0,0,0,0.35);
-            padding: 18px;
-        }
-
-        .start-card h1 {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        .start-card p {
-            margin: 6px 0 10px 0;
-            line-height: 1.45;
-        }
-
-        .start-knoppen {
-            display: flex;
+            gap: 15px;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 6px;
+            margin-bottom: 20px;
+            min-height: 80px;
+        }
+        
+        /* --- AANGEPASTE KNOP STIJLEN --- */
+        .toolbar-btn, .exchange-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .toolbar-btn:hover, .exchange-btn:hover { 
+            background-color: #0056b3; 
         }
 
-        .start-knoppen .btn-actie {
-            background: #5a9fd4;
+        /* Grotere knoppen voor de toolbar */
+        .toolbar-btn {
+            padding: 20px 30px;
+            font-size: 1.5em;
+            border-radius: 8px;
+            font-weight: bold;
         }
 
-        .start-knoppen .btn-actie:hover {
-            background: #73afe0;
+        /* Kleinere knop voor 'wissel om' */
+        .exchange-btn {
+            padding: 10px 15px;
+            font-size: 1em;
+            border-radius: 5px;
+            position: absolute;
+            z-index: 100;
+        }
+        
+        /* --- Tool Styling --- */
+        .tool { cursor: grab; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .geel-blok { background-color: #ffd700; width: 35px; height: 35px; border: 2px solid #444; border-radius: 6px; }
+        
+        .tool.staaf-groen {
+            width: 180px; height: 20px;
+            border: 2px solid #444;
+            border-radius: 6px;
+            background-color: #32CD32;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cpattern id='p' width='18' height='20' patternUnits='userSpaceOnUse'%3E%3Cpath d='M18 0 v20' stroke='%23444' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23p)'/%3E%3C/svg%3E");
+        }
+        .tool.vlak-blauw {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #444;
+            border-radius: 6px;
+            background-color: #3399FF;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cpattern id='p' width='12' height='12' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 h12 M12 0 v12' stroke='%23444' stroke-width='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23p)'/%3E%3C/svg%3E");
+        }
+        
+        .schijf { border-radius: 50%; width: 55px; height: 55px; border: 2px solid #444; font-size: 22px; }
+        .schijf-geel { background-color: #ffd700; }
+        .schijf-groen { background-color: #32CD32; }
+        .schijf-blauw { background-color: #3399FF; }
+
+        /* --- Algemeen Schema Styling --- */
+        .schema-container {
+            flex-grow: 1;
+            display: none;
+            grid-template-rows: auto 1fr;
+            border: 1px solid #666;
+            background-color: white;
+        }
+        .schema-header { display: grid; grid-template-columns: 1fr 1fr 1fr; text-align: center; font-size: 1.5rem; font-weight: 700; color: white; }
+        .schema-header > div { padding: 0.5rem; border-left: 1px solid #666; }
+        .schema-header > div:first-child { border-left: none; }
+        .header-h { background-color: #B4C6E7; }
+        .header-t { background-color: #C5E0B3; }
+        .header-e { background-color: #FFD965; }
+
+        /* --- PLUS Schema Styling --- */
+        #schema-plus .schema-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 0.5fr 1.5fr 1fr;
+        }
+        #schema-plus .schema-vak {
+            border-right: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+            position: relative;
+        }
+        #schema-plus .schema-body .schema-vak:nth-child(3n) { border-right: none; }
+
+        #schema-plus .plus-r1-h { background-color: #D9E2F3; }
+        #schema-plus .plus-r1-t { background-color: #E2EFD9; }
+        #schema-plus .plus-r1-e { background-color: #FFF2CC; }
+
+        #schema-plus .plus-t-span {
+            position: relative; 
+            top: 5%; left: 5%; width: 90%; height: 390%;
+            border: 4px solid #32CD32; border-radius: 12px;
+            z-index: 5; pointer-events: auto;
+        }
+        #schema-plus .plus-r1-t, #schema-plus .plus-r2-t { pointer-events: none; }
+        #schema-plus .plus-r2-t { background-color: white; }
+
+        #schema-plus .plus-r2-e { display: flex; align-items: center; justify-content: center; }
+        #schema-plus .plus-e-inner {
+            position: relative; 
+            width: 90%; height: 85%;
+            border: 4px solid #ffd700; border-radius: 12px;
+        }
+        
+        /* --- MIN Schema Styling --- */
+        #schema-min { border-collapse: collapse; }
+        #schema-min .schema-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr auto; 
+        }
+        #schema-min .min-top-vak { border-right: 1px solid #666; border-top: 1px solid #666; position: relative; }
+        #schema-min .min-top-vak:last-child { border-right: none; }
+        #schema-min .min-bottom-container { border-right: 1px solid #666; border-top: 1px solid #666; padding: 20px 10px; position: relative; }
+        #schema-min .min-bottom-container:last-child { border-right: none; }
+        #schema-min .min-bottom-box { height: 240px; border-width: 4px; border-style: solid; border-radius: 20px; position: relative; z-index: 1; }
+        #schema-min .min-bottom-container:nth-child(4) .min-bottom-box { border-color: #B4C6E7; }
+        #schema-min .min-bottom-container:nth-child(5) .min-bottom-box { border-color: #C5E0B3; }
+        #schema-min .min-bottom-container:nth-child(6) .min-bottom-box { border-color: #FFD965; }
+        #schema-min .min-bottom-container:nth-child(4)::after,
+        #schema-min .min-bottom-container:nth-child(5)::after {
+            content: ''; position: absolute; background-color: white;
+            width: 28px; height: 40px; top: 50%; right: 0px;
+            transform: translate(50%, -50%); z-index: 2;
         }
 
-        /* PRO header ruimte */
-        body { margin-top: 60px; }
+        .drag-clone { position: absolute; pointer-events: none; z-index: 1000; opacity: 0.8; }
     </style>
 </head>
 <body>
-<header class="pro-header" style="position:fixed;top:0;left:0;width:100%;background:#3f7fbf;color:#fff;z-index:1000;height:48px;padding:8px 12px">
-  <a href="app.html" class="back-link" aria-label="Terug naar menu"
-     style="background:#5a9fd4;color:#fff;border:none;padding:6px 10px;border-radius:6px;
-            font-size:14px;font-weight:600;text-decoration:none;display:inline-block;white-space:nowrap">
-    &larr; Terug naar menu
-  </a>
-</header>
 
-<!-- Start Overlay -->
-<div id="start-overlay">
-    <div class="start-card">
-        <h1>Hulpschema +/- 1000</h1>
-        <p>Stel hieronder je werkblad samen en sleep onderdelen naar het schema. Start het spel met een leeg schema of open een voorbeeld.</p>
-        <div class="start-knoppen">
-            <button class="btn-actie" id="btn-start-leeg">Start met leeg schema</button>
-            <button class="btn-actie" id="btn-open-voorbeeld">Open voorbeeld</button>
-            <button class="btn-actie btn-terug" onclick="window.location.href='app.html'">
+    <div id="start-screen">
+         <button class="btn-actie btn-terug" onclick="window.location.href='keuze-hulpschema.html'">
             Terug
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- Hoofd Applicatie -->
-<div id="main-app" class="container">
-
-    <div class="flex-row">
-
-        <!-- Linkerkolom: Instellingen -->
-        <div class="instellingen paneel">
-
-            <h2>Instellingen</h2>
-
-            <div class="instel-rij">
-                <label for="titel">Titel werkblad</label>
-                <input type="text" id="titel" placeholder="bv. Oefenen tot 1000">
-            </div>
-
-            <div class="instel-rij">
-                <label for="naam">Naam leerling</label>
-                <input type="text" id="naam" placeholder="Naam">
-            </div>
-
-            <div class="instel-rij">
-                <label for="datum">Datum</label>
-                <input type="text" id="datum" placeholder="dd/mm/jjjj">
-            </div>
-
-            <div class="scheiding"></div>
-
-            <div class="instel-rij">
-                <label>Hulpschema onderdelen</label>
-                <div class="radio-groep">
-                    <label><input type="checkbox" class="chk" value="honderden" checked> Honderden</label>
-                    <label><input type="checkbox" class="chk" value="tientallen" checked> Tientallen</label>
-                    <label><input type="checkbox" class="chk" value="eenheden" checked> Eenheden</label>
-                    <label><input type="checkbox" class="chk" value="operatoren" checked> + / −</label>
-                </div>
-            </div>
-
-            <div class="instel-rij">
-                <label>Minivakken onderaan</label>
-                <div class="radio-groep">
-                    <label><input type="checkbox" class="chk" value="minA" checked> A</label>
-                    <label><input type="checkbox" class="chk" value="minB" checked> B</label>
-                    <label><input type="checkbox" class="chk" value="minC" checked> C</label>
-                    <label><input type="checkbox" class="chk" value="minD" checked> D</label>
-                    <label><input type="checkbox" class="chk" value="minE" checked> E</label>
-                </div>
-            </div>
-
-            <div class="scheiding"></div>
-
-            <div class="flex-col">
-                <button class="btn-actie" id="btn-voorbeeld-simple">Voorbeeld (optellen)</button>
-                <button class="btn-actie" id="btn-voorbeeld-min">Voorbeeld (aftrekken)</button>
-                <button class="btn-actie" id="btn-leeg-schema">Leeg schema</button>
-            </div>
-
-        </div>
-
-        <!-- Rechterkolom: Werkblad & Schema -->
-        <div class="werkblad-container">
-            <div class="paneel">
-                <h2>Werkblad</h2>
-
-                <div class="canvas-zone">
-
-                    <!-- Linkerzijde: Canvas -->
-                    <div class="canvas-paneel">
-                        <div id="canvas-root"></div>
-                    </div>
-
-                    <!-- Rechterzijde: Schema -->
-                    <div class="schema-paneel">
-                        <h2>Schema</h2>
-                        <div class="schema-grid" id="schema-grid">
-                            <!-- Kolommen A t/m E -->
-                            <div class="schema-vak" data-col="A">
-                                <h4>Kolom A</h4>
-                                <div class="drop-zone" data-column="A"></div>
-                                <div class="min-bottom-container">
-                                    <div class="min-bottom-box drop-zone" data-column="A"></div>
-                                </div>
-                            </div>
-                            <div class="schema-vak" data-col="B">
-                                <h4>Kolom B</h4>
-                                <div class="drop-zone" data-column="B"></div>
-                                <div class="min-bottom-container">
-                                    <div class="min-bottom-box drop-zone" data-column="B"></div>
-                                </div>
-                            </div>
-                            <div class="schema-vak" data-col="C">
-                                <h4>Kolom C</h4>
-                                <div class="drop-zone" data-column="C"></div>
-                                <div class="min-bottom-container">
-                                    <div class="min-bottom-box drop-zone" data-column="C"></div>
-                                </div>
-                            </div>
-                            <div class="schema-vak" data-col="D">
-                                <h4>Kolom D</h4>
-                                <div class="drop-zone" data-column="D"></div>
-                                <div class="min-bottom-container">
-                                    <div class="min-bottom-box drop-zone" data-column="D"></div>
-                                </div>
-                            </div>
-                            <div class="schema-vak" data-col="E">
-                                <h4>Kolom E</h4>
-                                <div class="drop-zone" data-column="E"></div>
-                                <div class="min-bottom-container">
-                                    <div class="min-bottom-box drop-zone" data-column="E"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="scheiding"></div>
-
-                        <div class="vuilbak" id="vuilbak">Sleep hierheen om te verwijderen</div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="paneel">
-                <h2>Onderdelen</h2>
-                <div id="onderdelen-bak"></div>
+        </button>
+      
+        <div id="start-screen-container">
+            <h1>Kies hier je schema</h1>
+            <div class="keuzescherm">
+                <div class="keuzeblok"><button id="btn-start-plus" class="knop-keuze plus">+</button></div>
+                <div class="keuzeblok"><button id="btn-start-min" class="knop-keuze min">–</button></div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Uniforme device- en guard-laag: ALTIJD in deze volgorde -->
-<script src="./js/device-id.js"></script>
-<script type="module" src="./js/guard.js"></script>
-<script>
+    <div id="main-app">
+        <div id="sidebar">
+            <button id="reset" class="knop opnieuw">Opnieuw</button>
+            <button id="terug" class="knop ander-schema">Terug</button>
+            <button id="wissel-schema" class="knop wissel"></button>
+            <div id="vuilbak-container" style="display: none;">
+                <img id="vuilbak" src="afbeeldingen_hulpschema/vuilbak.png" alt="vuilbak">
+                <div id="vuilbak-teller"><div><span>H</span><span>T</span><span>E</span></div><div><span id="h-count">0</span><span id="t-count">0</span><span id="e-count">0</span></div></div>
+            </div>
+        </div>
+
+        <div id="main">
+            <h1 id="app-title"></h1>
+            <div id="toolbar"></div>
+            
+            <div id="schema-plus" class="schema-container">
+                <div class="schema-header"><div class="header-h">H</div><div class="header-t">T</div><div class="header-e">E</div></div>
+                <div class="schema-body">
+                    <div class="schema-vak plus-r1-h drop-zone"></div>
+                    <div class="schema-vak plus-r1-t">
+                        <div class="plus-t-span drop-zone"></div>
+                    </div>
+                    <div class="schema-vak plus-r1-e drop-zone"></div>
+                    <div class="schema-vak plus-r2-h drop-zone"></div>
+                    <div class="schema-vak plus-r2-t"></div>
+                    <div class="schema-vak plus-r2-e">
+                        <div class="plus-e-inner drop-zone"></div>
+                    </div>
+                    <div class="schema-vak plus-r3-h drop-zone"></div>
+                    <div class="schema-vak plus-r3-t drop-zone"></div>
+                    <div class="schema-vak plus-r3-e drop-zone"></div>
+                </div>
+            </div>
+            
+            <div id="schema-min" class="schema-container">
+                <div class="schema-header"><div class="header-h">H</div><div class="header-t">T</div><div class="header-e">E</div></div>
+                <div class="schema-body">
+                    <div class="min-top-vak drop-zone"></div>
+                    <div class="min-top-vak drop-zone"></div>
+                    <div class="min-top-vak drop-zone"></div>
+                    <div class="min-bottom-container"><div class="min-bottom-box drop-zone" data-column="H"></div></div>
+                    <div class="min-bottom-container"><div class="min-bottom-box drop-zone" data-column="T"></div></div>
+                    <div class="min-bottom-container"><div class="min-bottom-box drop-zone" data-column="E"></div></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PRO guard-laag: strikt vóór jouw eigen script -->
+    <script src="./js/device-id.js"></script>
+    <script type="module" src="./js/guard.js"></script>
+
+    <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const startOverlay = document.getElementById('start-overlay');
+        const startScreen = document.getElementById('start-screen');
         const mainApp = document.getElementById('main-app');
-        const btnStartLeeg = document.getElementById('btn-start-leeg');
-        const btnOpenVoorbeeld = document.getElementById('btn-open-voorbeeld');
-        const btnVoorbeeldSimple = document.getElementById('btn-voorbeeld-simple');
-        const btnVoorbeeldMin = document.getElementById('btn-voorbeeld-min');
-        const btnLeegSchema = document.getElementById('btn-leeg-schema');
+        const btnStartPlus = document.getElementById('btn-start-plus');
+        const btnStartMin = document.getElementById('btn-start-min');
+        const appTitle = document.getElementById('app-title');
+        const toolbar = document.getElementById('toolbar');
+        const btnReset = document.getElementById('reset');
+        const btnTerug = document.getElementById('terug');
+        const btnWisselSchema = document.getElementById('wissel-schema'); 
+        
+        const schemaPlus = document.getElementById('schema-plus');
+        const schemaMin = document.getElementById('schema-min');
+        const mainContent = document.getElementById('main');
 
-        const onderdelenBak = document.getElementById('onderdelen-bak');
-        const schemaGrid = document.getElementById('schema-grid');
-        const canvasRoot = document.getElementById('canvas-root');
-        const vuilbakContainer = document.getElementById('vuilbak');
+        const vuilbakContainer = document.getElementById('vuilbak-container');
+        const hCount = document.getElementById('h-count');
+        const tCount = document.getElementById('t-count');
+        const eCount = document.getElementById('e-count');
 
-        /* -----------------------------
-           Hulpfuncties voor DOM
-        ------------------------------*/
-        const el = (tag, attrs={}, ...children) => {
-            const n = document.createElement(tag);
-            Object.entries(attrs).forEach(([k,v]) => {
-                if (k === 'class') n.className = v;
-                else if (k === 'dataset') Object.entries(v).forEach(([dk,dv]) => n.dataset[dk] = dv);
-                else if (k.startsWith('on') && typeof v === 'function') n.addEventListener(k.substring(2), v);
-                else n.setAttribute(k, v);
-            });
-            children.forEach(c => {
-                if (typeof c === 'string') n.appendChild(document.createTextNode(c));
-                else if (c) n.appendChild(c);
-            });
-            return n;
+        let dragElement = null, dragClone = null, offsetX = 0, offsetY = 0;
+        let trashCounts = { 100: 0, 10: 0, 1: 0 };
+        let droppedInTrash = false;
+
+        const dragImage = document.createElement('img');
+        dragImage.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+        const toolDefinitions = {
+            blokjes: [ { class: 'tool vlak-blauw', 'data-value': 100 }, { class: 'tool staaf-groen', 'data-value': 10 }, { class: 'tool geel-blok', 'data-value': 1 } ],
+            schijfjes: [ { class: 'tool schijf schijf-blauw', 'data-value': 100, text: '100' }, { class: 'tool schijf schijf-groen', 'data-value': 10, text: '10' }, { class: 'tool schijf schijf-geel', 'data-value': 1, text: '1' } ]
         };
-
-        const ico = (pathD) => {
-            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            svg.setAttribute('viewBox', '0 0 24 24');
-            svg.setAttribute('class', 'ico');
-            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            path.setAttribute('d', pathD);
-            path.setAttribute('fill', 'currentColor');
-            svg.appendChild(path);
-            return svg;
-        };
-
-        /* -----------------------------
-           Onderdelen-definitie
-        ------------------------------*/
-        const ONDERDELEN = [
-            { type: 'honderd', label: '100', icon: 'M3 3h18v18H3z' },
-            { type: 'tien', label: '10', icon: 'M4 4h16v16H4z' },
-            { type: 'een', label: '1', icon: 'M6 6h12v12H6z' },
-            { type: 'plus', label: '+', icon: 'M11 3h2v18h-2zM3 11h18v2H3z' },
-            { type: 'min', label: '−', icon: 'M3 11h18v2H3z' },
-        ];
-
-        function maakBlokje(item){
-            const blok = el('div', { class: 'blokje', draggable: true, dataset: { type: item.type } });
-            blok.appendChild(ico(item.icon));
-            blok.appendChild(el('span', { class: 'txt' }, item.label));
-            blok.addEventListener('dragstart', onDragStart);
-            blok.addEventListener('dragend', onDragEnd);
-            return blok;
+        
+        function renderToolbarChoices() {
+            toolbar.innerHTML = '';
+            const btnBlokjes = document.createElement('button');
+            btnBlokjes.className = 'toolbar-btn';
+            btnBlokjes.textContent = 'Blokjes';
+            btnBlokjes.onclick = () => renderTools('blokjes');
+            const btnSchijfjes = document.createElement('button');
+            btnSchijfjes.className = 'toolbar-btn';
+            btnSchijfjes.textContent = 'Schijfjes';
+            btnSchijfjes.onclick = () => renderTools('schijfjes');
+            toolbar.append(btnBlokjes, btnSchijfjes);
         }
 
-        function vulOnderdelen(){
-            onderdelenBak.innerHTML = '';
-            ONDERDELEN.forEach(o => onderdelenBak.appendChild(maakBlokje(o)));
+        function renderTools(type) {
+            toolbar.innerHTML = '';
+            toolDefinitions[type].forEach(toolInfo => {
+                const el = document.createElement('div');
+                el.className = toolInfo.class;
+                el.dataset.value = toolInfo['data-value'];
+                el.draggable = true;
+                if (toolInfo.text) el.textContent = toolInfo.text;
+                toolbar.appendChild(el);
+            });
+            const backButton = document.createElement('button');
+            backButton.className = 'toolbar-btn';
+            backButton.textContent = 'Terug';
+            backButton.onclick = renderToolbarChoices;
+            toolbar.appendChild(backButton);
         }
 
-        /* -----------------------------
-           Schema opbouw
-        ------------------------------*/
-        function maakSchema(){
-            schemaGrid.querySelectorAll('.drop-zone').forEach(z => z.innerHTML = '');
+        function startApp(operation) {
+            startScreen.style.display = 'none';
+            mainApp.style.display = 'flex';
+            appTitle.textContent = operation === 'plus' ? 'Hulpschema +' : 'Hulpschema -';
+            vuilbakContainer.style.display = operation === 'min' ? 'block' : 'none';
+            
+            schemaPlus.style.display = operation === 'plus' ? 'grid' : 'none';
+            schemaMin.style.display = operation === 'min' ? 'grid' : 'none';
+
+            if (operation === 'plus') {
+                btnWisselSchema.textContent = 'Wissel naar –';
+            } else {
+                btnWisselSchema.textContent = 'Wissel naar +';
+            }
+
+            renderToolbarChoices();
+            updateSchema();
+        }
+        
+        function resetApp() {
+            document.querySelectorAll('.drop-zone').forEach(vak => {
+                vak.innerHTML = '';
+            });
+            trashCounts = { 100: 0, 10: 0, 1: 0 };
+            hCount.textContent = 0;
+            tCount.textContent = 0;
+            eCount.textContent = 0;
+            
+            updateSchema();
         }
 
-        function voorbeeldSimple(){
-            maakSchema();
-            voegBlok('A','honderd'); voegBlok('B','honderd'); 
-            voegBlok('C','tien');    voegBlok('C','tien');
-            voegBlok('D','een');     voegBlok('E','plus');
+        function returnToStart() {
+            mainApp.style.display = 'none';
+            startScreen.style.display = 'flex';
+            resetApp();
         }
 
-        function voorbeeldMin(){
-            maakSchema();
-            voegBlok('A','honderd'); voegBlok('B','tien'); 
-            voegBlok('C','een');     voegBlok('D','min');
-        }
+        function onDragStart(e) {
+            const target = e.target;
+            if (!target.classList.contains('tool')) { e.preventDefault(); return; }
+            
+            e.dataTransfer.setDragImage(dragImage, 0, 0);
 
-        function leegSchema(){
-            maakSchema();
-        }
-
-        function voegBlok(col, type){
-            const z = schemaGrid.querySelector(`.drop-zone[data-column="${col}"]`);
-            if (!z) return;
-            const item = ONDERDELEN.find(o => o.type === type);
-            if (!item) return;
-            z.appendChild(maakBlokje(item));
-        }
-
-        /* -----------------------------
-           Drag & Drop
-        ------------------------------*/
-        let dragGhost = null;
-
-        function onDragStart(e){
-            e.dataTransfer.setData('text/plain', e.target.dataset.type || '');
+            droppedInTrash = false;
+            dragElement = target;
+            dragClone = dragElement.cloneNode(true);
+            dragClone.classList.add('drag-clone');
+            document.body.appendChild(dragClone);
+            
+            const rect = dragElement.getBoundingClientRect();
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+            
+            dragClone.style.left = `${e.clientX - offsetX}px`;
+            dragClone.style.top = `${e.clientY - offsetY}px`;
+            
             e.dataTransfer.effectAllowed = 'move';
-
-            const ghost = e.target.cloneNode(true);
-            ghost.style.position = 'absolute';
-            ghost.style.top = '-9999px';
-            document.body.appendChild(ghost);
-            e.dataTransfer.setDragImage(ghost, 20, 20);
-            dragGhost = ghost;
+            e.dataTransfer.setData('text/plain', dragElement.dataset.value);
+            
+            setTimeout(() => { dragElement.style.opacity = '0.5'; }, 0);
         }
-        function onDragEnd(){
-            if (dragGhost) {
-                document.body.removeChild(dragGhost);
-                dragGhost = null;
+
+        function onDragMove(e) { 
+            if (dragClone) { 
+                if(e.clientX === 0 && e.clientY === 0) return;
+                dragClone.style.left = `${e.clientX - offsetX}px`; 
+                dragClone.style.top = `${e.clientY - offsetY}px`; 
+            } 
+        }
+
+        function onDragEnd() {
+            if (dragClone) dragClone.remove();
+            if (droppedInTrash && dragElement) dragElement.remove();
+            else if (dragElement) dragElement.style.opacity = '1';
+
+            dragElement = null;
+            dragClone = null;
+            droppedInTrash = false;
+        }
+        
+        function onDrop(e) {
+            e.preventDefault();
+            if (!dragElement) return;
+
+            const dropTarget = e.target.closest('.drop-zone');
+            if (!dropTarget) return;
+
+            const isFromToolbar = dragElement.parentElement.id === 'toolbar';
+            
+            const toolToDrop = isFromToolbar ? dragElement.cloneNode(true) : dragElement;
+            toolToDrop.style.position = 'absolute';
+            toolToDrop.style.opacity = '1';
+            
+            if (isFromToolbar) toolToDrop.id = `tool-${Date.now()}`;
+
+            if (dropTarget.matches('#schema-min .min-bottom-box')) {
+                toolToDrop.dataset.canExchange = 'true';
+            } else {
+                delete toolToDrop.dataset.canExchange;
+            }
+
+            const targetRect = dropTarget.getBoundingClientRect();
+            toolToDrop.style.left = `${e.clientX - targetRect.left - offsetX}px`;
+            toolToDrop.style.top = `${e.clientY - targetRect.top - offsetY}px`;
+            dropTarget.appendChild(toolToDrop);
+            
+            updateSchema();
+        }
+        
+        function onVuilbakDrop(e) {
+            e.preventDefault();
+            if (!dragElement || dragElement.parentElement.id === 'toolbar') return;
+            
+            droppedInTrash = true;
+            const value = parseInt(dragElement.dataset.value, 10);
+            if (trashCounts.hasOwnProperty(value)) {
+                trashCounts[value]++;
+                hCount.textContent = trashCounts[100];
+                tCount.textContent = trashCounts[10];
+                eCount.textContent = trashCounts[1];
+            }
+            updateSchema();
+        }
+        
+        function updateSchema() {
+             document.querySelectorAll('.exchange-btn').forEach(btn => btn.remove());
+
+             if (schemaPlus.style.display === 'grid') {
+                updatePlusSchema();
+             } else if (schemaMin.style.display === 'grid') {
+                updateMinSchema();
+             }
+        }
+        
+        function updatePlusSchema() {
+            const unitsZone = document.querySelector('#schema-plus .plus-e-inner');
+            const unitsItems = unitsZone.querySelectorAll('[data-value="1"]');
+            
+            if (unitsItems.length === 10) {
+                const btn = document.createElement('button');
+                btn.textContent = 'wissel om';
+                btn.className = 'exchange-btn';
+                
+                const zoneRect = unitsZone.getBoundingClientRect();
+                const mainRect = mainContent.getBoundingClientRect();
+                
+                btn.style.left = `${zoneRect.left - mainRect.left}px`;
+                btn.style.top = `${zoneRect.top - mainRect.top - 45}px`;
+                
+                btn.onclick = () => {
+                    const isDisc = unitsItems[0].classList.contains('schijf');
+                    unitsItems.forEach(item => item.remove());
+                    
+                    const newTen = document.createElement('div');
+                    newTen.dataset.value = '10';
+                    newTen.draggable = true;
+                    newTen.style.position = 'absolute';
+                    newTen.style.left = '10px';
+                    newTen.style.top = '10px';
+                    
+                    if (isDisc) {
+                        newTen.className = 'tool schijf schijf-groen';
+                        newTen.textContent = '10';
+                    } else {
+                        newTen.className = 'tool staaf-groen';
+                    }
+                    
+                    document.querySelector('#schema-plus .plus-t-span').appendChild(newTen);
+                    updateSchema(); 
+                };
+                mainContent.appendChild(btn);
+            }
+
+            const tensZone = document.querySelector('#schema-plus .plus-t-span');
+            const tensItems = tensZone.querySelectorAll('[data-value="10"]');
+            
+            if (tensItems.length === 10) {
+                const btn = document.createElement('button');
+                btn.textContent = 'wissel om';
+                btn.className = 'exchange-btn';
+                
+                const zoneRect = tensZone.getBoundingClientRect();
+                const mainRect = mainContent.getBoundingClientRect();
+                
+                btn.style.left = `${zoneRect.left - mainRect.left}px`;
+                btn.style.top = `${zoneRect.top - mainRect.top - 45}px`;
+                
+                btn.onclick = () => {
+                    const isDisc = tensItems[0].classList.contains('schijf');
+                    tensItems.forEach(item => item.remove());
+                    
+                    const newHundred = document.createElement('div');
+                    newHundred.dataset.value = '100';
+                    newHundred.draggable = true;
+                    newHundred.style.position = 'absolute';
+                    newHundred.style.left = '10px';
+                    newHundred.style.top = '10px';
+                    
+                    if (isDisc) {
+                        newHundred.className = 'tool schijf schijf-blauw';
+                        newHundred.textContent = '100';
+                    } else {
+                        newHundred.className = 'tool vlak-blauw';
+                    }
+                    
+                    document.querySelector('#schema-plus .plus-r1-h').appendChild(newHundred);
+                    updateSchema();
+                };
+                
+                mainContent.appendChild(btn);
             }
         }
-        function onDragMove(e){
-            e.preventDefault();
-        }
-        function onDrop(e){
-            e.preventDefault();
-            const type = e.dataTransfer.getData('text/plain');
-            const item = ONDERDELEN.find(o => o.type === type);
-            if (!item) return;
-            const dropZone = e.currentTarget.closest('.drop-zone') || e.currentTarget;
-            dropZone.appendChild(maakBlokje(item));
+
+        function updateMinSchema() {
+            const hundredsZone = document.querySelector('#schema-min .min-bottom-box[data-column="H"]');
+            const hundredItems = hundredsZone.querySelectorAll('[data-value="100"][data-can-exchange="true"]');
+
+            hundredItems.forEach(item => {
+                const btn = document.createElement('button');
+                btn.textContent = 'wissel om';
+                btn.className = 'exchange-btn';
+                
+                const itemRect = item.getBoundingClientRect();
+                const mainRect = mainContent.getBoundingClientRect();
+                
+                btn.style.left = `${itemRect.right - mainRect.left + 5}px`;
+                btn.style.top = `${itemRect.top - mainRect.top}px`;
+
+                btn.onclick = () => {
+                    const isDisc = item.classList.contains('schijf');
+                    item.remove(); 
+
+                    const tensTargetZone = document.querySelector('#schema-min .min-bottom-box[data-column="T"]');
+                    for (let i = 0; i < 10; i++) {
+                        const newTen = document.createElement('div');
+                        newTen.dataset.value = '10';
+                        newTen.draggable = true;
+                        newTen.style.position = 'absolute';
+                        
+                        if (isDisc) {
+                            newTen.style.left = `${10 + (i % 5) * 65}px`;
+                            newTen.style.top = `${10 + Math.floor(i / 5) * 65}px`;
+                        } else {
+                            newTen.style.left = '10px';
+                            newTen.style.top = `${10 + i * 25}px`;
+                        }
+
+                        if (isDisc) {
+                            newTen.className = 'tool schijf schijf-groen';
+                            newTen.textContent = '10';
+                        } else {
+                            newTen.className = 'tool staaf-groen';
+                        }
+                        tensTargetZone.appendChild(newTen);
+                    }
+                    updateSchema();
+                };
+                mainContent.appendChild(btn);
+            });
+
+            const tensZone = document.querySelector('#schema-min .min-bottom-box[data-column="T"]');
+            const tensItems = tensZone.querySelectorAll('[data-value="10"][data-can-exchange="true"]');
+
+            tensItems.forEach(item => {
+                const btn = document.createElement('button');
+                btn.textContent = 'wissel om';
+                btn.className = 'exchange-btn';
+                
+                const itemRect = item.getBoundingClientRect();
+                const mainRect = mainContent.getBoundingClientRect();
+                
+                btn.style.left = `${itemRect.right - mainRect.left + 5}px`;
+                btn.style.top = `${itemRect.top - mainRect.top}px`;
+
+                btn.onclick = () => {
+                    const isDisc = item.classList.contains('schijf');
+                    item.remove();
+
+                    const unitsTargetZone = document.querySelector('#schema-min .min-bottom-box[data-column="E"]');
+                    for (let i = 0; i < 10; i++) {
+                        const newUnit = document.createElement('div');
+                        newUnit.dataset.value = '1';
+                        newUnit.draggable = true;
+                        newUnit.style.position = 'absolute';
+                        
+                        if (isDisc) {
+                            newUnit.style.left = `${10 + (i % 5) * 65}px`;
+                            newUnit.style.top = `${10 + Math.floor(i / 5) * 65}px`;
+                        } else {
+                            newUnit.style.left = `${10 + (i % 5) * 45}px`;
+                            newUnit.style.top = `${10 + Math.floor(i / 5) * 45}px`;
+                        }
+
+                        if (isDisc) {
+                            newUnit.className = 'tool schijf schijf-geel';
+                            newUnit.textContent = '1';
+                        } else {
+                            newUnit.className = 'tool geel-blok';
+                        }
+                        unitsTargetZone.appendChild(newUnit);
+                    }
+                    updateSchema();
+                };
+                mainContent.appendChild(btn);
+            });
         }
 
-        /* -----------------------------
-           Canvas / Werkblad (placeholder)
-        ------------------------------*/
-        function tekenWerkblad(){
-            canvasRoot.innerHTML = '';
-            const card = el('div', { class: 'paneel' }, 
-                el('h3', {}, 'Werkblad voorbeeld'),
-                el('p', {}, 'Hier zou je PDF/canvas-opbouw komen.')
-            );
-            canvasRoot.appendChild(card);
-        }
 
-        /* -----------------------------
-           Start & knoppen
-        ------------------------------*/
-        function startMetLeeg(){
-            startOverlay.style.display = 'none';
-            mainApp.style.display = 'flex';
-            leegSchema();
-            vulOnderdelen();
-            tekenWerkblad();
-        }
-
-        function openVoorbeeld(){
-            startOverlay.style.display = 'none';
-            mainApp.style.display = 'flex';
-            voorbeeldSimple();
-            vulOnderdelen();
-            tekenWerkblad();
-        }
-
-        btnStartLeeg.addEventListener('click', startMetLeeg);
-        btnOpenVoorbeeld.addEventListener('click', openVoorbeeld);
-        btnVoorbeeldSimple.addEventListener('click', () => {
-            voorbeeldSimple();
-        });
-        btnVoorbeeldMin.addEventListener('click', () => {
-            voorbeeldMin();
-        });
-        btnLeegSchema.addEventListener('click', () => {
-            leegSchema();
+        // --- Event Listeners ---
+        btnStartPlus.addEventListener('click', () => startApp('plus'));
+        btnStartMin.addEventListener('click', () => startApp('min'));
+        btnTerug.addEventListener('click', returnToStart);
+        btnReset.addEventListener('click', resetApp);
+        
+        btnWisselSchema.addEventListener('click', () => {
+            resetApp(); 
+            const isPlusActive = schemaPlus.style.display === 'grid';
+            if (isPlusActive) {
+                startApp('min');
+            } else {
+                startApp('plus');
+            }
         });
         
         document.body.addEventListener('dragstart', onDragStart);
@@ -646,4 +760,3 @@
     </script>
 </body>
 </html>
-
