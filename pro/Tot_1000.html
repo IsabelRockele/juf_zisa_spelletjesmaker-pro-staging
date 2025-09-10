@@ -354,18 +354,28 @@
         </div>
     </div>
 
-    <!-- Helper: correcte terug-navigatie (kid/leerkracht) -->
     <script>
-      function __goBackHulpschema() {
-        const qp = new URLSearchParams(location.search);
-        if (qp.get('kid') === '1') {
-          const range = qp.get('range') || '100';
-          window.location.href = `./hulpschema-kid.html?range=${range}`;
-        } else {
-          window.location.href = 'keuze-hulpschema.html';
-        }
-      }
-    </script>
+  // Terug: kindmodus als óf ?kid=1 aanwezig is, óf referrer hulpschema-kid.html was.
+  function __goBackHulpschema() {
+    const qp = new URLSearchParams(location.search);
+    const hasKidParam = qp.get('kid') === '1';
+    const ref = document.referrer || '';
+    const cameFromKid = /hulpschema-kid\.html/i.test(ref);
+
+    // Bepaal range: eerst uit huidige URL, anders probeer die van de referrer, anders 100 of 1000
+    let range = qp.get('range');
+    if (!range && cameFromKid) {
+      try { range = new URL(ref).searchParams.get('range'); } catch(e) {}
+    }
+    if (!range) range = '1000'; // kies hier desgewenst '100' als standaard
+
+    if (hasKidParam || cameFromKid) {
+      window.location.href = `./hulpschema-kid.html?range=${range}`;
+    } else {
+      window.location.href = 'keuze-hulpschema.html';
+    }
+  }
+</script>
 
     <!-- PRO guard-laag: strikt vóór jouw eigen script -->
     <script src="./js/device-id.js"></script>
@@ -773,5 +783,6 @@
     </script>
 </body>
 </html>
+
 
 
