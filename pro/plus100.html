@@ -12,9 +12,11 @@
 
   <div class="content-wrapper">
     <div id="sidebar">
-      <button onclick="window.location.href='./app.html'" class="knop terug">Terug</button>
+      <!-- AANGEPAST: Terug-knop via helper -->
+      <button onclick="__goBackHulpschema()" class="knop terug">Terug</button>
       <button id="reset" class="knop reset">Opnieuw</button>
-      <button onclick="window.location.href='./min100.html'" class="knop wissel">Wisselen naar -</button>
+      <!-- AANGEPAST: Wissel-knop via helper (behoudt ?kid en ?range) -->
+      <button onclick="__wisselHulpschema('min100.html')" class="knop wissel">Wisselen naar -</button>
     </div>
 
     <div id="main">
@@ -73,66 +75,31 @@
       </div>
     </div>
   </div>
-  
-  <!-- Kidmode script (robust) -->
-<script>
-(function(){
-  const qp = new URLSearchParams(location.search);
-  const isKid = qp.get('kid') === '1';
-  if (!isKid) return;
 
-  // Markeer kidmodus (handig als je later iets wil verbergen via CSS)
-  document.documentElement.classList.add('kidmode');
-
-  // Doel: altijd terug naar de kind-startpagina
-  const target = './hulpschema-kid.html';
-  const range = qp.get('range') || '100';
-  const targetUrl = `${target}?range=${range}`;
-
-  // 1) Herleid expliciet de bekende Terug-knop (button.knop.terug)
-  document.querySelectorAll('button.knop.terug, .knop.terug, #sidebar .knop.terug').forEach(btn => {
-    // Verwijder inline onclick en zet onze eigen handler eroverheen
-    btn.removeAttribute('onclick');
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      window.location.href = targetUrl;
-      return false;
-    }, { capture: true });
-  });
-
-  // 2) Fallback: alle elementen met onclick die naar app/keuze sturen, overschrijven
-  document.querySelectorAll('[onclick]').forEach(el => {
-    const val = el.getAttribute('onclick') || '';
-    if (/app\.html|keuze-?hulpschema\.html/i.test(val)) {
-      el.removeAttribute('onclick');
-      el.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        window.location.href = targetUrl;
-        return false;
-      }, { capture: true });
+  <!-- HELPER-SCRIPT: terug en wissel (kidmodus-veilig) -->
+  <script>
+    // Terug: in kid-modus naar hulpschema-kid.html, anders naar app.html
+    function __goBackHulpschema() {
+      const qp = new URLSearchParams(location.search);
+      if (qp.get('kid') === '1') {
+        const range = qp.get('range') || '100';
+        window.location.href = `./hulpschema-kid.html?range=${range}`;
+      } else {
+        window.location.href = './app.html';
+      }
     }
-  });
-
-  // 3) Alle <a href="..."> naar app/keuze herschrijven
-  document.querySelectorAll('a[href]').forEach(a => {
-    const href = a.getAttribute('href') || '';
-    if (/app\.html|keuze-?hulpschema\.html/i.test(href)) {
-      a.setAttribute('href', targetUrl);
-      // extra zekerheid: ook klik kapen
-      a.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        window.location.href = targetUrl;
-        return false;
-      }, { capture: true });
+    // Wisselen tussen plus/min, mét behoud van ?kid=1 en ?range=...
+    function __wisselHulpschema(toPage) {
+      const qp = new URLSearchParams(location.search);
+      const params = new URLSearchParams();
+      if (qp.get('kid') === '1') params.set('kid','1');
+      if (qp.get('range'))      params.set('range', qp.get('range'));
+      const qs = params.toString();
+      window.location.href = `./${toPage}${qs ? ('?' + qs) : ''}`;
     }
-  });
-})();
-</script>
+  </script>
 
-  <!-- PRO scripts -->
+  <!-- PRO scripts (ongewijzigd) -->
   <script src="./js/device-id.js"></script>
   <script type="module" src="./js/guard.js"></script>
   <script src="../hulpschema.js"></script>
