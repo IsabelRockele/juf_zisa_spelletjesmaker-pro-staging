@@ -74,9 +74,46 @@
     </div>
   </div>
   
-  
+  <!-- Kidmode script -->
+  <script>
+  (function(){
+    const qp = new URLSearchParams(location.search);
+    const isKid = qp.get('kid') === '1';
+    if (!isKid) return;
+
+    // 1) Kidmodus markeren
+    document.documentElement.classList.add('kidmode');
+
+    // 2) Doelpagina voor terug
+    const target = './hulpschema-kid.html';
+
+    // 3) Pas onclick-handlers aan
+    document.querySelectorAll('[onclick]').forEach(el => {
+      const val = el.getAttribute('onclick') || '';
+      if (/window\\.location\\.href\\s*=\\s*['"][^'"]*(app\\.html|keuze-?hulpschema\\.html)['"]/.test(val)) {
+        el.onclick = function(e){
+          e.preventDefault();
+          const range = qp.get('range') || '100';
+          window.location.href = `${target}?range=${range}`;
+        };
+      }
+    });
+
+    // 4) Pas <a href> links aan
+    document.querySelectorAll('a[href]').forEach(a => {
+      const href = a.getAttribute('href') || '';
+      if (/app\\.html/.test(href) || /keuze-?hulpschema\\.html/.test(href)) {
+        const range = qp.get('range') || '100';
+        a.setAttribute('href', `${target}?range=${range}`);
+      }
+    });
+  })();
+  </script>
+
+  <!-- PRO scripts -->
   <script src="./js/device-id.js"></script>
   <script type="module" src="./js/guard.js"></script>
-<script src="../hulpschema.js"></script>
+  <script src="../hulpschema.js"></script>
 </body>
 </html>
+
